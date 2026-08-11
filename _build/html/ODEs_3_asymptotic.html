@@ -1,0 +1,1149 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>8. Ordinary differential equations III &#8212; Computational Tools for Multiscale Problems</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'ODEs_3_asymptotic';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="6. Ordinary differential equations I" href="ODES2_spectral.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.jpeg" class="logo__image only-light" alt="Computational Tools for Multiscale Problems - Home"/>
+    <script>document.write(`<img src="_static/logo.jpeg" class="logo__image only-dark" alt="Computational Tools for Multiscale Problems - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="course_introduction.html">0. Course introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comp_fundamentals.html">1. Computation fundamentals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">2. Good coding practices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">3. Interpolation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp2.html">4. Interpolation II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quadrature.html">5. Quadrature</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_1_RK.html">7. Ordinary differential equations II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">6. Ordinary differential equations I</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">8. Ordinary differential equations III</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/cu-comptools/fall2024/main?urlpath=tree/ODEs_3_asymptotic.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/cu-comptools/fall2024" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/cu-comptools/fall2024/issues/new?title=Issue%20on%20page%20%2FODEs_3_asymptotic.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/ODEs_3_asymptotic.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>8. Ordinary differential equations III</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-problem-and-why-some-methods-fail">8.1 The problem and why some methods fail</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#components-of-a-solver">8.2 Components of a solver</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#riccati-defect-correction">8.3 Riccati defect correction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local-error-of-the-riccati-defect-correction">8.4 Local error of the Riccati defect correction</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="ordinary-differential-equations-iii">
+<h1>8. Ordinary differential equations III<a class="headerlink" href="#ordinary-differential-equations-iii" title="Link to this heading">#</a></h1>
+<p>In the previous lecture, we discussed some alternatives for one of the cases in which Runge-Kutta methods are inefficient: when low tolerance (high accuracy) is required. This chapter deals with another case Runge-Kutta (and other, polynomial-based) methods cannot handle: when the solution oscillates rapidly.</p>
+<section id="the-problem-and-why-some-methods-fail">
+<h2>8.1 The problem and why some methods fail<a class="headerlink" href="#the-problem-and-why-some-methods-fail" title="Link to this heading">#</a></h2>
+<p>We’ll solve the initial value problem (IVP)</p>
+<div class="math notranslate nohighlight" id="equation-osc-ivp">
+<span class="eqno">(12)<a class="headerlink" href="#equation-osc-ivp" title="Link to this equation">#</a></span>\[\begin{split}u''(t) + \omega^2(t)u(t) &amp;= 0, \quad t \in [a,b], \\
+u(a) &amp;= u_0, \\
+u'(a) &amp;= u'_0.\end{split}\]</div>
+<p>Physically, <span class="math notranslate nohighlight">\(u\)</span> describes how the position of a simple harmonic oscillator changes with time. The oscillator moves with a time-dependent frequency <span class="math notranslate nohighlight">\(\omega\)</span>. If <span class="math notranslate nohighlight">\(\omega\)</span> is real, then the solution is oscillatory, if it has an imaginary component, then it decays exponentially (while potentially oscillating inside the evanescent envelope). The larger <span class="math notranslate nohighlight">\(\omega\)</span>, the faster the oscillations (the shorter the period and wavelength).</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>When approximating an oscillatory function with characteristic frequency <span class="math notranslate nohighlight">\(\omega\)</span>, what is the complexity of a polynomial-based (e.g. Runge-Kutta) algorithm? I.e., if its runtime is <span class="math notranslate nohighlight">\(\mathcal{O}(f(\omega))\)</span>, what is the function <span class="math notranslate nohighlight">\(f\)</span>?</p>
+</div>
+<p>Polynomial-based methods (meaning: methods which fit some sort of polynomial to approximate the solution) have a complexity of <span class="math notranslate nohighlight">\(\mathcal{O}(\omega)\)</span> when dealing with oscillatory problems. This is due to their discretization length (e.g. stepsize, or node-spacing) having to decrease proportionally to the wavelength, which is <span class="math notranslate nohighlight">\(\propto \tfrac{1}{\omega}\)</span>, hence their runtime being <span class="math notranslate nohighlight">\(\propto \omega\)</span>. This unfortunately gets too long at large values of <span class="math notranslate nohighlight">\(\omega\)</span>. Let’s check this expected scaling by solving</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">si</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="amsmath math notranslate nohighlight" id="equation-c609a341-422e-43e0-a2ad-ba0ee5d394e1">
+<span class="eqno">(13)<a class="headerlink" href="#equation-c609a341-422e-43e0-a2ad-ba0ee5d394e1" title="Permalink to this equation">#</a></span>\[\begin{align}
+u'' + \omega_0^2u &amp;= 0 \quad t \in [-1, 1]\\
+u(-1) &amp;= 1, \\
+u'(-1) &amp;= 0.
+\end{align}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Scipy&#39;s default Runge-Kutta solver</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">f_ivp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; The right-hand-side in u&#39; = f(t, u). &quot;&quot;&quot;</span>
+    <span class="n">du</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">du</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">du</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span> <span class="n">om</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">du</span>
+
+<span class="n">u0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">tspan</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">ws</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">ws</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ws</span><span class="p">):</span>
+    <span class="n">om</span> <span class="o">=</span> <span class="n">w</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">10000</span><span class="o">/</span><span class="n">om</span><span class="p">)</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="n">solution</span> <span class="o">=</span> <span class="n">si</span><span class="o">.</span><span class="n">solve_ivp</span><span class="p">(</span><span class="n">f_ivp</span><span class="p">,</span> <span class="n">tspan</span><span class="p">,</span> <span class="n">u0</span><span class="p">)</span>
+    <span class="n">t2</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">times</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">t2</span> <span class="o">-</span> <span class="n">t1</span><span class="p">)</span><span class="o">/</span><span class="n">N</span>
+    
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">times</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">omega$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Runtime/s&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/721386edcf0e4f5c73edae74890e70d4e226446562c36c6c1a0d1000953d407f.png" src="_images/721386edcf0e4f5c73edae74890e70d4e226446562c36c6c1a0d1000953d407f.png" />
+</div>
+</div>
+<p>As expected, the runtime of <code class="docutils literal notranslate"><span class="pre">scipy</span></code>’s default Runge-Kutta solver scales as <span class="math notranslate nohighlight">\(\mathcal{O}(\omega)\)</span>.</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>By the way, notice how when I time the algorithm, I run it many times in a loop, then take the average of the overall runtime? Why is this necessary?</p>
+</div>
+<p>Aside: when measuring the performance of a piece of code, make sure to run it multiple times, <em>especially</em> if the runtime is expected to be short. Otherwise this happens (here, I omitted the loop):</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ws</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">ws</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ws</span><span class="p">):</span>
+    <span class="n">om</span> <span class="o">=</span> <span class="n">w</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">solution</span> <span class="o">=</span> <span class="n">si</span><span class="o">.</span><span class="n">solve_ivp</span><span class="p">(</span><span class="n">f_ivp</span><span class="p">,</span> <span class="n">tspan</span><span class="p">,</span> <span class="n">u0</span><span class="p">)</span>
+    <span class="n">t2</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">times</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">t2</span> <span class="o">-</span> <span class="n">t1</span><span class="p">)</span>
+    
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">times</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$\omega$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Runtime/s&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</details>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:13: SyntaxWarning: invalid escape sequence &#39;\o&#39;
+&lt;&gt;:13: SyntaxWarning: invalid escape sequence &#39;\o&#39;
+/tmp/ipykernel_556541/4246866310.py:13: SyntaxWarning: invalid escape sequence &#39;\o&#39;
+  plt.xlabel(&quot;$\omega$&quot;)
+</pre></div>
+</div>
+<img alt="_images/3ee273a7bde1ceeb00f1acc8d3aa9ff0f30d18427ea535833d35e771144cfcd1.png" src="_images/3ee273a7bde1ceeb00f1acc8d3aa9ff0f30d18427ea535833d35e771144cfcd1.png" />
+</div>
+</div>
+<p>Something weird is going on at small values of <span class="math notranslate nohighlight">\(\omega\)</span>. The runtime of <code class="docutils literal notranslate"><span class="pre">time.time()</span></code> itself and other things (e.g. other things running inside a notebook, initialization, etc.) will add to the overall runtime, and may be significant relative to that of the code you want to measure. It’s important to reduce this noise by averaging to get an accurate measurement.</p>
+<p>The core reason why methods like RK struggle is that you need a polynomial of at least degree-<span class="math notranslate nohighlight">\(n\)</span> to approximate a function that crosses zero <span class="math notranslate nohighlight">\(n\)</span> times, and oscillatory functions cross zero many times. This hints at the solution, however: we need something other than polynomials to approximate the solution with. How about something oscillatory, e.g. trigonometric functions?</p>
+<p>But first, let’s review what components one needs for constructing a “bespoke” numerical solver.</p>
+</section>
+<section id="components-of-a-solver">
+<h2>8.2 Components of a solver<a class="headerlink" href="#components-of-a-solver" title="Link to this heading">#</a></h2>
+<p>Solvers for IVPs generally march along the numerical solution, starting from some known initial conditions and adapting their behavior to that of the solution (e.g. their stepsize) to keep their estimate of the error below a user-specified <strong>tolerance</strong> <span class="math notranslate nohighlight">\(\varepsilon\)</span>. From here onwards, I’ll use the notation <span class="math notranslate nohighlight">\(u(t)\)</span> to mean the <em>exact</em> solution to the IVP, and <span class="math notranslate nohighlight">\(\tilde{u}_i\)</span> for <span class="math notranslate nohighlight">\(i = 0, 1, \ldots\)</span> will mean values of the numerical solution at the timesteps <span class="math notranslate nohighlight">\(t_i\)</span>, with <span class="math notranslate nohighlight">\(t_0 = a\)</span>.
+Solvers will need the following three components to work:</p>
+<ol class="arabic simple">
+<li><p>A numerical “forecaster” function <span class="math notranslate nohighlight">\(\Phi_h\)</span> that takes the numerical solution at the start of a timestep and gives back the solution at the end of a step.</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[ \tilde{u}_{i+1} = \Phi_h(\tilde{u}_i, \tilde{u}_{i-1}, \ldots ; t_i, t_{i-1}, \ldots ; f), \]</div>
+<p>where <span class="math notranslate nohighlight">\(f\)</span> is the right-hand-side of the ODE if written in the form <span class="math notranslate nohighlight">\(u' = f(t, u)\)</span>.</p>
+<ol class="arabic simple" start="2">
+<li><p>An estimate of the <strong>local error</strong> of the method is needed, which is the amount of error the method accumulates in a single timestep. It is defined as</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[ \Delta_i := u(t_{i+1}) - \Phi_h(u(t_i), \ldots; t_i, \ldots; f). \]</div>
+<p>Note how the inputs of <span class="math notranslate nohighlight">\(\Phi_h\)</span> in this definition are the values of the exact solution (we pretend that the solver has access to the exact answer at the start of the timestep, so the only source of error will be the current timestep). The “unit” local error is <span class="math notranslate nohighlight">\(\delta_i := \frac{\Delta_i}{h}\)</span>.</p>
+<ol class="arabic simple" start="3">
+<li><p>This local error estimate is used to define a <strong>controller</strong>, which does two things: it accepts or rejects proposals for <span class="math notranslate nohighlight">\(\tilde{u}_{i}\)</span> depending on the local error estimate <span class="math notranslate nohighlight">\(\Delta_{i}\)</span>, and proposes the next stepsize, <span class="math notranslate nohighlight">\(h_{i+1}\)</span> (or a new <span class="math notranslate nohighlight">\(h_i\)</span> if the step was rejected). This adaptive way of updating the stepsize is crucial in modern, efficient solvers, and it requires information about the dependence of the local error on the stepsize, <span class="math notranslate nohighlight">\(\Delta(h)\)</span>.</p></li>
+</ol>
+<p>We’ll now review each of these components that make up a specialized solver for IVPs of the form <a class="reference internal" href="#equation-osc-ivp">(12)</a>.</p>
+</section>
+<section id="riccati-defect-correction">
+<h2>8.3 Riccati defect correction<a class="headerlink" href="#riccati-defect-correction" title="Link to this heading">#</a></h2>
+<p>The idea behind the method I’ll introduce, named Riccati defect correction, is that we want to find an underlying quantity related to the solution <span class="math notranslate nohighlight">\(u(t)\)</span> that is well-approximated by polynomials, e.g. something monotonically increasing.</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>Can you think of such a quantity?</p>
+</div>
+<p>An idea is to consider time-stepping in terms of the <em>phase</em> of oscillations, which is expected to monotonically increase. We’ll actually consider the derivative of the phase.</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>What variable substitution will get us to the differential equation obeyed by this phase-derivative?</p>
+</div>
+<p>Since the solution of <a class="reference internal" href="#equation-osc-ivp">(12)</a> is expected to be oscillatory, it makes sense to make the substitution</p>
+<div class="math notranslate nohighlight">
+\[ u = e^{\int^t x(\sigma) \mathrm{d}\sigma}, \]</div>
+<p>which gives us the <strong>Riccati equation</strong></p>
+<div class="math notranslate nohighlight" id="equation-riccati">
+<span class="eqno">(14)<a class="headerlink" href="#equation-riccati" title="Link to this equation">#</a></span>\[x' + x^2 + \omega^2 = 0.\]</div>
+<p>We might hope to brute-force numerically solve this equation, but that’s a bad idea for multiple reasons:</p>
+<ul class="simple">
+<li><p>it’s first-order <em>nonlinear</em> ODE, so we’d have to worry about the existence and uniqueness of the solution,</p></li>
+<li><p>it’s prone to instabilities that have twice the oscillation frequency as the original solution.</p></li>
+</ul>
+<p>This latter issue can be demonstrated with a simple example: consider the “zeroth-order” case of constant <span class="math notranslate nohighlight">\(\omega(t) = \omega_0\)</span>. In this case the Riccati equation possesses an analytic solution</p>
+<div class="math notranslate nohighlight">
+\[ x(t) = \omega_0\tan(\alpha - \omega_0t), \]</div>
+<p>where <span class="math notranslate nohighlight">\(\alpha \in \mathbb{C}\)</span> is a complex parameter corresponding to the initial conditions. This solution is in general periodic with a period <span class="math notranslate nohighlight">\(\propto \tfrac{1}{2\omega_0}\)</span> (think about the period of the <span class="math notranslate nohighlight">\(\tan\)</span> function vs. <span class="math notranslate nohighlight">\(\cos\)</span>). Its real part controls the phase of oscillations, its imaginary part controls their amplitude. It’s only in the limit of <span class="math notranslate nohighlight">\(\mathrm{Im}(\alpha) \to \infty\)</span> that we get a nonoscillatory solution for <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(x(t) = \pm i\omega(t)\)</span>, so a naive numerical approach is guaranteed to suffer from oscillatory instabilities. The code snippet below plots the solution for <span class="math notranslate nohighlight">\(x\)</span> as we change <span class="math notranslate nohighlight">\(\mathrm{Im}(\alpha)\)</span>; observe how the oscillations die down as it is increased and note the symmetric-log scaling of the <span class="math notranslate nohighlight">\(y\)</span>-axis (which turns to linear at <span class="math notranslate nohighlight">\(|y| &lt; 10^{-6}\)</span>).</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.legend_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">HandlerTuple</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">HandlerTupleVertical</span><span class="p">(</span><span class="n">HandlerTuple</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">HandlerTuple</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_artists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">legend</span><span class="p">,</span> <span class="n">orig_handle</span><span class="p">,</span>
+                       <span class="n">xdescent</span><span class="p">,</span> <span class="n">ydescent</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">fontsize</span><span class="p">,</span> <span class="n">trans</span><span class="p">):</span>
+        <span class="n">numlines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">orig_handle</span><span class="p">)</span>
+        <span class="n">handler_map</span> <span class="o">=</span> <span class="n">legend</span><span class="o">.</span><span class="n">get_legend_handler_map</span><span class="p">()</span>
+        <span class="n">height_y</span> <span class="o">=</span> <span class="p">(</span><span class="n">height</span> <span class="o">/</span> <span class="n">numlines</span><span class="p">)</span>
+        <span class="n">leglines</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">handle</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">orig_handle</span><span class="p">):</span>
+            <span class="n">handler</span> <span class="o">=</span> <span class="n">legend</span><span class="o">.</span><span class="n">get_legend_handler</span><span class="p">(</span><span class="n">handler_map</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
+            <span class="n">legline</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">create_artists</span><span class="p">(</span><span class="n">legend</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">xdescent</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">height_y</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">height</span><span class="p">,</span> <span class="n">fontsize</span><span class="p">,</span> <span class="n">trans</span><span class="p">)</span> 
+            <span class="n">leglines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">legline</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">leglines</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="o">=</span> <span class="mi">9</span>
+<span class="n">imalphs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">alphs</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="n">imalphs</span><span class="o">*</span><span class="mi">1</span><span class="n">j</span>
+<span class="n">om0</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">ts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+
+<span class="n">colors</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">viridis</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ls</span> <span class="o">=</span> <span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">a</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">alphs</span><span class="p">):</span>
+    <span class="n">us</span> <span class="o">=</span> <span class="p">(</span><span class="n">om0</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">a</span> <span class="o">-</span> <span class="n">om0</span><span class="o">*</span><span class="n">ts</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">om0</span>  
+    <span class="n">l</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">us</span><span class="o">.</span><span class="n">imag</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">ls</span> <span class="o">+=</span> <span class="p">(</span><span class="n">l</span><span class="p">,)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s1">&#39;symlog&#39;</span><span class="p">,</span> <span class="n">linthresh</span> <span class="o">=</span> <span class="mf">1e-6</span><span class="p">)</span>    
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$t$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;$x(t) - i\omega_0$&quot;</span><span class="p">)</span>
+<span class="n">leg</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="n">ls</span><span class="p">],</span> <span class="p">[</span><span class="s1">&#39;$\mathrm</span><span class="si">{Im}</span><span class="s1">(</span><span class="se">\\</span><span class="s1">alpha) \in \{ 0, 1, \ldots, 10\}$&#39;</span><span class="p">],</span>
+        <span class="n">handler_map</span> <span class="o">=</span> <span class="p">{</span><span class="nb">tuple</span><span class="p">:</span> <span class="n">HandlerTupleVertical</span><span class="p">()})</span>    
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:17: SyntaxWarning: invalid escape sequence &#39;\o&#39;
+&lt;&gt;:18: SyntaxWarning: invalid escape sequence &#39;\m&#39;
+&lt;&gt;:17: SyntaxWarning: invalid escape sequence &#39;\o&#39;
+&lt;&gt;:18: SyntaxWarning: invalid escape sequence &#39;\m&#39;
+/tmp/ipykernel_556541/3941512404.py:17: SyntaxWarning: invalid escape sequence &#39;\o&#39;
+  plt.ylabel(&quot;$x(t) - i\omega_0$&quot;)
+/tmp/ipykernel_556541/3941512404.py:18: SyntaxWarning: invalid escape sequence &#39;\m&#39;
+  leg = ax.legend([ls], [&#39;$\mathrm{Im}(\\alpha) \in \{ 0, 1, \ldots, 10\}$&#39;],
+</pre></div>
+</div>
+<img alt="_images/beab75c73ebd08cd1ea38e0853111cbfb461c57ca62751dc2b23944f4697485c.png" src="_images/beab75c73ebd08cd1ea38e0853111cbfb461c57ca62751dc2b23944f4697485c.png" />
+</div>
+</div>
+<p>We’ll use a different approach: a <strong>defect correction</strong> scheme. We’ll construct a series of increasingly refined approximations to the true <span class="math notranslate nohighlight">\(x\)</span>: <span class="math notranslate nohighlight">\(x_0(t), x_1(t), \ldots, x_j(t)\)</span>. Each iteration, we add a small correction term <span class="math notranslate nohighlight">\(\delta(t)\)</span> to get to the next. We’ll start from a nonoscillatory initial guess <span class="math notranslate nohighlight">\(x_0(t)\)</span>, and make sure that <span class="math notranslate nohighlight">\(\delta(t)\)</span> is also nonoscillatory, thereby building a guaranteed nonoscillatory approximation to <span class="math notranslate nohighlight">\(x(t)\)</span>.</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>What’s a good initial guess <span class="math notranslate nohighlight">\(x_0(t)\)</span>? Hint: think back to the constant-<span class="math notranslate nohighlight">\(\omega\)</span> solution.</p>
+</div>
+<p>Inspired by the constant-<span class="math notranslate nohighlight">\(\omega\)</span> solution, a good choice for <span class="math notranslate nohighlight">\(x_0(t)\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[x_0(t) = \pm i\omega(t). \]</div>
+<p>Now we measure the goodness of each estimate by how well they satisfy the Riccati equation (that <span class="math notranslate nohighlight">\(x\)</span> is supposed to obey) by defining the <strong>residual</strong>,</p>
+<div class="math notranslate nohighlight">
+\[ R[x_j](t) := x_j' + x_j^2 + \omega^2, \]</div>
+<p>which is a functional (a function of a function). Assuming now that we have iterated <span class="math notranslate nohighlight">\(j\)</span> times and found our <span class="math notranslate nohighlight">\(j\)</span>th estimate <span class="math notranslate nohighlight">\(x_j(t)\)</span>, we want to find the <em>small</em>, <em>nonoscillatory</em> correction term <span class="math notranslate nohighlight">\(\delta(t)\)</span> (note that this is a function) that minimizes the residual of the next iteration,</p>
+<div class="math notranslate nohighlight">
+\[ R[x_{j+1}](t) = R[x_j + \delta](t) = x_j' + \delta' + x_j^2 + 2x_j \delta + delta^2 + \omega^2 = 0. \]</div>
+<p>Identifying the <span class="math notranslate nohighlight">\(R[x_j]\)</span> term on the right-hand side gives</p>
+<div class="math notranslate nohighlight">
+\[ 0 = R[x_j] + \delta' + 2x_j \delta + \delta^2. \]</div>
+<p>This is a first order, nonlinear ODE for <span class="math notranslate nohighlight">\(\delta\)</span>, which unfortunately suffers from the same instabilities as the Riccati equation, so solving it numerically would be extraordinarily expensive. So instead, we inspect the terms to see if there are any that can be safely neglected. For this, we need to define what nonoscillatory means: if <span class="math notranslate nohighlight">\(x\)</span> is nonoscillatory, its derivative must be the same order of magnitude (with respect to <span class="math notranslate nohighlight">\(\omega\)</span>) as <span class="math notranslate nohighlight">\(x\)</span> itself, i.e. <span class="math notranslate nohighlight">\(x' = \mathcal{O}(x)\)</span>. We assume that <span class="math notranslate nohighlight">\(\omega\)</span> and <span class="math notranslate nohighlight">\(\delta\)</span> are nonoscillatory as well, and that <span class="math notranslate nohighlight">\(\delta\)</span> is small. This means we can drop two terms:</p>
+<ul class="simple">
+<li><p>the <span class="math notranslate nohighlight">\(\delta^2\)</span> term is small compared to the rest due to the extra factor of <span class="math notranslate nohighlight">\(\delta\)</span> (this is called “linearization” of the ODE),</p></li>
+<li><p>the <span class="math notranslate nohighlight">\(\delta'\)</span> term is a factor <span class="math notranslate nohighlight">\(\mathcal{O}(\omega)\)</span> smaller than the rest. To see this, try substituting <span class="math notranslate nohighlight">\(x_0\)</span> for <span class="math notranslate nohighlight">\(x_j\)</span>, and see how large the terms are: the first one is <span class="math notranslate nohighlight">\(\propto \omega' = \mathcal{O}(\omega') = \mathcal{O}(\omega)\)</span>, the third one is <span class="math notranslate nohighlight">\(\mathcal{O}(\omega)\mathcal{O}(\delta)\)</span>, whereas the second one is just <span class="math notranslate nohighlight">\(\mathcal{O}(\delta)\)</span>.</p></li>
+</ul>
+<p>We are left with <span class="math notranslate nohighlight">\( 0 = R[x_j] + 2x_j\delta,\)</span> solving which gives our defect correction iteration</p>
+<div class="math notranslate nohighlight">
+\[ x_{j+1} = x_j - \frac{R[x_j]}{2x_j}. \]</div>
+<p>In the next section we will see that the series <span class="math notranslate nohighlight">\(x_0, x_1, x_2, \ldots\)</span> is not actually convergent, it’s an <strong>asymptotic</strong> series. Asymptoticity means that the series only approaches the true solution in some limit, in our case it will be <span class="math notranslate nohighlight">\(\omega \to \infty\)</span>. In general, the residual will only decrease up to a certain number of iterations (<span class="math notranslate nohighlight">\(\mathcal{O}(\omega)\)</span> of them), after which it will start blowing up. This instability is brought upon by the repeated differentiation hiding in the <span class="math notranslate nohighlight">\(R[x]\)</span>.</p>
+<p>To summarize, the forecasting step of the numerical method based on this defect correction scheme will look like this:</p>
+<ol class="arabic simple">
+<li><p>Starting from <span class="math notranslate nohighlight">\(x_0 = \pm i\omega\)</span>, we iterate over the <span class="math notranslate nohighlight">\(x_j\)</span> until the residual <span class="math notranslate nohighlight">\(R[x_j]\)</span> drops below a user-specified tolerance <span class="math notranslate nohighlight">\(\varepsilon\)</span>.</p></li>
+<li><p>Then we transform back from the phase-derivative <span class="math notranslate nohighlight">\(x\)</span> to <span class="math notranslate nohighlight">\(u\)</span> via <span class="math notranslate nohighlight">\(u = e^{\int^t x(\sigma) \mathrm{d}\sigma}\)</span>. Depending on whether we started from <span class="math notranslate nohighlight">\(x_0 = +i\omega\)</span> or <span class="math notranslate nohighlight">\(-i\omega\)</span>, we get two phase-derivatives <span class="math notranslate nohighlight">\(x_{\pm}\)</span> and therefore linearly independent approximate solutions of <a class="reference internal" href="#equation-osc-ivp">(12)</a>, <span class="math notranslate nohighlight">\(u_+\)</span> and <span class="math notranslate nohighlight">\(u_-\)</span>.</p></li>
+<li><p>We find the linear combination of <span class="math notranslate nohighlight">\(u_{\pm}\)</span>, <span class="math notranslate nohighlight">\(Au_+ + Bu_-\)</span>, that satisfies the initial conditions of the IVP by solving the linear system
+<div class="math notranslate nohighlight">
+\[\begin{split}  \begin{bmatrix} u_+ &amp; u_- \\ x_+u_+ &amp; x_-u_-\end{bmatrix}\begin{bmatrix} A \\ B \end{bmatrix} = \begin{bmatrix} u_0 \\ u'_0 \end{bmatrix}. \end{split}\]</div>
+</p></li>
+</ol>
+</section>
+<section id="local-error-of-the-riccati-defect-correction">
+<h2>8.4 Local error of the Riccati defect correction<a class="headerlink" href="#local-error-of-the-riccati-defect-correction" title="Link to this heading">#</a></h2>
+<p>The second component of this numerical method is its local error estimate, for which we’ll use the residual <span class="math notranslate nohighlight">\(R[x]\)</span>. A quick check of the residual of <span class="math notranslate nohighlight">\(u\)</span> reveals that this is a measure of the relative residual of <span class="math notranslate nohighlight">\(u\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[R[u](t) = u'' + \omega^2 u = (x' + x^2 + \omega^2)u = R[x]u,\]</div>
+<p>therefore <span class="math notranslate nohighlight">\(R[x] = R[u]/u\)</span>. We need to find how this quantity depends on the width of the interval we apply the defect correction to (the stepsize). Unlike the local truncation error of Runge-Kutta methods, this is not a simple <span class="math notranslate nohighlight">\(\Delta = \mathcal{O}(h^{p+1})\)</span>-type relationship.</p>
+<p>To get an idea of how the residual decreases during iterations of the Riccati defect correction, let’s inspect the first couple terms in the series and their residual:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-0dd9fe6a-0d6f-4465-8956-26ecbfd54de8">
+<span class="eqno">(15)<a class="headerlink" href="#equation-0dd9fe6a-0d6f-4465-8956-26ecbfd54de8" title="Permalink to this equation">#</a></span>\[\begin{align}
+x_0 &amp;= i\omega, \quad  &amp;&amp;R[x_0] = i\omega' = \mathcal{O}(\omega), \\
+x_1 &amp;= i\omega - \frac{\omega'}{2\omega}, \quad &amp;&amp;R[x_1] = \frac{3(\omega')^2}{4\omega^2} - \frac{\omega''}{2\omega} = \mathcal{O}(1).
+\end{align}\]</div>
+<p>(In the above, I used the non-oscillatory assumption <span class="math notranslate nohighlight">\(\omega'' = \mathcal{O}(\omega') = \mathcal{O}(\omega)\)</span>.) This signals that for at least the first few iterations, we might get an <span class="math notranslate nohighlight">\(\mathcal{O}(\omega)\)</span> reduction in the residual, making this defect correction very efficient for approximating highly oscillatory (large-<span class="math notranslate nohighlight">\(\omega\)</span>) functions! Thanks to the simple recursion relation involved, it’s possible to analyze the error in the defect correction more rigorously and prove the following theorem.</p>
+<div class="warning admonition">
+<p class="admonition-title">Warning</p>
+<p>This is probably the most complex theorem/proof in the course. But don’t be discouraged, all components are things that you will have seen and can definitely follow.</p>
+</div>
+<div class="hint admonition">
+<p class="admonition-title">Theorem</p>
+<p>Fix <span class="math notranslate nohighlight">\(t \in \mathbb{R}\)</span>. Let <span class="math notranslate nohighlight">\(\omega\)</span> be analytic in the closed disc <span class="math notranslate nohighlight">\(B_\rho(t) := \{ z \in \mathbb{C}: |z - t| \leq \rho\}\)</span> for some <span class="math notranslate nohighlight">\(\rho &gt; 0\)</span> with bounds</p>
+<div class="amsmath math notranslate nohighlight" id="equation-317c7ec2-b745-4955-b03e-506d482bd1c1">
+<span class="eqno">(16)<a class="headerlink" href="#equation-317c7ec2-b745-4955-b03e-506d482bd1c1" title="Permalink to this equation">#</a></span>\[\begin{align}
+\eta_1 \leq &amp;|\omega(z)| \leq \eta_2, \\
+&amp;|\omega'(z)| \leq \eta_3 \leq \frac{\eta_1^2}{18}.
+\end{align}\]</div>
+<p>Further let an integer <span class="math notranslate nohighlight">\(k \geq 0\)</span> be small enough so that</p>
+<div class="math notranslate nohighlight">
+\[ r:= \frac{1}{2\tilde{\eta}_1\rho}\left( 1 + \frac{\tilde{\eta}_2}{\tilde{\eta}_1}\right) k + \frac{\eta_3}{4\tilde{\eta}^2_1} \leq \frac{4}{5},\]</div>
+<p>where <span class="math notranslate nohighlight">\(\tilde{\eta}_1 := \eta_1 - \frac{3\eta_3}{\eta_1}\)</span>, <span class="math notranslate nohighlight">\(\tilde{\eta}_2 := \eta_2 + \frac{3\eta_3}{\eta_1}. \)</span></p>
+<p>Then after any number <span class="math notranslate nohighlight">\(j \leq k\)</span> of iterations, the residual is bounded at the point <span class="math notranslate nohighlight">\(t\)</span> by</p>
+<div class="math notranslate nohighlight">
+\[ |R_j(t)| \leq \eta_3 r^j. \]</div>
+</div>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>Think carefully about the assumptions and the statement of this theorem, and try to put into your own words</p>
+<ul class="simple">
+<li><p>under what the conditions will the rate <span class="math notranslate nohighlight">\(r\)</span> be small,</p></li>
+<li><p>what the bounds on <span class="math notranslate nohighlight">\(\omega\)</span> and its derivative have to be in order for <span class="math notranslate nohighlight">\(r\)</span> to be small if <span class="math notranslate nohighlight">\(\rho\)</span> is small or <span class="math notranslate nohighlight">\(k\)</span> is large, and when <span class="math notranslate nohighlight">\(\rho\)</span> is large and <span class="math notranslate nohighlight">\(k\)</span> is small,</p></li>
+<li><p>what do these all mean for the rate of the residual reduction? What properties does <span class="math notranslate nohighlight">\(\omega\)</span> need to have in order for the error <span class="math notranslate nohighlight">\(R_j\)</span> to drop quickly?</p></li>
+</ul>
+</div>
+<p>This theorem expresses what we suspected from inspecting the residual of the first couple of terms in the Riccati defect correction: the residual will decrease geometrically/exponentially <em>for the first few (<span class="math notranslate nohighlight">\(k\)</span>) iterations</em>. The rate of resdiual reduction, <span class="math notranslate nohighlight">\(r\)</span>, is smaller (resulting in a faster drop) if the upper bound on <span class="math notranslate nohighlight">\(\omega'\)</span> is small and the lower bound on <span class="math notranslate nohighlight">\(\omega\)</span> is large. If the radius of <span class="math notranslate nohighlight">\(\omega\)</span>’s analyticity is large, this further reduces <span class="math notranslate nohighlight">\(r\)</span>, and a larger <span class="math notranslate nohighlight">\(k\)</span> might exist to fulfill the criterion for <span class="math notranslate nohighlight">\(r \leq \tfrac{4}{5}\)</span>. That is, the smoother and larger <span class="math notranslate nohighlight">\(\omega\)</span> is, the more quickly the residual decreases and the more iterations it will keep decreasing for.</p>
+<p><strong>Proof</strong>: We start with a few definitions.</p>
+<p>Let <span class="math notranslate nohighlight">\(B_j\)</span> for <span class="math notranslate nohighlight">\(j = 0, 1, \ldots, k\)</span> be a set of concentric, nested, closed discs in the complex plane,</p>
+<div class="math notranslate nohighlight">
+\[ B_j := B_{\rho_j}(t), \quad \rho_j := \left(1 - \frac{j}{k}\right)\rho, \quad j = 0, 1, \ldots, k. \]</div>
+<img alt="_images/riccati-proof.svg" class="align-center" id="riccati-proof-fig" src="_images/riccati-proof.svg" />
+<p>We’ll denote the <span class="math notranslate nohighlight">\(L_{\infty}\)</span> norm of a function in the disc <span class="math notranslate nohighlight">\(B_j\)</span> by</p>
+<div class="math notranslate nohighlight">
+\[ ||f||_j := \max_{z \in B_j} | f(z) |. \]</div>
+<p>Our strategy for the proof will be as follows:</p>
+<ul class="simple">
+<li><p>we’ll write the residual of the (<span class="math notranslate nohighlight">\(j+1\)</span>)th iteration in terms of that of the <span class="math notranslate nohighlight">\(j\)</span>th,</p></li>
+<li><p>we’ll derive bounds for each of the terms in that expression,</p></li>
+<li><p>and we’ll prove the statement of the theorem by induction.</p></li>
+</ul>
+<p>So, first is the residual of <span class="math notranslate nohighlight">\(x_{j+1}\)</span> in terms of <span class="math notranslate nohighlight">\(R_j\)</span> and <span class="math notranslate nohighlight">\(x_j\)</span>,</p>
+<div class="math notranslate nohighlight" id="equation-residual-iter">
+<span class="eqno">(17)<a class="headerlink" href="#equation-residual-iter" title="Link to this equation">#</a></span>\[\begin{split}\begin{align}
+R_{j+1} &amp;= x_{j+1}' + x^2_{j+1} + \omega^2 \nonumber \\
+&amp;= \left(x_j - \frac{R_j}{2x_j}\right)' + \left( x_j - \frac{R_j}{2x_j}\right)^2 + \omega^2 \\
+&amp;= x_j' - \frac{R_j'}{2x_j} + \frac{R_jx_j'}{2x_j^2} - R_j + \frac{R_j^2}{4x_j^2} \nonumber \\
+&amp;= \frac{1}{2x_j}\left( \frac{x_j'}{x_j}R_j - R_j'\right) + \left( \frac{R_j}{2x_j}\right)^2. \nonumber
+\end{align}\end{split}\]</div>
+<p>Since this expression contains derivatives, we’ll need an upper bound for them, and the recursion/proof by induction setup hints that we might need something like <span class="math notranslate nohighlight">\(||f'||_{j+1}\)</span> in terms of <span class="math notranslate nohighlight">\(||f||_j\)</span> (a bound on the derivative in a smaller disc in terms of the magnitude of the function in the one size larger disc). We’ll pacakge this in the following lemma.</p>
+<div class="hint admonition">
+<p class="admonition-title">Lemma</p>
+<p>For any <span class="math notranslate nohighlight">\(0 \leq j \leq k\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[||f'||_{j+1} \leq \frac{k}{\rho}||f||_j.\]</div>
+</div>
+<p><strong>Proof</strong>: Use <a class="reference external" href="https://en.wikipedia.org/wiki/Cauchy%27s_integral_formula">Cauchy’s theorem for derivatives</a> directly to express <span class="math notranslate nohighlight">\(f'(z)\)</span> as a contour integral centered on <span class="math notranslate nohighlight">\(t\)</span>, along a circle of radius <span class="math notranslate nohighlight">\(\rho_j\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[ f'(z) = \frac{1}{2\pi i} \int_{|\xi - t| = \rho_j}\frac{f(\xi)\mathrm{d}\xi}{(\xi - z)^2}, \quad z \in B_{j+1}. \]</div>
+<p>Instead of naively bounding the integrand, we’ll write it in terms of a known integral (which will give a tighter bound),</p>
+<div class="amsmath math notranslate nohighlight" id="equation-ed3af082-3642-4c3c-8f22-2797f9f1b134">
+<span class="eqno">(18)<a class="headerlink" href="#equation-ed3af082-3642-4c3c-8f22-2797f9f1b134" title="Permalink to this equation">#</a></span>\[\begin{align} 
+|f'(z)| &amp;\leq \frac{||f||_j}{2\pi}\int_{|\xi - t| = \rho_j} \frac{|\mathrm{d}\xi|}{|\xi - z|^2} \\
+&amp; = \frac{||f||_j}{2\pi}\int_{0}^{2\pi} \frac{\rho_j\mathrm{d}\theta}{|z|^2 + \rho_j^2 - 2|z|\rho_j \cos\theta},
+\end{align}\]</div>
+<p>where we used the substitution <span class="math notranslate nohighlight">\(\xi = \rho_j e^{i\theta}\)</span>. This is an integral of the form</p>
+<div class="math notranslate nohighlight">
+\[ \int{0}^{2\pi} \frac{\mathrm{d}\theta}{a + b\cos\theta} = \frac{2\pi}{\sqrt{a^2 - b^2}} \]</div>
+<p>with <span class="math notranslate nohighlight">\(a = |z|^2 + \rho_j^2\)</span>, <span class="math notranslate nohighlight">\(b = -2|z|\rho_j\)</span>. Now noticing that the case <span class="math notranslate nohighlight">\(|z| = \rho_j\)</span> bounds all others,  we get</p>
+<div class="amsmath math notranslate nohighlight" id="equation-98726fa1-1ff0-46a9-b840-88cd595aca3a">
+<span class="eqno">(19)<a class="headerlink" href="#equation-98726fa1-1ff0-46a9-b840-88cd595aca3a" title="Permalink to this equation">#</a></span>\[\begin{align}
+||f||_{j+1} &amp;\leq \frac{||f||_j}{2\pi}\frac{2\pi \rho_j}{\rho_j^2 - \rho_{j+1}^2} \\
+&amp;= \frac{||f||_j}{\rho}\frac{k(k-j)}{2k - 2j - 1} = \frac{||f||_j}{\rho}k\left[ \frac{1}{2} + \frac{1}{2(2k - 2j - 1)} \right] \\
+&amp;\leq \frac{k}{\rho}||f||_j,
+\end{align}\]</div>
+<p>where we made use of <span class="math notranslate nohighlight">\(\rho_j = (1 - \tfrac{j}{k})\rho\)</span>.</p>
+<p>The next step is to prove the following two statements by induction, given that <span class="math notranslate nohighlight">\(x_l\)</span>, <span class="math notranslate nohighlight">\(R_l\)</span> are analytic in <span class="math notranslate nohighlight">\(B_j\)</span> for all <span class="math notranslate nohighlight">\(0 \leq l \leq j\)</span>:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-7921d82c-d6a9-46bb-bce7-54f2bde82d67">
+<span class="eqno">(20)<a class="headerlink" href="#equation-7921d82c-d6a9-46bb-bce7-54f2bde82d67" title="Permalink to this equation">#</a></span>\[\begin{align}
+\tilde{\eta}_1 \leq &amp;|x_l| \leq \tilde{\eta}_2 \quad &amp;&amp;\text{in } B_j,\\
+&amp; |R_l| \leq \eta_3 r^l \quad &amp;&amp;\text{in } B_j, \text{for all } 0 \leq l \leq j.
+\end{align}\]</div>
+<p>We’ll start with the second statement, assuming that it is true for <span class="math notranslate nohighlight">\(j\)</span> and proving it for <span class="math notranslate nohighlight">\(j+1\)</span>.</p>
+<p>Starting from <a class="reference internal" href="#equation-residual-iter">(17)</a>, we use the induction hypotheses and the theorem’s assumptions to lower bound the denominators and upper bound the numeriators, as well as upper bound the derivatives with our lemma,</p>
+<div class="math notranslate nohighlight">
+\[ ||R_{j+1}||_{j+1} \leq \frac{1}{2\tilde{\eta}_1}\left(\frac{k\tilde{\eta}_2}{\tilde{\eta}_1\rho} + \frac{k}{\rho}\right) ||R_j||_j + \left( \frac{||R_j||_j}{2\tilde{\eta}_2} \right)^2. \]</div>
+<p>We wish to pull out a factor of <span class="math notranslate nohighlight">\(||R_j||_j\)</span>, so we use the crude bound <span class="math notranslate nohighlight">\(||R_j|| \leq \eta_3\)</span> from the induction hypothesis to replace one of the <span class="math notranslate nohighlight">\(||R_j||_j\)</span>-s in the last term to get</p>
+<div class="math notranslate nohighlight">
+\[ ||R_{j+1}||_{j+1} \leq r||R_j||_j,\]</div>
+<p>with <span class="math notranslate nohighlight">\(r\)</span> being what we stated in the theorem.</p>
+<p>Moving on to the first induction statement, we rewrite the Riccati defect correction iteration as</p>
+<div class="math notranslate nohighlight">
+\[ x_{j+1}(z) = x_j(z) - \frac{R_j(z)}{2x_j(z)} = i\omega - \sum_{l=0}^j \frac{R_l(z)}{2x_l(z)} \quad \text{for } z \in B_{j+1},\]</div>
+<p>then use the induction hypotheses to pointwise bound the sum,</p>
+<div class="math notranslate nohighlight">
+\[ \left|\sum_{l = 0}^j \frac{R_l}{x_l}\right| \leq \frac{\eta_3}{2\tilde{\eta}_1}\sum_{l=0}^j r^l. \]</div>
+<p>Now notice that the sum is just that of a geometric progression, and use the <span class="math notranslate nohighlight">\(r \leq \tfrac{4}{5}\)</span> from the theorem’s assumption to get</p>
+<div class="math notranslate nohighlight">
+\[ \left|\sum_{l = 0}^j \frac{R_l}{x_l}\right| \leq \frac{5\eta_3}{2\tilde{\eta}_1} \leq \frac{3\eta_3}{\tilde{\eta}_1} \quad \text{in } B_{j+1}. \]</div>
+<p>From the theorem’s assumptions, we have <span class="math notranslate nohighlight">\(\eta_1 \leq |\omega| \leq \eta_2\)</span> in <span class="math notranslate nohighlight">\(B_{j+1}\)</span>. Using the lower and upper bound, respectively, get us</p>
+<div class="math notranslate nohighlight">
+\[ \eta_1 - \frac{3\eta_3}{\eta_1} = \tilde{\eta}_1 \leq ||x_{j+1}||_{j+1} \leq \eta_2 + \frac{3\eta_3}{\eta_1} = \tilde{\eta}_2, \]</div>
+<p>which proves the first induction hypothesis for the <span class="math notranslate nohighlight">\((j+1)\)</span>th iteration given the <span class="math notranslate nohighlight">\(j\)</span>th.. All is left is to prove they both are true for the base case (the <span class="math notranslate nohighlight">\(0\)</span>th iteration). So we have to check <span class="math notranslate nohighlight">\(x_0 = i\omega\)</span> and <span class="math notranslate nohighlight">\(R_0 = i\omega'\)</span>. <span class="math notranslate nohighlight">\(\omega\)</span> is in <span class="math notranslate nohighlight">\([\eta_1, \eta_2]\)</span> from the theorem statement, but <span class="math notranslate nohighlight">\([\eta_1, \eta_2] \subset [\tilde{\eta}_1, \tilde{\eta}_2]\)</span>, so the first induction hypthesis is true, and <span class="math notranslate nohighlight">\(\omega' \leq \eta_3 = \eta_3r^0\)</span> from the theorem statement, making the second hypothesis true as well. This completes our proof.</p>
+<p>Note that the constants appearing in the theorem were actually chosen by hand (they are linked by a quadratic constraint), with the objective to make <span class="math notranslate nohighlight">\([\eta_1, \eta_2]\)</span> and <span class="math notranslate nohighlight">\([\tilde{\eta}_1, \tilde{\eta}_2]\)</span> not too dissimilar.</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>What does this result tell us about <span class="math notranslate nohighlight">\(\Delta(h)\)</span> of the Riccati defect correction method?</p>
+</div>
+<p>It’s clear that there is a more subtle relationship between the stepsize <span class="math notranslate nohighlight">\(h\)</span> and the error of the Riccati defect correction method. The main property determining how quick the residual reduction is (and how low the error can get) is the <em>smoothness</em> of <span class="math notranslate nohighlight">\(\omega\)</span>, making this a spectral method. There are other sources of error, however.
+Sometimes these only surface when we implement a method, so let’s try doing that. Below, I’ll try the Riccati defect correction iteration on the problem</p>
+<div class="math notranslate nohighlight">
+\[ u'' + \frac{m^2 - 1}{(1 + t^2)^2}u = 0, \quad t \in [0, 0.5], \]</div>
+<p>where the parameter <span class="math notranslate nohighlight">\(m\)</span> will be varied from <span class="math notranslate nohighlight">\(10^1\)</span> to <span class="math notranslate nohighlight">\(10^4\)</span>. The iteration requires taking derivatives repeatedly, which I’ll do with a spectral differentiation matrix (based on Chebyshev nodes). I’ll therefore only evaluate the phase-derivative <span class="math notranslate nohighlight">\(x\)</span> at these nodes, and will measure and plot the maximum <span class="math notranslate nohighlight">\(R[x]\)</span> at those nodes, as a function of the iteration number. With a <em>naive</em> implementation, we get the following progression:</p>
+<div class="cell tag_hide-input docutils container">
+<details class="admonition hide above-input">
+<summary aria-label="Toggle hidden content">
+<p class="collapsed admonition-title">Show code cell source</p>
+<p class="expanded admonition-title">Hide code cell source</p>
+</summary>
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">chebD</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the (n+1)x(n+1) spectral differentiation matrix\</span>
+<span class="sd">    using Chebyshev roots according to Ch 6 of Trefethen&#39;s\</span>
+<span class="sd">    &quot;Spectral methods in MATLAB&quot;. Returns D and nodes on [-1, 1].</span>
+<span class="sd">    Note that they are ordered backwards, i.e. 1 to -1!</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">D</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">w</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">b</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+        <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">b</span><span class="o">*</span><span class="n">d</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">dX</span> <span class="o">=</span> <span class="n">X</span> <span class="o">-</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">c</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">dX</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">D</span> <span class="o">=</span> <span class="n">D</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">D</span><span class="p">,</span> <span class="n">x</span>
+</pre></div>
+</div>
+</div>
+</details>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">ricc_defect_corr</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">10</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Performs k+1 steps of Riccati defect correction and returns the residuals of x.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">errs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">D</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">chebD</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">tscaled</span> <span class="o">=</span> <span class="p">(</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">h</span> <span class="o">+</span> <span class="n">t0</span> 
+    <span class="n">ws</span> <span class="o">=</span> <span class="n">w</span><span class="p">(</span><span class="n">tscaled</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">ws</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">2</span><span class="o">/</span><span class="n">h</span><span class="o">*</span><span class="p">(</span><span class="n">D</span> <span class="o">@</span> <span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">ws</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">Rx</span> <span class="o">=</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">h</span><span class="o">*</span><span class="p">(</span><span class="n">D</span> <span class="o">@</span> <span class="n">ws</span><span class="p">))</span>
+    <span class="n">errs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">Rx</span><span class="p">))</span>
+    <span class="n">o</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># Keep track of number of terms</span>
+    <span class="k">while</span> <span class="n">o</span> <span class="o">&lt;</span> <span class="n">k</span><span class="p">:</span>
+        <span class="n">o</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">Rx</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">Rx</span> <span class="o">=</span> <span class="n">R</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">errs</span><span class="p">[</span><span class="n">o</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">Rx</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">errs</span>
+
+
+<span class="n">n</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">symbols</span><span class="o">=</span> <span class="p">[</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="s1">&#39;^&#39;</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)):</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">t</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">errs</span> <span class="o">=</span> <span class="n">ricc_defect_corr</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">errs</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;$\omega_{\mathrm</span><span class="si">{max}</span><span class="s1">} =&#39;</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Iteration $j$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Maximum residual over interval, $\max_{t \in [0, 0.5]}R[x_j](t)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">));</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">1e-20</span><span class="p">,</span> <span class="mf">1e4</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:30: SyntaxWarning: invalid escape sequence &#39;\o&#39;
+&lt;&gt;:32: SyntaxWarning: invalid escape sequence &#39;\m&#39;
+&lt;&gt;:30: SyntaxWarning: invalid escape sequence &#39;\o&#39;
+&lt;&gt;:32: SyntaxWarning: invalid escape sequence &#39;\m&#39;
+/tmp/ipykernel_556541/1655584016.py:30: SyntaxWarning: invalid escape sequence &#39;\o&#39;
+  plt.semilogy(range(k+1), errs, marker = symbols[i], label = &#39;$\omega_{\mathrm{max}} =&#39; + &#39;{}&#39;.format(m) + &#39;$&#39;)
+/tmp/ipykernel_556541/1655584016.py:32: SyntaxWarning: invalid escape sequence &#39;\m&#39;
+  plt.ylabel(&quot;Maximum residual over interval, $\max_{t \in [0, 0.5]}R[x_j](t)$&quot;)
+</pre></div>
+</div>
+<img alt="_images/60ddecad63fcf006eb229fa2d3e2bcfc59f8ed7fb46af3547ff953cfa556a34e.png" src="_images/60ddecad63fcf006eb229fa2d3e2bcfc59f8ed7fb46af3547ff953cfa556a34e.png" />
+</div>
+</div>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>What do you observe? Are the observations in accordance with the expectations?</p>
+</div>
+<p>We observe the following:</p>
+<ul class="simple">
+<li><p>Initial reduction in the residual appears to be geometric/exponential with the expected rate of <span class="math notranslate nohighlight">\(\mathcal{O}(\omega)\)</span> per iteration,</p></li>
+<li><p>Also in agreement with expectations, this reduction stops at some point (we expect the iteration to yield a generally non-convergent series),</p></li>
+<li><p>But the stopping occurs soon (the higher <span class="math notranslate nohighlight">\(\omega\)</span>, the sooner), which is weird. The actual expectation is to have <span class="math notranslate nohighlight">\(\mathcal{O}(\omega)\)</span> iterations before the asymptotic blow-up.</p></li>
+<li><p>There is also a suspicious bottoming-out of the error, making it look like we cannot reach a residual lower than <span class="math notranslate nohighlight">\(10^{-8}\)</span>.</p></li>
+</ul>
+<p>This premature bottoming-out is due to the poor implementation of the algorithm.</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>Can you spot an operation that would cost us accuracy in the implementation? Hint: check for any instances of catastrophic cancellation. It might be helpful to write out the first few steps of the algorithm.</p>
+</div>
+<p>In the above code, the lambda (in-line function)</p>
+<p>gets called repeatedly. The first few calls will look like this:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-127380be-d8d7-4d90-816b-b72cbe656281">
+<span class="eqno">(21)<a class="headerlink" href="#equation-127380be-d8d7-4d90-816b-b72cbe656281" title="Permalink to this equation">#</a></span>\[\begin{align}
+R[x_0] &amp;= i\omega' - \omega^2 + \omega^2,
+R[x_1] &amp;= \left( i\omega' - \frac{\omega'}{2\omega}\right)' + \left( i\omega' - \frac{\omega'}{2\omega}\right)^2 + \omega^2,
+\end{align}\]</div>
+<p>and so on. When <span class="math notranslate nohighlight">\(\omega\)</span> gets large, the subtraction of similar and large terms will cause <em>catastrophic cancellation</em>, and result in rapid loss of accuracy. In fact, when <span class="math notranslate nohighlight">\(\omega \approx 10^4\)</span>, we already expect to lose <span class="math notranslate nohighlight">\(\log_{10}(\mathcal{O}(\omega^2)) \approx 8\)</span> digits of accuracy. At double precision, this means that our accuracy is “capped” at 8 digits, exactly as we observed!</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>Think very carefully of a way to eliminate these catastrophic cancellations. Hint: it might be helpful to think in terms of the small increment <span class="math notranslate nohighlight">\(\delta\)</span> we wrote the iterations in terms of earlier.</p>
+</div>
+<p>A fix for this unnecessary error is to get rid of those cancellations by writing the residual function <span class="math notranslate nohighlight">\(R\)</span> in terms of <span class="math notranslate nohighlight">\(\delta\)</span> instead of <span class="math notranslate nohighlight">\(x\)</span>. From the Riccati defect correction iteration, we can write</p>
+<div class="math notranslate nohighlight">
+\[ \delta_{i+1} = -\frac{R[x_i]}{2x_i},\]</div>
+<p>and <a class="reference internal" href="#equation-residual-iter">(17)</a> gives us</p>
+<div class="math notranslate nohighlight">
+\[ R[x_{i+1}] = \frac{1}{2x_i}\left( \frac{x_i'}{x_i}R_i - R_i'\right) + \left( \frac{R_i}{2x_i} \right)^2 = \delta_{i+1}' + \delta_{i+1}^2. \]</div>
+<p>Using this to rewrite the algorithm, we get the following:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">ricc_defect_corr</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">10</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Performs k+1 steps of Riccati defect correction and returns the residuals of x.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">errs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">D</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">chebD</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">tscaled</span> <span class="o">=</span> <span class="p">(</span><span class="n">t</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">h</span> <span class="o">+</span> <span class="n">t0</span> 
+    <span class="n">ws</span> <span class="o">=</span> <span class="n">w</span><span class="p">(</span><span class="n">tscaled</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">ws</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">r</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="n">r</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="mi">2</span><span class="o">/</span><span class="n">h</span><span class="o">*</span><span class="p">(</span><span class="n">D</span> <span class="o">@</span> <span class="n">d</span><span class="p">)</span> <span class="o">+</span> <span class="n">d</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">Rx</span> <span class="o">=</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">h</span><span class="o">*</span><span class="p">(</span><span class="n">D</span> <span class="o">@</span> <span class="n">ws</span><span class="p">))</span>
+    <span class="n">errs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">Rx</span><span class="p">))</span>
+    <span class="n">o</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># Keep track of number of terms</span>
+    <span class="k">while</span> <span class="n">o</span> <span class="o">&lt;</span> <span class="n">k</span><span class="p">:</span>
+        <span class="n">o</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">deltax</span> <span class="o">=</span> <span class="n">delta</span><span class="p">(</span><span class="n">Rx</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">deltax</span>
+        <span class="n">Rx</span> <span class="o">=</span> <span class="n">R</span><span class="p">(</span><span class="n">deltax</span><span class="p">)</span>
+        <span class="n">errs</span><span class="p">[</span><span class="n">o</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">Rx</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">errs</span>
+
+
+<span class="n">n</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">k</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">symbols</span><span class="o">=</span> <span class="p">[</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="s1">&#39;^&#39;</span><span class="p">]</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)):</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">t</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">m</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">t</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">errs</span> <span class="o">=</span> <span class="n">ricc_defect_corr</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">errs</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="n">symbols</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;$\omega_{\mathrm</span><span class="si">{max}</span><span class="s1">} =&#39;</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;$&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Iteration $j$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Maximum residual over interval, $\max_{t \in [0, 0.5]}R[x_j](t)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">));</span> <span class="c1">#plt.ylim(1e-20, 1e4)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:32: SyntaxWarning: invalid escape sequence &#39;\o&#39;
+&lt;&gt;:34: SyntaxWarning: invalid escape sequence &#39;\m&#39;
+&lt;&gt;:32: SyntaxWarning: invalid escape sequence &#39;\o&#39;
+&lt;&gt;:34: SyntaxWarning: invalid escape sequence &#39;\m&#39;
+/tmp/ipykernel_556541/777035567.py:32: SyntaxWarning: invalid escape sequence &#39;\o&#39;
+  plt.semilogy(range(k+1), errs, marker = symbols[i], label = &#39;$\omega_{\mathrm{max}} =&#39; + &#39;{}&#39;.format(m) + &#39;$&#39;)
+/tmp/ipykernel_556541/777035567.py:34: SyntaxWarning: invalid escape sequence &#39;\m&#39;
+  plt.ylabel(&quot;Maximum residual over interval, $\max_{t \in [0, 0.5]}R[x_j](t)$&quot;)
+</pre></div>
+</div>
+<img alt="_images/b73115af46b1ece3e5159942e7e838470bde25f57cb92c51fd69e55f055c1f8b.png" src="_images/b73115af46b1ece3e5159942e7e838470bde25f57cb92c51fd69e55f055c1f8b.png" />
+</div>
+</div>
+<p>Much better! We got rid of the bottoming-out of the residual and at high frequencies, can achieve machine precision in about 5 iterations. However, there are other sources of error left in the algorithm…</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>Can you name a few?</p>
+</div>
+<p>… such as:</p>
+<ul class="simple">
+<li><p>Numerical differentiation. With <span class="math notranslate nohighlight">\(n+1 = 17\)</span> nodes, I don’t expect to be able to go beyond 17 iterations of Riccati defect correction, simply because application of the differentiation matrix will yield 0. (Why?)</p></li>
+<li><p>Roundoff error. To measure whether the dominant error is roundoff, some things you could do include</p>
+<ul>
+<li><p>Changing machine precision (from double to single representation). If there is no other singificant source of error in the algorithm, this will shift accuracies according to <span class="math notranslate nohighlight">\(\kappa \mu_M\)</span>, where <span class="math notranslate nohighlight">\(\kappa\)</span> is the relative condition number of the problem.</p></li>
+<li><p>Try an example where the analytic residual is zero (e.g. constant <span class="math notranslate nohighlight">\(\omega\)</span>!). Any deviations from zero will be thanks to roundoff.</p></li>
+<li><p>Try using analytic derivatives (this is a lot of algebra, however).</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="ODES2_spectral.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">6. Ordinary differential equations I</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-problem-and-why-some-methods-fail">8.1 The problem and why some methods fail</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#components-of-a-solver">8.2 Components of a solver</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#riccati-defect-correction">8.3 Riccati defect correction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local-error-of-the-riccati-defect-correction">8.4 Local error of the Riccati defect correction</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Fruzsina Julia Agocs
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

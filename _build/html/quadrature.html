@@ -1,0 +1,788 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>5. Quadrature &#8212; Computational Tools for Multiscale Problems</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'quadrature';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="6. Ordinary differential equations II" href="ODES2_spectral.html" />
+    <link rel="prev" title="4. Interpolation II" href="poly_interp2.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.jpeg" class="logo__image only-light" alt="Computational Tools for Multiscale Problems - Home"/>
+    <script>document.write(`<img src="_static/logo.jpeg" class="logo__image only-dark" alt="Computational Tools for Multiscale Problems - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="course_introduction.html">0. Course introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comp_fundamentals.html">1. Computation fundamentals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">2. Good coding practices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">3. Interpolation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp2.html">4. Interpolation II</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">5. Quadrature</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">6. Ordinary differential equations II</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/cu-comptools/fall2024/main?urlpath=tree/quadrature.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/cu-comptools/fall2024" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/cu-comptools/fall2024/issues/new?title=Issue%20on%20page%20%2Fquadrature.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/quadrature.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>5. Quadrature</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpolatory-quadrature">4.1 Interpolatory quadrature</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gaussian-quadrature">4.2 Gaussian quadrature</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#periodic-quadrature">4.3 Periodic quadrature</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="quadrature">
+<h1>5. Quadrature<a class="headerlink" href="#quadrature" title="Link to this heading">#</a></h1>
+<p>In quadrature (numerical integration), the goal is to approximate</p>
+<div class="math notranslate nohighlight">
+\[ Q(f) := \int_a^b f(x)\mathrm{d}x \]</div>
+<p>with a weighted sum</p>
+<div class="math notranslate nohighlight">
+\[ Q_n(f) := \sum_{k=0}^n w_k f(x_k), \]</div>
+<p>where <span class="math notranslate nohighlight">\(\{w_k\}_{k=0}^n\)</span> are referred to as the quadrature weights, and <span class="math notranslate nohighlight">\(\{x_k\}_{k=0}^n\)</span> are the nodes. <span class="math notranslate nohighlight">\(Q\)</span> and <span class="math notranslate nohighlight">\(Q_n\)</span> are both linear operators mapping functions that are continuously differentiable on <span class="math notranslate nohighlight">\([a,b]\)</span> (we’ll denote this space with <span class="math notranslate nohighlight">\(f \in C[a,b]\)</span>) onto the reals <span class="math notranslate nohighlight">\(\mathbb{R}\)</span>.</p>
+<p>Similarly to interpolation, we are free to choose the following parameters:</p>
+<ul class="simple">
+<li><p>the nodes <span class="math notranslate nohighlight">\(\{x_k\}_{k=0}^n\)</span>,</p></li>
+<li><p>the way we represent the approximate integrand, which determines the weights <span class="math notranslate nohighlight">\(\{w_k\}_{k=0}^n\)</span>.</p></li>
+</ul>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>If you’re given the node locations, what is the most intuitive way to approximate the integrand? What weights does that give you?</p>
+</div>
+<section id="interpolatory-quadrature">
+<h2>4.1 Interpolatory quadrature<a class="headerlink" href="#interpolatory-quadrature" title="Link to this heading">#</a></h2>
+<p>Perhaps the most natural way to proceed if given a set of nodes is to fit an interpolating polynomial through them, and replace the exact integrand <span class="math notranslate nohighlight">\(f\)</span> with its interpolated version (say, in the Lagrangian basis) <span class="math notranslate nohighlight">\(Lnf\)</span>, giving</p>
+<div class="math notranslate nohighlight">
+\[\int_a^b f(x)\mathrm{d}x \approx \int_a^b (L_nf)(x)\mathrm{d}x, \]</div>
+<p>where <span class="math notranslate nohighlight">\(L_n: C[a,b] \to P_n\)</span>, the space of degree-<span class="math notranslate nohighlight">\(n\)</span> polynomials. This form of quadrature is <strong>interpolatory quadrature</strong>, and has weights</p>
+<div class="math notranslate nohighlight" id="equation-interp-quad-wk">
+<span class="eqno">(4)<a class="headerlink" href="#equation-interp-quad-wk" title="Link to this equation">#</a></span>\[ 
+w_k = \frac{1}{q'_{n+1}(x_k)} \int_a^b \frac{q_{n+1}(x)}{x - x_k} \mathrm{d} x \quad \text{for }k = 0, 1, \ldots, n.
+\]</div>
+<p>(Recall that <span class="math notranslate nohighlight">\(q_n(x) = \prod_{k=0}^n (x - x_k)\)</span>.)</p>
+<p><strong>Proof:</strong> using the form of the interpolating polynomial in the Lagrange basis, we write</p>
+<div class="math notranslate nohighlight">
+\[ \int_a^b (L_nf)(x)\mathrm{d}x = \sum_{k=0}^n f(x_k) \int_a^b l_k(x)\mathrm{d} x, \]</div>
+<p>which allows us to read off</p>
+<div class="math notranslate nohighlight">
+\[
+w_k = \int_a^b l_k(x)\mathrm{d}x = \int_a^b \prod_{j = 0, j \neq k}^n \frac{x - x_j}{x_k - x_j} \mathrm{d}x. 
+\]</div>
+<p>This matches the expression we wanted to show after a bit of algebra.</p>
+<p>This method integrates all polynomials up to degree-<span class="math notranslate nohighlight">\(n\)</span> exactly, since their integrand is exactly represented. This property determines the weights exactly.</p>
+<p>A subset of interpolatory quadrature rules whose nodes are equidistant are called <strong>Newton-Cotes</strong>. For order <span class="math notranslate nohighlight">\(n\)</span>, their nodes are</p>
+<div class="math notranslate nohighlight">
+\[ x_k = a + kh, \quad h = \frac{b - a}{n}, \]</div>
+<p>and their weights are given by</p>
+<div class="math notranslate nohighlight">
+\[w_k = h \frac{(-1)^{n-k}}{k!(n-k)!} \int_0^n \prod_{j = 0, j\neq k}^n (z - j)\mathrm{d}z, \quad \text{for } k = 0, 1, \ldots n. \]</div>
+<p>The weights are symmetric, meaning <span class="math notranslate nohighlight">\(w_k = w_{n-k}\)</span>.</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>Show this yourself!</p>
+</div>
+<p><strong>Proof:</strong> Use the substition <span class="math notranslate nohighlight">\(x = a + hz\)</span>, <span class="math notranslate nohighlight">\(x_k = a + kh\)</span>, and rewrite <span class="math notranslate nohighlight">\(q_{n+1}\)</span> and <span class="math notranslate nohighlight">\(q'_{n+1}\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[ q_{n+1}(x) = \prod_{j=0}^n (a + hz - a - jz) = h^{n+1}\prod_{j=0}^n (z - j), \]</div>
+<div class="math notranslate nohighlight">
+\[ q'_{n+1}(x_k) = \frac{\mathrm{d}q_{n+1}}{\mathrm{d}z} \frac{\mathrm{d} x}{\mathrm{d}x}\Bigg|_{j = k} = h^{n+1} \frac{1}{h} \prod_{j=0, j\neq k}^n (k - j) = h^n k! (n-k)!(-1)^{n-k}.  \]</div>
+<p>Substituting these into <a class="reference internal" href="#equation-interp-quad-wk">(4)</a>, we get the expression required. The symmetry of weights can be shown making the substitutions <span class="math notranslate nohighlight">\(k \to n - k\)</span>, <span class="math notranslate nohighlight">\(z \to n - y\)</span> (check this yourself!).</p>
+<p>Setting <span class="math notranslate nohighlight">\(n = 1\)</span>, we get the simplest form of Newton-Cotes, the trapezoidal rule</p>
+<div class="math notranslate nohighlight">
+\[ \int_a^b f(x) \mathrm{d}x \approx \frac{b-a}{2} \left[ f(a) + f(b)\right] \]</div>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>Any initial guesses for what order in <span class="math notranslate nohighlight">\(h\)</span> the error of this rule is?</p>
+</div>
+<p>The error of this rule for any <span class="math notranslate nohighlight">\(f \in C^2[a,b]\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[ \left|\int_a^b f(x) \mathrm{d}x  - (Q_1 f)(x) \right| \leq \frac{1}{12} || f ||_{L_{\infty}} h^3. \]</div>
+<p><strong>Proof:</strong> This is a common trick used in deriving error bounds for quadrature. Consider the <strong>Peano kernel</strong>,</p>
+<div class="math notranslate nohighlight">
+\[ \kappa(x) = \frac{1}{2}(x - a)(b - x), \]</div>
+<p>which is non-negative on <span class="math notranslate nohighlight">\([a, b]\)</span>, with <span class="math notranslate nohighlight">\(\kappa'(a) = \tfrac{b-a}{2}\)</span>, <span class="math notranslate nohighlight">\(\kappa'(b) = \tfrac{a-b}{2}\)</span>, and <span class="math notranslate nohighlight">\(\kappa''(x) = -1\)</span> on <span class="math notranslate nohighlight">\([a, b]\)</span>. Then take</p>
+<div class="math notranslate nohighlight">
+\[ I := \int_a^b \kappa(x) f''(x) \mathrm{d} x, \]</div>
+<p>integrate it by parts twice,</p>
+<div class="math notranslate nohighlight">
+\[ I = [\kappa f']_a^b + [-\kappa' f]_a^b + \int_a^b \kappa'' f \mathrm{d}x, \]</div>
+<p>and substitute <span class="math notranslate nohighlight">\(\kappa\)</span> and its derivatives to get</p>
+<div class="math notranslate nohighlight">
+\[ I = \frac{h}{2}(f(a) + f(b)) - \int_a^b f\mathrm{d}x. \]</div>
+<p>Now by bounding the Peano integral, we see that we can bound the error on the trapezoidal rule:</p>
+<div class="math notranslate nohighlight">
+\[ \left|\int_a^b f(x) \mathrm{d}x  - (Q_1 f)(x) \right| = \left| \int_a^b \kappa f'' \mathrm{d} x \right| \leq ||f''||_{L_\infty} \int_a^b \kappa \mathrm{d}x = ||f''||_{L_\infty} \mathcal{O}(h^3). \]</div>
+<p>This is low-order algebraic convergence.</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>Can we do better?</p>
+</div>
+<p>We can try to improve this in various ways:</p>
+<ul class="simple">
+<li><p>Lay down more (equispaced) nodes: this unfortunately suffers from the same issue as interpolation with equispaced nodes. Namely, the approximate integrand will start blowing up (we’ll state this more formally soon) with the <span class="math notranslate nohighlight">\(l_j\)</span> basis functions: <span class="math notranslate nohighlight">\(w_j = \int_a^b l_j(x)\mathrm{d}x\)</span>, and amplifies roundoff error via catastrophic cancellation.</p></li>
+<li><p>Lay down more nodes, but space them differently: this is the basis of the next section!</p></li>
+<li><p>Use the same <span class="math notranslate nohighlight">\(n\)</span>, but shorten the integration interval by chopping <span class="math notranslate nohighlight">\([a,b]\)</span> up into smaller sections. This approach is generally preferred in practice, since the width of interval and even the quadrature rule can be adapted to the local properties of the integrand. A drawback, however, is loss of continuity (in the higher derivatives) at the edges of the sections. We’ll explore this further below.</p></li>
+</ul>
+<p>Let us split <span class="math notranslate nohighlight">\([a,b]\)</span> into even chunks of size <span class="math notranslate nohighlight">\(h\)</span>, and apply the trapezoidal rule to each. This is the <strong>composite trapezoidal rule</strong> (CTR). Its nodes and weights can be summarized as</p>
+<div class="math notranslate nohighlight">
+\[ Q_{\text{CTR}} f = h\left[ \frac{1}{2}f(a) + f(a+h) + \ldots + f(b-h) + \frac{1}{2} f(b) \right]. \]</div>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>What will the error of the <strong>composite trapezoidal rule</strong> be?</p>
+</div>
+<p>In the worst case, the error of each section will add (and there is a total of <span class="math notranslate nohighlight">\(\tfrac{b-a}{h}\)</span> them), so we can say that</p>
+<div class="math notranslate nohighlight">
+\[ |Q_{\text{CTR}}f - Qf| \leq \frac{1}{12}||f''||_{L_{\infty}} h^3 \frac{b-a}{h} = \mathcal{O}(h^2). \]</div>
+<p>Notice that this is an order lower than the trapezoidal rule, overall farily slowly convergent. We will, however, see the power of this simple quadrature rule on a certain class of functions later, where it blazes past other methods.</p>
+<p>But for now, let’s review some theory on what can reasonably expected of quadrature rules.</p>
+<div class="hint admonition">
+<p class="admonition-title">Definition</p>
+<p>Consider the sequence of quadrature rules <span class="math notranslate nohighlight">\(\{ Q_n \}_{n=0}^{\infty}\)</span>, such that <span class="math notranslate nohighlight">\(Q_n f = \sum_{j=0}^n w_j^{(n)} f(x_j^{(n)})\)</span>. <span class="math notranslate nohighlight">\(Q_n\)</span> is <strong>convergent</strong> if <span class="math notranslate nohighlight">\(Q_nf \to Qf\)</span> as <span class="math notranslate nohighlight">\(n \to \infty\)</span> <span class="math notranslate nohighlight">\(\forall f \in C[a,b]\)</span>.</p>
+</div>
+<p>Recall that this was <em>not</em> possible for interpolation rules! We could always construct an <span class="math notranslate nohighlight">\(f\)</span> such that the sequence <span class="math notranslate nohighlight">\(\{L_n\}\)</span> wouldn’t converge, for any given set of nodes.</p>
+<div class="hint admonition">
+<p class="admonition-title">Theorem (Szeg”{o})</p>
+<p><span class="math notranslate nohighlight">\(Q_n\)</span> is convergent if and only if</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(Q_n\)</span> is convergent for all polynomial <span class="math notranslate nohighlight">\(f\)</span>-s, <strong>and</strong></p></li>
+<li><p>There is a constant <span class="math notranslate nohighlight">\(c\)</span> such that <span class="math notranslate nohighlight">\(||Q_n||_{L_{\infty}} := \sum_{j = 0}^n |w_j^{(n)}| \leq c\)</span> <span class="math notranslate nohighlight">\(\forall n\)</span>.</p></li>
+</ol>
+</div>
+<p>This formalizes what we already suspected about quadrature with an increasing number of equispaced nodes: if the weights grow in an unbounded manner as <span class="math notranslate nohighlight">\(n \to \infty\)</span>, the rule is not convergent (always inspect the weights as <span class="math notranslate nohighlight">\(n\)</span> grows!). However, for <span class="math notranslate nohighlight">\(Q_n\)</span> to be convergent, it is enough for the weights to be nonnegative in the second criterion:</p>
+<div class="hint admonition">
+<p class="admonition-title">Corollary</p>
+<p>If <span class="math notranslate nohighlight">\(Q_n\)</span> is convergent for all polynomial <span class="math notranslate nohighlight">\(f\)</span>-s <strong>and</strong> <span class="math notranslate nohighlight">\(w_j^{(n)} \geq 0\)</span>, then <span class="math notranslate nohighlight">\(Q_n\)</span> is convergent.</p>
+</div>
+<p><strong>Proof:</strong> If the weights are non-negative, then
+<div class="math notranslate nohighlight">
+\[||Q_n||_{L_{\infty}} = \sum_{j = 0}^n |w_j^{(n)}| = \sum_{j = 0}^n w_j^{(n)}, \]</div>
+
+but notice that this is <span class="math notranslate nohighlight">\(Q_n 1\)</span>, i.e. the quadrature rule applied to the constant function <span class="math notranslate nohighlight">\(f(x) = 1\)</span>. That function is a polynomial, so if <span class="math notranslate nohighlight">\(Q_n\)</span> is convergent for all polynomials, then
+<div class="math notranslate nohighlight">
+\[ ||Q_n||_{L_{\infty}} = Q_n 1 = Q_1 = \int_a^b 1\mathrm{d}x = b - a,\]</div>
+
+and then we can set <span class="math notranslate nohighlight">\(c = b-a\)</span> and found a bound for <span class="math notranslate nohighlight">\(||Q_n||_{L_\infty}\)</span> for all <span class="math notranslate nohighlight">\(n\)</span> as per the second criterion in Szeg”{o}’s theorem, which means that <span class="math notranslate nohighlight">\(Q_n\)</span> must be convergent.</p>
+<p>Apart from ensuring that the second criterion is satisfied, positive weights are advantageous since for a given <span class="math notranslate nohighlight">\(c\)</span>, they minimize the accumulation of roundoff error.</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>Is the CTR convergent?</p>
+</div>
+<p>It is: it’s convergent for all polynomials since its error, <span class="math notranslate nohighlight">\(\propto ||p''||_{L_\infty}\)</span> for polynomials <span class="math notranslate nohighlight">\(p\)</span>, is bounded, and its weights are non-negative. However, it is only slowly convergent. A better approach may be Gaussian quadrature.</p>
+</section>
+<section id="gaussian-quadrature">
+<h2>4.2 Gaussian quadrature<a class="headerlink" href="#gaussian-quadrature" title="Link to this heading">#</a></h2>
+<div class="warning admonition">
+<p class="admonition-title">Additional resource</p>
+<p>Abramowitz &amp; Stegun: Handbook of Mathematial Functions with Formulas, Graphs, and Mathematical Tables</p>
+</div>
+<p>This <em>family</em> of quadrature formulae were designed to yield an exact answer for polynomials of as high a degree as possible, which is typically <span class="math notranslate nohighlight">\(2n - 1\)</span> (compare with <span class="math notranslate nohighlight">\(n\)</span> for Newton-Cotes). This is achieved by a choice of nodes that are roots of a set of orthogonal polynomials (potentially with respect to a weigh function <span class="math notranslate nohighlight">\(w(x)\)</span>. Requiring exactness for all polynomials of degree <span class="math notranslate nohighlight">\(2n-1\)</span> or less determines the weights uniquely (see the derivation <a class="reference external" href="https://en.wikipedia.org/wiki/Gaussian_quadrature">here</a>).</p>
+<p>By picking basis polynomials that are orthogonal to each other with respect to some weight function <span class="math notranslate nohighlight">\(w(x)\)</span> with a known singularity, e.g. <span class="math notranslate nohighlight">\(\tfrac{1}{\sqrt{1 - x^2}}\)</span>, endpoint singularities of the integrand can be dealt with.</p>
+<p>These rules are generally readily available in numerical libraries, e.g.:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">scipy.integrate.quad</span></code> has a Gaussian option,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy.polynomial.legendre.leggauss</span></code> implements Gauss-Legendre quadrature, and</p></li>
+<li><p><a class="reference external" href="https://github.com/sigma-py/quadpy"><code class="docutils literal notranslate"><span class="pre">quadpy</span></code></a> is a specialized package for Gaussian quadrature on various shapes/spaces.</p></li>
+</ul>
+<p>Generally, the error in Gaussian quadratures (in analogy with what we saw with the trapezoidal rule) will go as</p>
+<div class="math notranslate nohighlight">
+\[ | Q_nf - Qf | \leq \frac{||f^{(2n+2)}||_{L_{\infty}}}{(2n+2)!}\int_a^b q^2_{n+1}(x)\mathrm{d}x, \]</div>
+<p>but in practice, we often end up approximating the error in one of the following ways:</p>
+<ul class="simple">
+<li><p>by doubling the nodes,</p></li>
+<li><p>by subdividing the integration interval,</p></li>
+</ul>
+<p>and comparing answers.</p>
+</section>
+<section id="periodic-quadrature">
+<h2>4.3 Periodic quadrature<a class="headerlink" href="#periodic-quadrature" title="Link to this heading">#</a></h2>
+<div class="warning admonition">
+<p class="admonition-title">Additional resource</p>
+<p>Trefethen, L. N. &amp; Weideman, J. A. C. (2014). <a class="reference external" href="https://epubs.siam.org/doi/pdf/10.1137/130932132">The exponentially convergent trapezoidal rule</a></p>
+</div>
+<p>When some information about the problem you’re trying to solve is known <em>a priori</em>, it is always advantageous to exploit that information. The same principle applies to numerical methods: “think globally, act locally” expresses that if in each step (e.g. your local approximation) you make use of some global property of the function/solution, you tend to be rewarded with an improvement in convergence rate.</p>
+<p>We’ll see many examples of this, the first one being that the humble trapezoidal rule does exceptionally well at integrating periodic functions. The <strong>periodic trapezoidal rule</strong> (PTR) approximates the integral</p>
+<div class="math notranslate nohighlight">
+\[ Qf = \int_0^{2\pi} f(x) \mathrm{d}x \]</div>
+<p>as</p>
+<div class="math notranslate nohighlight">
+\[ Q_{\text{PTR}, n} = \frac{2\pi}{n} \sum_{j=1}^n f\left( \frac{2\pi j}{n} \right). \]</div>
+<p>It turns out that depending on the smoothness of the integrand, the convergence rate of the PTR is at least high-order algebraic, up to exponential.</p>
+<div class="hint admonition">
+<p class="admonition-title">Theorem</p>
+<p>If <span class="math notranslate nohighlight">\(f \in C^{2m+1}(\mathbb{R})\)</span> and is <span class="math notranslate nohighlight">\(2\pi\)</span>-periodic (<span class="math notranslate nohighlight">\(m \geq 1\)</span>), then</p>
+<div class="math notranslate nohighlight">
+\[ |Q_{\text{PTR},n}f - Qf| \leq c_m \int_0^{2\pi} |f^{(2m+1)}(x) \mathrm{d}x \frac{1}{n^{2m+1}} = \mathcal{O}(n^{-(2m+1)}),\]</div>
+<p>where <span class="math notranslate nohighlight">\(c_m\)</span> is a constant independent of <span class="math notranslate nohighlight">\(f\)</span>.</p>
+</div>
+<p>Similarly, if <span class="math notranslate nohighlight">\(f \in C^\infty(\mathbb{R})\)</span>, then the error is <span class="math notranslate nohighlight">\(\mathcal{O}(n^{-m})\)</span> for each <span class="math notranslate nohighlight">\(m &gt; 0\)</span>, and if <span class="math notranslate nohighlight">\(f\)</span> is analytic in some region of the complex plane, then the error is <span class="math notranslate nohighlight">\(\mathcal{O}(c^{-n})\)</span>. We’ll prove this last statement.</p>
+<p><strong>Proof:</strong></p>
+<p>Consider a slightly different setup first, which we’ll link to the original problem later: integration of a function around the unit complex circle. Suppose <span class="math notranslate nohighlight">\(u(z)\)</span> is a function analytic in a disc of radius <span class="math notranslate nohighlight">\(r &gt; 1\)</span>, where is it bounded: <span class="math notranslate nohighlight">\(|u(z)| \leq M\)</span> in <span class="math notranslate nohighlight">\(|z| &lt; r\)</span>. Then its exact integral along the complex unit circle is</p>
+<div class="math notranslate nohighlight">
+\[ I := - \int_{|z| = 1} iz^{-1} u(z) \mathrm{d}z = \int_0^{2\pi} u(e^{i\theta}) \mathrm{d}\theta, \]</div>
+<p>where we used <span class="math notranslate nohighlight">\(z = e^{i\theta}\)</span>, since <span class="math notranslate nohighlight">\(|z| = 1\)</span>. With the <span class="math notranslate nohighlight">\(N\)</span>-point periodic trapezoid rule, the numerical integral would be</p>
+<div class="math notranslate nohighlight">
+\[ I_n := \frac{2\pi}{n} \sum_{k=1}^n u(z_k),  \]</div>
+<p>where <span class="math notranslate nohighlight">\(\{z_k\}_{k=1}^n\)</span> are the <span class="math notranslate nohighlight">\(n\)</span> roots of unity, i.e. <span class="math notranslate nohighlight">\(z_k = e^{2\pi ik/n}\)</span> for <span class="math notranslate nohighlight">\(k = 1, 2, \ldots, n\)</span>.</p>
+<p>Now consider the function</p>
+<div class="math notranslate nohighlight">
+\[ m(z) = \frac{-iz^{-1}}{1 - z^{-n}}.\]</div>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>Where does this function have poles? What are their orders/multiplicities? What is the residue of <span class="math notranslate nohighlight">\(m\)</span> at those poles?</p>
+</div>
+<p>This function has simple poles at the <span class="math notranslate nohighlight">\(\{z_k\}_{k=1}^n\)</span>, with residues <span class="math notranslate nohighlight">\(-i/n\)</span>, which we can write as <span class="math notranslate nohighlight">\(\frac{1}{2\pi i}w_k, \)</span> where <span class="math notranslate nohighlight">\(w_k\)</span> are the (equal) weights of the periodic trapezoid rule. Now consider the complex contours in the figure below.</p>
+<img alt="_images/ptr-proof.svg" class="align-center" id="ptr-proof-fig" src="_images/ptr-proof.svg" />
+<p><span class="math notranslate nohighlight">\(r\)</span> is the radius of the circle in which <span class="math notranslate nohighlight">\(u(z)\)</span> is analytic, the <span class="math notranslate nohighlight">\(z_k\)</span> lie on a circle of radius <span class="math notranslate nohighlight">\(1\)</span>, and <span class="math notranslate nohighlight">\(1 &lt; r' &lt; r\)</span>. We’ll take as our contour the circle with radius <span class="math notranslate nohighlight">\(r'\)</span>, and use Cauchy’s theorem to observe that</p>
+<div class="math notranslate nohighlight">
+\[ I_n = \int_{|z| = r'} m(z) u(z)\mathrm{d}z. \]</div>
+<p>The construction of <span class="math notranslate nohighlight">\(m(z)\)</span> ensures that when we apply Cauchy’s theorem to the above integral, we pick up the evaluations of <span class="math notranslate nohighlight">\(u(z)\)</span> with the right quadrature weights as the residues of the integrand at the poles, and that the poles are the quadrature nodes <span class="math notranslate nohighlight">\(z_k\)</span>. Then we may write</p>
+<div class="amsmath math notranslate nohighlight" id="equation-c4fdf84d-8bf3-44a1-a06a-c257cb01e164">
+<span class="eqno">(5)<a class="headerlink" href="#equation-c4fdf84d-8bf3-44a1-a06a-c257cb01e164" title="Permalink to this equation">#</a></span>\[\begin{align}
+I_n - I &amp;= \int_{|z| = r'} \left[ m(z) + iz^{-1} \right] u(z)\mathrm{d}z  \\ 
+&amp;= \int_{|z| = r'} \frac{iz^{-1} u(z)}{-z^N + 1}\mathrm{d}z \\
+&amp;\leq M \int_{|z| = r'} \left| \frac{iz^{-1}}{-z^N + 1}\right| \mathrm{d}z \\
+&amp;= M \int_0^{2\pi} \left| \frac{1}{-(r')^n e^{in\theta} + 1}\right| \mathrm{d}\theta
+\leq \frac{2\pi M}{r^n - 1} = \mathcal{O}(r^{-n}), 
+\end{align}\]</div>
+<p>Where we exploited the fact that <span class="math notranslate nohighlight">\(r &gt; r'\)</span> and <span class="math notranslate nohighlight">\(|u(z)| \leq M\)</span> in the disc <span class="math notranslate nohighlight">\(|z| &lt; r\)</span>. This proves the statement for integration along the unit circle. To get the same result for integration on the interval <span class="math notranslate nohighlight">\([0, 2\pi)\)</span>, switch integration variables from <span class="math notranslate nohighlight">\(z\)</span> to <span class="math notranslate nohighlight">\(\theta\)</span> via <span class="math notranslate nohighlight">\(z = e^{i\theta}\)</span>, and substitute <span class="math notranslate nohighlight">\(u(z) = f(\theta)\)</span>.</p>
+<div class="danger admonition">
+<p class="admonition-title">Exercises</p>
+<ol class="arabic simple">
+<li><p>(Quiz 2) This question takes you through deriving the weights of simple Gaussian quadrature.</p></li>
+</ol>
+<p>Consider integration on <span class="math notranslate nohighlight">\([-1, 1]\)</span>. We fix <span class="math notranslate nohighlight">\(n = 2\)</span>, i.e. 3 nodes. Choosing nodes <span class="math notranslate nohighlight">\(x_0 = -1\)</span>, <span class="math notranslate nohighlight">\(x_1 = 0\)</span>, <span class="math notranslate nohighlight">\(x_2 = 1\)</span>, we have the Newton–Cotes quadrature
+<div class="math notranslate nohighlight">
+\[ Q_2(f) = \sum_{k = 0}^2 w_k f(x_k), \quad \text{with } w_0 = w_2 = 1/3, \; w_1 = 4/3. \]</div>
+
+This integrates degree-2 polynomials exactly.</p>
+<ul class="simple">
+<li><p>a) Explain why this happens to integrate <span class="math notranslate nohighlight">\(x^m\)</span> for <span class="math notranslate nohighlight">\(m\)</span> odd, exactly, too.</p></li>
+<li><p>b) Now allow nodes to move inwards from <span class="math notranslate nohighlight">\(\pm 1\)</span>, i.e. <span class="math notranslate nohighlight">\(x_0 = - \alpha\)</span>, <span class="math notranslate nohighlight">\(x_1 = 0\)</span>, <span class="math notranslate nohighlight">\(x_2 = \alpha\)</span>, and choose <span class="math notranslate nohighlight">\(w_0 = w_2 = \beta.\)</span> Use degree-0 exact integration to fix <span class="math notranslate nohighlight">\(w_1\)</span>.</p></li>
+<li><p>c) Write down the exactness conditions for degree-2 and degree-4 polynomials.</p></li>
+<li><p>d) Solve these for <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>.</p></li>
+<li><p>e) Up to what polynomial order is integrated exactly now? What’s the maximum degree of polynomials integrated exactly by Gaussian quadrature, and how does this compare? (Hint: you can use <a class="reference external" href="https://dlmf.nist.gov/">DLMF, Chapter 3.5</a>.) Comment on (and explain) the (dis-)agreement.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="poly_interp2.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">4. Interpolation II</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="ODES2_spectral.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">6. Ordinary differential equations II</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpolatory-quadrature">4.1 Interpolatory quadrature</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gaussian-quadrature">4.2 Gaussian quadrature</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#periodic-quadrature">4.3 Periodic quadrature</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Fruzsina Julia Agocs
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

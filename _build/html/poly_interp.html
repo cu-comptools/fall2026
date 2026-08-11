@@ -1,0 +1,1015 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3. Interpolation &#8212; Computational Tools for Multiscale Problems</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'poly_interp';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="4. Interpolation II" href="poly_interp2.html" />
+    <link rel="prev" title="2. Good coding practices" href="github.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.jpeg" class="logo__image only-light" alt="Computational Tools for Multiscale Problems - Home"/>
+    <script>document.write(`<img src="_static/logo.jpeg" class="logo__image only-dark" alt="Computational Tools for Multiscale Problems - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="course_introduction.html">0. Course introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comp_fundamentals.html">1. Computation fundamentals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">2. Good coding practices</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">3. Interpolation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp2.html">4. Interpolation II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quadrature.html">5. Quadrature</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">6. Ordinary differential equations II</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/cu-comptools/fall2024/main?urlpath=tree/poly_interp.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/cu-comptools/fall2024" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/cu-comptools/fall2024/issues/new?title=Issue%20on%20page%20%2Fpoly_interp.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/poly_interp.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>3. Interpolation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-vandermonde-trick">3.1. The Vandermonde trick</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choice-of-nodes-and-choice-of-basis">3.2 Choice of nodes and choice of basis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#is-the-monomial-basis-a-bad-choice">3.2.1 Is the monomial basis a bad choice?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barycentric-interpolation">3.3 Barycentric interpolation</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="interpolation">
+<h1>3. Interpolation<a class="headerlink" href="#interpolation" title="Link to this heading">#</a></h1>
+<div class="warning admonition">
+<p class="admonition-title">Additional resource</p>
+<p>Shen, Z., &amp; Serkh, K. (2022). <a class="reference external" href="https://arXiv.org/abs/2212.10519">On polynomial interpolation in the monomial basis</a></p>
+</div>
+<p>You have a function <span class="math notranslate nohighlight">\(f\)</span> defined on the interval <span class="math notranslate nohighlight">\([a, b]\)</span>, but only have access to <span class="math notranslate nohighlight">\(n + 1\)</span> evaluations of the function at unique nodes <span class="math notranslate nohighlight">\(\{x_0, x_1, x_2, \ldots, x_n\} := \{x_i\}_{i=0}^n\)</span>, where the function takes values <span class="math notranslate nohighlight">\(\{ y_0, y_1, y_2, \ldots, y_n \} := \{y_i\}_{i=0}^n\)</span>. How do you evaluate the function at some new point <span class="math notranslate nohighlight">\(x^{\ast}\)</span>?</p>
+<p>We start with the oldest trick in the book:</p>
+<section id="the-vandermonde-trick">
+<h2>3.1. The Vandermonde trick<a class="headerlink" href="#the-vandermonde-trick" title="Link to this heading">#</a></h2>
+<p>Try fitting an degree-<span class="math notranslate nohighlight">\(n\)</span> polynomial through the points,
+<div class="math notranslate nohighlight">
+\[ p(x) = \sum_{k = 0}^{n}a_k x^k, \]</div>
+
+so that the function evaluations become constraints</p>
+<div class="amsmath math notranslate nohighlight" id="equation-74775d5e-93bd-448d-8875-7f56b3fc2385">
+<span class="eqno">(1)<a class="headerlink" href="#equation-74775d5e-93bd-448d-8875-7f56b3fc2385" title="Permalink to this equation">#</a></span>\[\begin{align}
+p(x_0) &amp;= a_0 + a_1 x_0 + a_2 x_0^2 + \ldots + a_n x_0^n = y_0,\\
+p(x_1) &amp;= a_0 + a_1 x_1 + a_2 x_1^2 + \ldots + a_n x_1^n = y_1,\\
+\vdots &amp;\vphantom{=}\\
+p(x_n) &amp;= a_0 + a_1 x_n + a_2 x_n^2 + \ldots + a_n x_n^n = y_n.
+\end{align}\]</div>
+<p>This can be rewritten rather compactly as</p>
+<div class="amsmath math notranslate nohighlight" id="equation-3083a651-e14e-42c7-b2ad-6c411c9eb0cd">
+<span class="eqno">(2)<a class="headerlink" href="#equation-3083a651-e14e-42c7-b2ad-6c411c9eb0cd" title="Permalink to this equation">#</a></span>\[\begin{equation}
+\begin{bmatrix}
+1 &amp; x_0 &amp; x_0^2 &amp; \ldots &amp; x_0^n \\
+1 &amp; x_1 &amp; x_1^2 &amp; \ldots &amp; x_1^n \\
+\vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+1 &amp; x_n &amp; x_n^2 &amp; \ldots &amp; x_n^n 
+\end{bmatrix}
+\begin{bmatrix}
+a_0 \\ a_1 \\ \vdots \\ a_n 
+\end{bmatrix}
+= 
+\begin{bmatrix}
+y_0 \\ y_1 \\ \vdots \\ y_n 
+\end{bmatrix},
+\end{equation}\]</div>
+<p>or simply <span class="math notranslate nohighlight">\(Ma = y\)</span>, where we collected the unknown coefficients into the vector <span class="math notranslate nohighlight">\(a\)</span>, the function evaluations into <span class="math notranslate nohighlight">\(y\)</span>, and <span class="math notranslate nohighlight">\(M(\{x^{\ast}_i\}_{i=0}^n)\)</span> is called the <strong>Vandermonde matrix</strong>.</p>
+<p>To evaluate <span class="math notranslate nohighlight">\(f\)</span> at a new set of points <span class="math notranslate nohighlight">\(\{x^{\ast}_i\}_{i=0}^m\)</span>, we can simply solve <span class="math notranslate nohighlight">\(Ma = y\)</span> with a backwards-stable algorithm to get <span class="math notranslate nohighlight">\(a\)</span>, and then left-multiply it by a <em>new</em> Vandermonde matrix <span class="math notranslate nohighlight">\(N(\{x^{\ast}_i\}_{i=0}^m)\)</span> (filled with the <span class="math notranslate nohighlight">\(\{x^{\ast}_i\}_{i=0}^m\)</span>.</p>
+<div class="hint admonition">
+<p class="admonition-title">Algorithm</p>
+<p>A backwards-stable and efficient way to interpolate using the Vandermonde trick is to build an <span class="math notranslate nohighlight">\((m+1) \times (n+1) \)</span> interpolation matrix <span class="math notranslate nohighlight">\(L = NM^{-1}\)</span> using the (scaled and centered) source <span class="math notranslate nohighlight">\(\{x_i\}_{i=0}^n\)</span> and target <span class="math notranslate nohighlight">\(\{x^{\ast}_i\}_{i=0}^m\)</span> nodes:</p>
+<ol class="arabic simple">
+<li><p>Fill up the <span class="math notranslate nohighlight">\(M\)</span> and <span class="math notranslate nohighlight">\(N\)</span> matrices column-by-column, using element-wise multiplication of entries with those of the previous column,</p></li>
+<li><p>Compute <span class="math notranslate nohighlight">\(L\)</span> as <span class="math notranslate nohighlight">\(L = (\text{solve}(M^{T}, N^T))^T\)</span>, or in MATLAB notation: <code class="docutils literal notranslate"><span class="pre">L</span> <span class="pre">=</span> <span class="pre">(M'\N')'</span></code>.</p></li>
+</ol>
+<p>See, for example <a class="reference external" href="https://github.com/ahbarnett/BIE3D/blob/master/utils/interpmat_1d.m">this implementation</a> of Helsing’s algorithm by Alex Barnett.</p>
+</div>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>How can doing interpolation like this go wrong? (Hint: think back to the example at the end of Ch. 1.)</p>
+</div>
+<p>Intuitively, one might worry that if the magnitude of the (exact) coefficients <span class="math notranslate nohighlight">\(||a||\)</span> gets large, we’ll run into the same poorly conditioned problem as we did when evaluating the <em>expanded</em> <span class="math notranslate nohighlight">\((x-2)^9\)</span> from the last lecture. This is a valid concern.</p>
+<p>However, the frequently used warning of</p>
+<blockquote>
+<div><p>avoid using Vandermonde matrices for interpolation because their condition number gets large (exponentially) quickly</p>
+</div></blockquote>
+<p>is misleading, and unnecessarily restricts the use of this method.</p>
+<div class="hint admonition">
+<p class="admonition-title">Theorem</p>
+<p>The monomial/Vandermonde basis is generally as good as a well-conditioned polynomial basis for interpolation, provided that
+<div class="math notranslate nohighlight">
+\[\kappa &lt; 1/\mu_M.\]</div>
+</p>
+</div>
+<p>To investigate when it <em>really</em> is inappropriate to use Vandermonde matrices, we’ll need to distinguish between two different sources of error: the choice of interpolating polynomial, and the choice of basis it is represented in.</p>
+</section>
+<section id="choice-of-nodes-and-choice-of-basis">
+<h2>3.2 Choice of nodes and choice of basis<a class="headerlink" href="#choice-of-nodes-and-choice-of-basis" title="Link to this heading">#</a></h2>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>Assume that you are given the function <span class="math notranslate nohighlight">\(f\)</span> and nothing else. What parameters are you free to pick when interpolating it?</p>
+</div>
+<p>If we aren’t given the <strong>interpolation/collocation nodes</strong> <span class="math notranslate nohighlight">\(\{x_i\}_{i=0}^n\)</span>, then they are parameters of the interpolation problem.
+Once they are chosen, they determine the <strong>interpolating polynomial/interpolant</strong> uniquely.</p>
+<p>But we are also free to choose the <strong>basis</strong> in which the interpolating polynomial is represented. In the Vandermonde case, that basis is the <strong>monomial</strong> one: <span class="math notranslate nohighlight">\(1, x, x^2, \ldots, x^n\)</span>. This then determines the polynomial coefficients (the <span class="math notranslate nohighlight">\(\{a_i\}_{i=0}^n\)</span> in the Vandermonde system). Other choices include</p>
+<ul class="simple">
+<li><p>the Lagrange basis, <div class="math notranslate nohighlight">
+\[ l_k(x) := \prod_{j = 0, j \neq k}^n \frac{x - x_j}{x_k - x_j} \quad  \text{for } k = 0, 1, \ldots n,\]</div>
+</p></li>
+<li><p>Chebyshev polynomials,</p></li>
+<li><p>Legendre polynomials,</p></li>
+<li><p>Newton polynomials.</p></li>
+</ul>
+<div class="hint admonition">
+<p class="admonition-title">Proposition</p>
+<p>The nodes <span class="math notranslate nohighlight">\(\{x_i\}_{i=0}^n\)</span> determine the interpolant uniquely as:
+<div class="math notranslate nohighlight">
+\[ p(x) = \sum_{k = 0}^n y_k l_k(x), \]</div>
+
+since
+<div class="math notranslate nohighlight">
+\[\begin{split} l_k(x_i) = \begin{cases} \prod_{j \neq k} \frac{x_k - x_j}{x_k - xj} = 1 \quad &amp;\text{if } i = k, \\
+0 \quad &amp;\text{if } i \neq k, \end{cases}
+\end{split}\]</div>
+
+so <span class="math notranslate nohighlight">\(p(x_i) = \sum y_k \delta_{ki} = y_i\)</span> <span class="math notranslate nohighlight">\(\forall i\)</span> is a solution and is unique.</p>
+</div>
+<section id="is-the-monomial-basis-a-bad-choice">
+<h3>3.2.1 Is the monomial basis a bad choice?<a class="headerlink" href="#is-the-monomial-basis-a-bad-choice" title="Link to this heading">#</a></h3>
+<p>It is <a class="reference external" href="https://link.springer.com/article/10.1007/PL00005392">true</a> that the condition number of the Vandermonde matrix <span class="math notranslate nohighlight">\(M\)</span> gets exponentially large with <span class="math notranslate nohighlight">\(n\)</span> for any set of real collocation nodes <span class="math notranslate nohighlight">\(\{x_i\}_{i=0}^n\)</span>. We can check that with a little script:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">vdm</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    Computes the Vandermonde matrix from the input collocation nodes x.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="n">M</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">M</span><span class="p">[:,</span> <span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">x</span>
+    <span class="k">return</span> <span class="n">M</span>
+
+<span class="c1"># Compute n+1 Chebyshev polynomial roots</span>
+<span class="n">chebx</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+<span class="n">cond</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">vdm</span><span class="p">(</span><span class="n">chebx</span><span class="p">(</span><span class="n">m</span><span class="p">)))</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">n</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">cond</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$n$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;$</span><span class="se">\\</span><span class="s2">kappa$, condition number of $M$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/7c2bafac4f4a0597832dcccf381c0e917237423a5fb9ee26b26fde2c7ce7e0cf.png" src="_images/7c2bafac4f4a0597832dcccf381c0e917237423a5fb9ee26b26fde2c7ce7e0cf.png" />
+</div>
+</div>
+<p>This suggests that even at the modest <span class="math notranslate nohighlight">\(n = 10\)</span>, <span class="math notranslate nohighlight">\(\kappa \approx 10^3\)</span>. But let’s see if we lose accuracy already at that point:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">interpvdm</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">x_star</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Given a function f, collocation nodes x, and target nodes x_star,\</span>
+<span class="sd">    computes interpolation matrix using the monomial basis and returns\</span>
+<span class="sd">    f interpolated at x_star.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">x_star</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">r</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">q</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+        <span class="n">V</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">V</span><span class="p">[:,</span> <span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">x</span>
+        <span class="n">R</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">R</span><span class="p">[:,</span> <span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">x_star</span>
+    <span class="n">N</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">V</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">R</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">f_star</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">f_star</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">x_star</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x_star</span><span class="p">)</span> <span class="o">-</span> <span class="n">interpvdm</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">chebx</span><span class="p">(</span><span class="n">m</span><span class="p">),</span> <span class="n">x_star</span><span class="p">)))</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">n</span><span class="p">])</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;$f(x) = </span><span class="se">\\</span><span class="s2">cos(2x + 1)$&quot;</span><span class="p">);</span><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$n$&quot;</span><span class="p">);</span><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">);</span><span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">((</span><span class="mf">1e-16</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/5c53cb44290add075b995df35367e8de1089906c1f5d03e9e39c7a56ce23671e.png" src="_images/5c53cb44290add075b995df35367e8de1089906c1f5d03e9e39c7a56ce23671e.png" />
+</div>
+</div>
+<p>What?! Interpolation in the monomial basis seems to work just fine beyond <span class="math notranslate nohighlight">\(n = 10\)</span>, and its accuracy quickly reaches <span class="math notranslate nohighlight">\(\mu_M\)</span>.
+Now try some other functions that require higher-order interpolation either because they cross zero many times, due to a nearby singularity, or because they are non-smooth:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">12</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">err1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x_star</span><span class="p">)</span> <span class="o">-</span> <span class="n">interpvdm</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">chebx</span><span class="p">(</span><span class="n">m</span><span class="p">),</span> <span class="n">x_star</span><span class="p">)))</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">n</span><span class="p">])</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="mi">1</span><span class="n">j</span><span class="p">)</span>
+<span class="n">err2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x_star</span><span class="p">)</span> <span class="o">-</span> <span class="n">interpvdm</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">chebx</span><span class="p">(</span><span class="n">m</span><span class="p">),</span> <span class="n">x_star</span><span class="p">)))</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">n</span><span class="p">])</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">)</span><span class="o">**</span><span class="mf">2.5</span>
+<span class="n">err3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x_star</span><span class="p">)</span> <span class="o">-</span> <span class="n">interpvdm</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">chebx</span><span class="p">(</span><span class="n">m</span><span class="p">),</span> <span class="n">x_star</span><span class="p">)))</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">n</span><span class="p">])</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="n">x</span><span class="p">))</span><span class="o">**</span><span class="mi">3</span>
+<span class="n">err4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x_star</span><span class="p">)</span> <span class="o">-</span> <span class="n">interpvdm</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">chebx</span><span class="p">(</span><span class="n">m</span><span class="p">),</span> <span class="n">x_star</span><span class="p">)))</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">n</span><span class="p">])</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">((</span><span class="mf">1e-16</span><span class="p">,</span><span class="mf">1e1</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">err1</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">err2</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">err3</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">err4</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$n$&quot;</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$n$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;$f(x) = </span><span class="se">\\</span><span class="s2">cos(12x + 1)$&quot;</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;$f(x) = 1/(x - 0.5i)$&quot;</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;$f(x) = |x + 0.1|^</span><span class="si">{2.5}</span><span class="s2">$&quot;</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;$f(x) = |</span><span class="se">\\</span><span class="s2">sin(5x)|^3$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/9cd81926a57c5960ddfcfc65ab325dbb5ad36b6d99ff704d3d8538ddcd0ceb74.png" src="_images/9cd81926a57c5960ddfcfc65ab325dbb5ad36b6d99ff704d3d8538ddcd0ceb74.png" />
+</div>
+</div>
+<p>Here, we observe different (slower) <em>convergence rates</em>, but it’s not clear whether slower convergence is due to the large condition number of <span class="math notranslate nohighlight">\(M\)</span>, or something else. Keeping the same collocation nodes, let us compare interpolation of the above functions using a different basis: the Lagrange basis. Evaluation of the interpolating polynomial <span class="math notranslate nohighlight">\(p\)</span>, unlike in the monomial basis, does not have a large <span class="math notranslate nohighlight">\(\kappa\)</span>. But first, some things to note:</p>
+<div class="admonition-aside admonition">
+<p class="admonition-title">Aside</p>
+<p><strong>Convergence rates</strong>. When we talk about “rate of convergence”, we mean the rate at which error in a given algorithm decreases with computational effort (e.g. number of collocation nodes, <span class="math notranslate nohighlight">\(n\)</span>). These rates have different names that are summarized below.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>Rate</p></th>
+<th class="head text-right"><p>Name</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><span class="math notranslate nohighlight">\(cn^{-1}\)</span></p></td>
+<td class="text-right"><p>first-order/algebraic</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><span class="math notranslate nohighlight">\(cn^{-p}\)</span></p></td>
+<td class="text-right"><p><span class="math notranslate nohighlight">\(p\)</span>th order</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><span class="math notranslate nohighlight">\(c_1a^{-c_2 n} = c_3e^{-c_4 n}\)</span></p></td>
+<td class="text-right"><p>geometric/exponential</p></td>
+</tr>
+<tr class="row-odd"><td class="text-left"><p><span class="math notranslate nohighlight">\(c_1e^{-c_2 n^2}\)</span></p></td>
+<td class="text-right"><p>quadratic</p></td>
+</tr>
+<tr class="row-even"><td class="text-left"><p><span class="math notranslate nohighlight">\(c_1e^{-c_2 n^r}\)</span>, <span class="math notranslate nohighlight">\(r \geq 1\)</span></p></td>
+<td class="text-right"><p>spectral</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="admonition-aside admonition">
+<p class="admonition-title">Aside</p>
+<p><strong>Optimal choice of collocation nodes</strong>. The choice of having <span class="math notranslate nohighlight">\(\{x_i\}_{i=0}^n\)</span> be the roots of Chebyshev polynomials is not a coincidence. These roots are projections of a half complex unit circle divided into <span class="math notranslate nohighlight">\(n\)</span> equal arcs onto the real axis, including the endpoints <span class="math notranslate nohighlight">\(\pm 1\)</span>. It turns out that they are the <em>optimal</em> choice for approximating smooth functions <span class="math notranslate nohighlight">\(f\)</span>, meaning that the interpolation error (assuming interpolation is done <em>exactly</em>) is minimal.</p>
+</div>
+<p>Interpolation in the Lagrange basis can be done in a backwards stable way via <strong>barycentric interpolation</strong>. We call a <code class="docutils literal notranslate"><span class="pre">scipy</span></code> routine that performs it:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">scipy.interpolate</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sciint</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">baryint</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">n</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">sciint</span><span class="o">.</span><span class="n">barycentric_interpolate</span><span class="p">(</span><span class="n">chebx</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">f</span><span class="p">(</span><span class="n">chebx</span><span class="p">(</span><span class="n">n</span><span class="p">)),</span> <span class="n">x_star</span><span class="p">)</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">12</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">err1b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x_star</span><span class="p">)</span> <span class="o">-</span> <span class="n">baryint</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">f</span><span class="p">)))</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">n</span><span class="p">])</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="mi">1</span><span class="n">j</span><span class="p">)</span>
+<span class="n">err2b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x_star</span><span class="p">)</span> <span class="o">-</span> <span class="n">baryint</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">f</span><span class="p">)))</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">n</span><span class="p">])</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">)</span><span class="o">**</span><span class="mf">2.5</span>
+<span class="n">err3b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x_star</span><span class="p">)</span> <span class="o">-</span> <span class="n">baryint</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">f</span><span class="p">)))</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">n</span><span class="p">])</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="n">x</span><span class="p">))</span><span class="o">**</span><span class="mi">3</span>
+<span class="n">err4b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x_star</span><span class="p">)</span> <span class="o">-</span> <span class="n">baryint</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">f</span><span class="p">)))</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">n</span><span class="p">])</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">((</span><span class="mf">1e-16</span><span class="p">,</span><span class="mf">1e1</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">err1</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;monomial&quot;</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">err2</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">err3</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">err4</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">err1b</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Lagrange&quot;</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">err2b</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">err3b</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">err4b</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$n$&quot;</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$n$&quot;</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;$f(x) = </span><span class="se">\\</span><span class="s2">cos(12x + 1)$&quot;</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;$f(x) = 1/(x - 0.5i)$&quot;</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;$f(x) = |x + 0.1|^</span><span class="si">{2.5}</span><span class="s2">$&quot;</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;$f(x) = |</span><span class="se">\\</span><span class="s2">sin(5x)|^3$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/b5187d04fe349094cf6969de047f5fa5c64eebc2fc2c69cad0a1bb53cd02855b.png" src="_images/b5187d04fe349094cf6969de047f5fa5c64eebc2fc2c69cad0a1bb53cd02855b.png" />
+</div>
+</div>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>What do we observe here and what does it tell us about the source of error in interpolation in the monomial basis?</p>
+</div>
+<p>It seems from above that interpolation in the monomial basis is pretty much as accurate as expressing the interpolant in the Lagrange basis (via the barycentric formula). But we know that the latter is a well-conditioned problem, so clearly the slower convergence in some of the plots cannot be a consequence of the large <span class="math notranslate nohighlight">\(\kappa\)</span> of <span class="math notranslate nohighlight">\(M\)</span>. But, there is a clue: convergence of interpolation in the monomial basis stagnates at <span class="math notranslate nohighlight">\(10^{-12}\)</span> for the top left <span class="math notranslate nohighlight">\(f(x) = \cos(12x + 1)\)</span>, whereas barycentric interpolation gets the error down to <span class="math notranslate nohighlight">\(\mu_M\)</span>. Where does this stagnation come from?</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>What does <span class="math notranslate nohighlight">\(\kappa_M\)</span> measure?</p>
+</div>
+<p>The condition number <span class="math notranslate nohighlight">\(\kappa\)</span> of <span class="math notranslate nohighlight">\(M\)</span> measures the <em>forward</em> error,
+<div class="math notranslate nohighlight">
+\[ \frac{||a - \tilde{a}||}{||a||}, \]</div>
+
+where <span class="math notranslate nohighlight">\(\tilde{a}\)</span> is the computed and <span class="math notranslate nohighlight">\(a\)</span> is the exact coefficient vector. This can be huge, because of the large <span class="math notranslate nohighlight">\(\kappa\)</span>. However, the (absolute) <em>backward error</em>
+<div class="math notranslate nohighlight">
+\[ ||M\tilde{a} - f|| \]</div>
+
+is small thanks to backwards stability of the interpolation formula, and this is what matters for the interpolation accuracy.</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>What does a small backward error imply for <span class="math notranslate nohighlight">\(\tilde{p} - p\)</span>?</p>
+</div>
+<p>If the computed polynomial expansion is <span class="math notranslate nohighlight">\(\tilde{p}\)</span>, then a small backward error implies that <span class="math notranslate nohighlight">\(\tilde{p} - p\)</span>, is almost <span class="math notranslate nohighlight">\(0\)</span> at the <span class="math notranslate nohighlight">\(\{x_i\}_{i=0}^n\)</span> (we found a poly that has nearly the same roots). If the interpolating polynomial was chosen appropriately (via the choice of nodes <span class="math notranslate nohighlight">\(\{x_i\}_{i=0}^n\)</span>), then
+<div class="math notranslate nohighlight">
+\[ ||p - \tilde{p}||_{L_{\infty}([-1, 1])} \leq c|| M\tilde{a} - f ||, \]</div>
+
+i.e. the error in approximating the exact polynomial <span class="math notranslate nohighlight">\(p\)</span> is bounded by the backward error times a small constant <span class="math notranslate nohighlight">\(c\)</span>.</p>
+<p>This can be used to bound the error of monomial interpolation,
+<div class="math notranslate nohighlight">
+\[ ||f - \tilde{p}||_{L_{\infty}([-1, 1])} \leq ||f - p||_{L_{\infty}([-1, 1])} + || p - \tilde{p} ||_{L_{\infty}([-1, 1])},\]</div>
+
+where the first term on the RHS is the <em>polynomial interpolation error</em> (coming entirely from the choice of nodes), and the second is (proportional to) the backward error (and is due to our choice of representation).</p>
+<p>It turns out that as long as the backward error is smaller than the polynomial interpolation error, the use of the monomial basis doesn’t incur significant additional error. But once the first term becomes smaller than the backward error, accuracy stagnates.</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>But when is the backward error small?</p>
+</div>
+<p>Backwards stability guarantees that <span class="math notranslate nohighlight">\(\tilde{a}\)</span> solves an approximate problem
+<div class="math notranslate nohighlight">
+\[ (M + \delta M)\tilde{a} = f, \]</div>
+
+(check this yourself!), with <span class="math notranslate nohighlight">\(||\delta M||/||M|| = \mathcal{O}(\mu_M)\)</span>. Then, rearranging, we get
+<div class="math notranslate nohighlight">
+\[ || M\tilde{a} - f|| \leq ||\delta M || ||\tilde{a}|| = ||M|| ||\tilde{a}|| \mathcal{O}(\mu_M),\]</div>
+
+where <span class="math notranslate nohighlight">\(||M||\)</span> is typically small. Therefore it is the <span class="math notranslate nohighlight">\(||\tilde{a}||\)</span>, the magnitude of the computed coefficients, that determines the backward error. In a backwards stable solver, it can be shown that
+<div class="math notranslate nohighlight">
+\[ ||\tilde{a}|| \approx ||a|| \quad \text{as long as }\kappa \leq \frac{1}{\mu_M} \approx 10^{16}.\]</div>
+
+Therefore,</p>
+<div class="hint admonition">
+<p class="admonition-title">Result</p>
+<ul class="simple">
+<li><p>We need not worry about the poor conditioning of the Vandermonde matrix until its condition number becomes <span class="math notranslate nohighlight">\(1/\mu_M\)</span> (in practice, at around <span class="math notranslate nohighlight">\(n \approx 40\)</span>), and</p></li>
+<li><p><span class="math notranslate nohighlight">\(||\tilde{a}||\)</span> is a good predictor of the error induced by the use of the monomial basis. When this gets large, that’s when we <em>do</em> need to worry about our choice of basis!</p></li>
+</ul>
+</div>
+<p>Let’s revisit the interpolation examples one more time, this time trying to explain the (lack of) stagnation in the accuracy by checking the backward error <span class="math notranslate nohighlight">\(||\tilde{a}||\mu_M\)</span>:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">vdmcoeffs</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Given a function f and collocation nodes x, computes\</span>
+<span class="sd">    the 2-norm of the polynomial coefficient vector in the monomial\</span>
+<span class="sd">    basis.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">r</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+        <span class="n">V</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">V</span><span class="p">[:,</span> <span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">x</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+
+
+<span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">12</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">err1p</span> <span class="o">=</span> <span class="mf">1e-16</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">vdmcoeffs</span><span class="p">(</span><span class="n">chebx</span><span class="p">(</span><span class="n">m</span><span class="p">),</span> <span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">n</span><span class="p">])</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="mi">1</span><span class="n">j</span><span class="p">)</span>
+<span class="n">err2p</span> <span class="o">=</span> <span class="mf">1e-16</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">vdmcoeffs</span><span class="p">(</span><span class="n">chebx</span><span class="p">(</span><span class="n">m</span><span class="p">),</span> <span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">n</span><span class="p">])</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mf">0.1</span><span class="p">)</span><span class="o">**</span><span class="mf">2.5</span>
+<span class="n">err3p</span> <span class="o">=</span> <span class="mf">1e-16</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">vdmcoeffs</span><span class="p">(</span><span class="n">chebx</span><span class="p">(</span><span class="n">m</span><span class="p">),</span> <span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">n</span><span class="p">])</span>
+
+<span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="n">x</span><span class="p">))</span><span class="o">**</span><span class="mi">3</span>
+<span class="n">err4p</span> <span class="o">=</span> <span class="mf">1e-16</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">vdmcoeffs</span><span class="p">(</span><span class="n">chebx</span><span class="p">(</span><span class="n">m</span><span class="p">),</span> <span class="n">f</span><span class="p">)</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">n</span><span class="p">])</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">sharey</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">((</span><span class="mf">1e-16</span><span class="p">,</span><span class="mf">1e1</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">err1</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;monomial&quot;</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">err2</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">err3</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">err4</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">err1b</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;Lagrange&quot;</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">err2b</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">err3b</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">err4b</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">err1p</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;$||a||</span><span class="se">\\</span><span class="s2">cdot </span><span class="se">\\</span><span class="s2">mu_M$&quot;</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">err2p</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">err3p</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">err4p</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$n$&quot;</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;$n$&quot;</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;$f(x) = </span><span class="se">\\</span><span class="s2">cos(12x + 1)$&quot;</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;$f(x) = 1/(x - 0.5i)$&quot;</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;$f(x) = |x + 0.1|^</span><span class="si">{2.5}</span><span class="s2">$&quot;</span><span class="p">);</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;$f(x) = |</span><span class="se">\\</span><span class="s2">sin(5x)|^3$&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">();</span><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/6325ad4b22a5b8bbec562d20a3def89c4525d47f1c207f1474c4b41c279a2277.png" src="_images/6325ad4b22a5b8bbec562d20a3def89c4525d47f1c207f1474c4b41c279a2277.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="barycentric-interpolation">
+<h2>3.3 Barycentric interpolation<a class="headerlink" href="#barycentric-interpolation" title="Link to this heading">#</a></h2>
+<p>For when the monomial basis produces a large backward error, an alternative representation of the interpolating polynomial <span class="math notranslate nohighlight">\(p\)</span> is in the Lagrange basis, with basis functions
+<div class="math notranslate nohighlight">
+\[l_j(x) = \frac{\prod_{k \neq j} (x - x_k)}{\prod_{k \neq j} (x_j - x_k)} \quad \text{for } j = 0, 1, 2, \ldots, n.\]</div>
+
+The polynomial is then
+<div class="math notranslate nohighlight">
+\[ p(x) = \sum_{j = 0}^n y_j l_j(x), \]</div>
+
+where, recall, <span class="math notranslate nohighlight">\(y_j = f(x_j)\)</span>.</p>
+<p>Naively evaluating <span class="math notranslate nohighlight">\(p\)</span> at each <span class="math notranslate nohighlight">\(x\)</span> using this formula takes <span class="math notranslate nohighlight">\(\mathcal{O}(n^2)\)</span> effort,</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>Why?</p>
+</div>
+<p>because each <span class="math notranslate nohighlight">\(l_j\)</span> takes <span class="math notranslate nohighlight">\(\mathcal{O}(n)\)</span> operations (a product of <span class="math notranslate nohighlight">\(n\)</span> terms), then it takes <span class="math notranslate nohighlight">\(\mathcal{O}(n)\)</span> again to add them up. For a large number of <span class="math notranslate nohighlight">\(x\)</span>, this is unacceptably slow, and we can actually do it in <span class="math notranslate nohighlight">\(\mathcal{O}(n)\)</span> time.</p>
+<div class="hint admonition">
+<p class="admonition-title">Aside</p>
+<p><strong>The 3 important plots.</strong>
+We already talked about the <em>convergence rate</em> of an algorithm (and the most important plot: the error vs computational effort), and now a new concept is its <strong>complexity</strong>. This is another important plot that shows the scaling of computational <em>cost</em> (i.e. time) with effort, e.g. <span class="math notranslate nohighlight">\(n\)</span>. The third plot is not independent of these two, the <strong>work-precision</strong> diagram shows the error as a function of computational cost, which is important for practical considerations.
+To summarize:</p>
+<ul class="simple">
+<li><p>convergence: error <span class="math notranslate nohighlight">\(\delta\)</span> vs. effort <span class="math notranslate nohighlight">\(n\)</span>,</p></li>
+<li><p>complexity: cost <span class="math notranslate nohighlight">\(t\)</span> vs effort <span class="math notranslate nohighlight">\(n\)</span>,</p></li>
+<li><p>work-precision: error <span class="math notranslate nohighlight">\(\delta\)</span> vs. cost <span class="math notranslate nohighlight">\(t\)</span>.</p></li>
+</ul>
+</div>
+<p>The idea behing the <span class="math notranslate nohighlight">\(\mathcal{O}(n)\)</span> algorithm is to observe that the numerator of the <span class="math notranslate nohighlight">\(l_j\)</span>-s have common factors. Define the <strong>node polynomial</strong>
+<div class="math notranslate nohighlight">
+\[ l(x) := \prod_{k = 0}^n (x - x_k) \]</div>
+
+containing all of those factors. Then
+<div class="math notranslate nohighlight">
+\[ l_j(x) = \frac{l(x)}{l'(x_j)(x - x_j)}. \]</div>
+</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>Show this yourself using l’H^{o}pital’s rule.</p>
+</div>
+<p>Also define the <strong>weights</strong>
+<div class="math notranslate nohighlight">
+\[ \lambda_j = \frac{1}{\prod_{k \neq j}(x_j - x_k)}, \]</div>
+
+which are none other than <span class="math notranslate nohighlight">\(\lambda_j = \frac{1}{l'(x_j)}\)</span>.</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>Verify this yourself.</p>
+</div>
+<p>Substituting into our expression for <span class="math notranslate nohighlight">\(l_j(x)\)</span>, we get
+<div class="math notranslate nohighlight">
+\[ l_j(x) = l(x)\frac{\lambda_j}{x - x_j}, \]</div>
+
+and into <span class="math notranslate nohighlight">\(p(x)\)</span> to get
+<div class="math notranslate nohighlight">
+\[ p(x) = l(x) \sum_{j = 0}^n \frac{\lambda_j}{x - x_j}y_j. \]</div>
+</p>
+<p>The weights <span class="math notranslate nohighlight">\(\lambda_j\)</span> takes <span class="math notranslate nohighlight">\(\mathcal{O}(n^2)\)</span> time, but the big difference is that they only need to be computed <em>once</em>, and not for each <span class="math notranslate nohighlight">\(x\)</span>. In the best case, for e.g. Chebyshev collocation nodes, they are known analytically.
+Once the weights are known, evaluating <span class="math notranslate nohighlight">\(p(x)\)</span> then only takes <span class="math notranslate nohighlight">\(\mathcal{O}(n)\)</span> effort.</p>
+<div class="danger admonition">
+<p class="admonition-title">Exercise</p>
+<ol class="arabic simple">
+<li><p>(Quiz 2)</p></li>
+</ol>
+<ul class="simple">
+<li><p>a) Write code using the barycentric interpolation formula (you may use an external package for this, or you may write your own) to compute a sequence of polynomial interpolants to a function <span class="math notranslate nohighlight">\(f\)</span> on <span class="math notranslate nohighlight">\([−1, 1]\)</span> in points selected by a <em>greedy</em> algorithm: take <span class="math notranslate nohighlight">\(x_0\)</span> to be a point where <span class="math notranslate nohighlight">\(|f(x)|\)</span> achieves its maximum, then <span class="math notranslate nohighlight">\(x_1\)</span> to be a point where <span class="math notranslate nohighlight">\(|(f − p_0)(x)|\)</span> achieves its maximum, then <span class="math notranslate nohighlight">\(x_2\)</span> to be a point where <span class="math notranslate nohighlight">\(|(f − p_1)(x)|\)</span> achieves its maximum, and so on. Plot the error curves <span class="math notranslate nohighlight">\((f − p_n)(x)\)</span>, <span class="math notranslate nohighlight">\(x \in [−1, 1]\)</span>, computed by this algorithm for <span class="math notranslate nohighlight">\(f(x) = |x|\)</span> and <span class="math notranslate nohighlight">\(0 \leq n \leq 25\)</span>. Comment on the spacing of the grid <span class="math notranslate nohighlight">\(\{ x_0, x_1, \ldots, x_{25} \}\)</span>.</p></li>
+<li><p>b) Make sure to write a <em>unit test</em> for your interpolation routine, and put “test” in the function’s name.</p></li>
+<li><p>c) Write <em>docstrings</em> for your functions documenting the types and any limitations on their input, their outputs, and what they do.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="github.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">2. Good coding practices</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="poly_interp2.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">4. Interpolation II</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-vandermonde-trick">3.1. The Vandermonde trick</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choice-of-nodes-and-choice-of-basis">3.2 Choice of nodes and choice of basis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#is-the-monomial-basis-a-bad-choice">3.2.1 Is the monomial basis a bad choice?</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barycentric-interpolation">3.3 Barycentric interpolation</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Fruzsina Julia Agocs
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

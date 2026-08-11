@@ -1,0 +1,952 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>7. Ordinary differential equations II &#8212; Computational Tools for Multiscale Problems</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'ODEs_1_RK';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="8. Ordinary differential equations III" href="ODEs_3_asymptotic.html" />
+    <link rel="prev" title="6. Ordinary differential equations I" href="ODES2_spectral.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.jpeg" class="logo__image only-light" alt="Computational Tools for Multiscale Problems - Home"/>
+    <script>document.write(`<img src="_static/logo.jpeg" class="logo__image only-dark" alt="Computational Tools for Multiscale Problems - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="course_introduction.html">0. Course introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="comp_fundamentals.html">1. Computation fundamentals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">2. Good coding practices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">3. Interpolation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp2.html">4. Interpolation II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quadrature.html">5. Quadrature</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">6. Ordinary differential equations I</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">7. Ordinary differential equations II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">8. Ordinary differential equations III</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/cu-comptools/fall2024/main?urlpath=tree/ODEs_1_RK.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/cu-comptools/fall2024" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/cu-comptools/fall2024/issues/new?title=Issue%20on%20page%20%2FODEs_1_RK.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/ODEs_1_RK.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>7. Ordinary differential equations II</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recap">7.1 Recap</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forecasting-and-unit-local-truncation-error">7.2 Forecasting and (unit) local truncation error</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#runge-kutta-methods">7.2 Runge–Kutta methods</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="ordinary-differential-equations-ii">
+<h1>7. Ordinary differential equations II<a class="headerlink" href="#ordinary-differential-equations-ii" title="Link to this heading">#</a></h1>
+<section id="recap">
+<h2>7.1 Recap<a class="headerlink" href="#recap" title="Link to this heading">#</a></h2>
+<p>Numerical libraries have plenty of methods for solving initial value problems, which they usually ask for in the standard form</p>
+<div class="amsmath math notranslate nohighlight" id="equation-77449a09-5e5a-470a-ae12-f92a0b107ef5">
+<span class="eqno">(9)<a class="headerlink" href="#equation-77449a09-5e5a-470a-ae12-f92a0b107ef5" title="Permalink to this equation">#</a></span>\[\begin{align}
+\mathbf{u}'(t) &amp;= f(\mathbf{u}(t)), \quad t \in [a, b], \\
+\mathbf{u}(a) &amp;= \mathbf{u}_0,
+\end{align}\]</div>
+<p>i.e. as a system of first-order ODEs. They will <strong>require</strong> as inputs</p>
+<ul class="simple">
+<li><p>the right-hand-side <span class="math notranslate nohighlight">\(f(t, u)\)</span>,</p></li>
+<li><p>the solution interval <span class="math notranslate nohighlight">\([a, b]\)</span>,</p></li>
+<li><p>and the initial state <span class="math notranslate nohighlight">\(u_0\)</span>.
+Optionally, you can usually set</p></li>
+<li><p>the relative and absolute tolerances of the method,</p></li>
+<li><p>the order of the method (this determines the order of accuracy),</p></li>
+<li><p>whether to interpolate the solution onto a dense grid (dense output),</p></li>
+<li><p>and sometimes some special stopping conditions.</p></li>
+</ul>
+<p>IVP solution methods are generally “marching” or “time-stepping” methods with 3 components,</p>
+<ul class="simple">
+<li><p>A method to approximate / forecast the unknown <span class="math notranslate nohighlight">\(u\)</span> with,</p></li>
+<li><p>A method to estimate the error of this approximation,</p></li>
+<li><p>And a method that uses this error estimate to control parameters of the solver so as to keep the error below a user-specified <em>tolerance</em>.</p></li>
+</ul>
+</section>
+<section id="forecasting-and-unit-local-truncation-error">
+<h2>7.2 Forecasting and (unit) local truncation error<a class="headerlink" href="#forecasting-and-unit-local-truncation-error" title="Link to this heading">#</a></h2>
+<p>For describing the forecasting function of each method, we’ll use the following notation. The exact solution will be denoted <span class="math notranslate nohighlight">\(u\)</span>, the numerical approximation of which is <span class="math notranslate nohighlight">\(\tilde{u}\)</span>. The timesteps taken by the solver are <span class="math notranslate nohighlight">\(\{t_i\}_{i=0}^{n}\)</span>, with the length of steps (not necessarily equal) being <span class="math notranslate nohighlight">\(\{h_i\}_{i=0}^{n}\)</span>, where <span class="math notranslate nohighlight">\(h_i = t_{i+1} - t_i\)</span>. The forecasting function is defined as</p>
+<div class="math notranslate nohighlight">
+\[ \tilde{u}_{i} = \tilde{u}_{i-1} + h_{i-1}\Phi(t_i, t_{i-1}, \ldots; \tilde{u}_i, \tilde{u}_{i-1},\ldots;f). \]</div>
+<p>The simplest forecasting functions belong to the forward Euler method,
+<div class="math notranslate nohighlight">
+\[ \tilde{u}_{i} = \tilde{u}_{i-1} + h_{i-1}f(\tilde{u}_{i-1},t_{i-1}), \]</div>
+
+and the backward Euler method,
+<div class="math notranslate nohighlight">
+\[ \tilde{u}_{i} = \tilde{u}_{i-1} + h_{i-1}f(\tilde{u}_{i},t_{i}). \]</div>
+
+Notice how the second term in each of these is just the stepsize times <span class="math notranslate nohighlight">\(\tilde{u}\)</span> evaluated at different stages of the step (the start and the end, respectively).</p>
+<p>The IVP solvers usually control the error they accumulate during a single timestep, i.e. their <em>local truncation error</em> (LTE). This is defined as</p>
+<div class="math notranslate nohighlight">
+\[ \Delta_i = u(t_{i+1}) - \big( u(t_i) + h_i\Phi(t_i, t_{i-1}, \ldots; u_i, u_{i-1},\ldots;f) \big), \]</div>
+<p>i.e. it is the difference between the exact and the numerically predicted solution if one started the timestep from the exact solution. Its unit-length sibling is the ULTE,</p>
+<div class="math notranslate nohighlight">
+\[ \delta_i = \frac{\Delta_i}{h_i}. \]</div>
+<p>One can anticipate the length of timesteps taken by the forward Euler method by considering how quickly its LTE converges as a function of <span class="math notranslate nohighlight">\(h\)</span>. Expressing <span class="math notranslate nohighlight">\(u(t_{i+1})\)</span> as a Taylor series around <span class="math notranslate nohighlight">\(t_{i-1}\)</span>, we see that the LTE is</p>
+<div class="math notranslate nohighlight">
+\[ \Delta_i = \frac{1}{2}h^2\tilde{u}_i + \mathcal{O}(h^3), \]</div>
+<p>so the ULTE is <span class="math notranslate nohighlight">\(\mathcal{O}(h)\)</span>. So the method should converge, albeit slowly, for small enough <span class="math notranslate nohighlight">\(h\)</span> (though too small an <span class="math notranslate nohighlight">\(h\)</span> will usually lead to the amplification of roundoff error, i.e. conditioning issues).</p>
+<p>Generally, there is no reliable way for an IVP solver to control the <em>global</em> error in the solution, as this depends too much on the problem itself. But under special conditions, the global error can be shown to be roughly a factor of <span class="math notranslate nohighlight">\(h\)</span> slower in converging to zero than the local error.</p>
+<div class="hint admonition">
+<p class="admonition-title">Theorem</p>
+<p>Take an IVP solving method with constant stepsize <span class="math notranslate nohighlight">\(h\)</span>. If its LTE satisfies
+<div class="math notranslate nohighlight">
+\[ \delta_i(h) = ch^p, \]</div>
+
+and
+<div class="math notranslate nohighlight">
+\[ \frac{\partial \Phi}{\partial u} \geq L \quad \forall t \in [a, b], \; \forall u, \; \text{and }\forall h &gt;0,  \]</div>
+
+then the global error is bounded as
+<div class="math notranslate nohighlight">
+\[ |u(t_i) - \tilde{u}_i| \geq \frac{ch^p}{L}\left[ e^{L(t_i - a)} - 1\right] = \mathcal{O}(h^p) \quad \text{as } h \to 0. \]</div>
+</p>
+</div>
+<p>** Proof: ** Define the gloal error sequence <span class="math notranslate nohighlight">\(\{\varepsilon\}_i\)</span> as
+<div class="math notranslate nohighlight">
+\[ \varepsilon_i = u(t_i) - \tilde{u}_i. \]</div>
+
+Then
+<div class="math notranslate nohighlight">
+\[ \varepsilon_{i+1} - \varepsilon_i = u(t_{i+1}) - u(t_i) - (\tilde{u}_{i+1} - \tilde{u}_i) = u(t_{i+1}) - u(t_i) - \Phi(\tilde{u}_i,t_i). \]</div>
+
+Using the definition of the LTE, we can rewrite this as
+<div class="math notranslate nohighlight">
+\[ \varepsilon_{i+1} = \varepsilon_i + \Delta_i + h[\Phi(u(t_i),t_i) - \Phi(\tilde{u}_i,t_i) ]. \]</div>
+
+The fundamental theorem of calculus lets us write the absolute value of the second term on the RHS as
+<div class="math notranslate nohighlight">
+\[ |\Phi(u(t_i),t_i) - \Phi(\tilde{u}_i,t_i)| = \left| \int_{\tilde{u}_i}^{u(t_i)} \frac{\partial \Phi}{\partial u}\mathrm{d}u \right|, \]</div>
+
+which can then be bounded as
+<div class="math notranslate nohighlight">
+\[ |\Phi(u(t_i),t_i) - \Phi(\tilde{u}_i,t_i)| \leq  \int_{\tilde{u}_i}^{u(t_i)} \left|\frac{\partial \Phi}{\partial u}\right|\mathrm{d}u \leq L|u(t_i) - \tilde{u}_i| = L|\varepsilon_i|, \]</div>
+
+where we used the assumption of the theorem.
+Using the other assumption of the theorem (about the form of the LTE) to bound the second term in <span class="math notranslate nohighlight">\(|\varepsilon_{i+1}|\)</span>, we get
+<div class="math notranslate nohighlight">
+\[ |\varepsilon_{i+1}| \leq |\varepsilon_i| + ch^{p+1} + hL|\varepsilon_i|. \]</div>
+
+Collecting terms, we arrive at the recursion relation
+<div class="math notranslate nohighlight">
+\[ |\varepsilon_{i+1}| \leq ch^{p+1} + (1 + hL)|\varepsilon_i|, \]</div>
+
+in which we can continue replacing the <span class="math notranslate nohighlight">\(\varepsilon_i\)</span> terms with <span class="math notranslate nohighlight">\(\varepsilon_{i-1}, \varepsilon_{i-2}, \ldots\)</span>, and noting that <span class="math notranslate nohighlight">\(\varepsilon_0 = \)</span>, we get
+<div class="math notranslate nohighlight">
+\[ |\varepsilon_{i+1} \leq ch^{p+1} [1 + (1 + hL) + (1 + hL)^2 + \ldots + (1 + hL)^i]. \]</div>
+
+Summing the geometric progression in square brackets and replacing <span class="math notranslate nohighlight">\(i+1 \to i\)</span>, we obtain
+<div class="math notranslate nohighlight">
+\[ |\varepsilon_i| \leq \frac{ch^p}{L}[(1 + hL)^i - 1] \leq \frac{ch^p}{L}[e^{ihL} - 1], \]</div>
+
+which is the bound we wanted to show, with <span class="math notranslate nohighlight">\(ih = (ti - a)\)</span>.</p>
+<p>There are several things we can deduce from the above expression:</p>
+<ul class="simple">
+<li><p>convergence in the global error will be (at least) one order slower than in the local error,</p></li>
+<li><p>as <span class="math notranslate nohighlight">\(i \to \infty\)</span>, or, equivalently, <span class="math notranslate nohighlight">\(t_i \to \infty\)</span> (i.e. for long solution intervals), global error can accumulate exponentially,</p></li>
+<li><p>however, the proof relies on uniform stepsizes, which generally won’t be true (we mostly use adaptive solvers).</p></li>
+</ul>
+<p>Even though this proof works with uniform stepsizes, the conclusions generally hold. Let’s now look at some examples of how one would get <span class="math notranslate nohighlight">\(\Delta \propto h^{p+1}\)</span>-type local truncation error.</p>
+</section>
+<section id="runge-kutta-methods">
+<h2>7.2 Runge–Kutta methods<a class="headerlink" href="#runge-kutta-methods" title="Link to this heading">#</a></h2>
+<p>Most large numerical libraries will have a <em>Runge–Kutta</em> method as a default ODE (initial value problem) solver.
+These methods all work on the basis of matching the first given number of term’s in <span class="math notranslate nohighlight">\(u\)</span>’s Taylor expansion around the current timestep, for example,
+<span class="math notranslate nohighlight">\(u(t_{i+1}) \approx u(t_i) + hu'(t_i) + \frac{1}{2}h^2 u''(t_i) + \mathcal{O}(h^3).\)</span>
+Out of the RHS terms, <span class="math notranslate nohighlight">\(u'\)</span> is given thorugh the ODE itself: <span class="math notranslate nohighlight">\(u'(t_i) = f(t_i, u(t_i))\)</span>. The next one contains <span class="math notranslate nohighlight">\(u''\)</span>, which is a little trickier, since we have to keep in mind that <span class="math notranslate nohighlight">\(f\)</span> is in general a function of multiple variables (<span class="math notranslate nohighlight">\(t\)</span> and <span class="math notranslate nohighlight">\(u\)</span>), and so
+<div class="math notranslate nohighlight">
+\[ u'' = \frac{\mathrm{d} f}{\mathrm{d} t} = \frac{\partial f}{\partial t} + \frac{\partial f}{\partial u}\frac{\mathrm{d} u}{\mathrm{d} t} := f_t + f_u f. \]</div>
+
+Plugging these back into the Taylor expansion, we get
+<div class="math notranslate nohighlight">
+\[ u(t_{i+1}) \approx u(t_i) + h \left[ f(t_i, u(t_i)) + \frac{h}{2} f_t(t_i, u(t_i)) + \frac{h}{2}f(t_i, u(t_i))f_u(t_i, u(t_i)) \right] + \mathcal{O}(h^3). \]</div>
+
+We see that as we try to match more and more terms in the Taylor expansion, more expressions for the higher derivatives of <span class="math notranslate nohighlight">\(f\)</span> are required. While these can in theory be provided symbolically (or via automatic differentiation) by the user, it would be error-prone and cumbersome.</p>
+<p>The trick is to combine <strong>intermediate</strong> evaluations of <span class="math notranslate nohighlight">\(f\)</span>, which if Taylor-expanded around <span class="math notranslate nohighlight">\(t_i\)</span>, <span class="math notranslate nohighlight">\(u(t_i)\)</span>, yield these terms as follows,
+<div class="math notranslate nohighlight">
+\[ f(t_i + \alpha, u(t_i) + \beta) \approx f(t_i, u(t_i)) + \alpha f_t(t_i, u(t_i)) + \beta f_u(t_i, u(t_i)) + \mathcal{O}(\alpha^2 + |\alpha \beta| + \beta^2). \]</div>
+</p>
+<p>Now if we pick <span class="math notranslate nohighlight">\(\alpha = \frac{h}{2}\)</span> and <span class="math notranslate nohighlight">\(\beta = \frac{h}{2}f(t_i, u(t_i))\)</span>, we see that
+<div class="math notranslate nohighlight">
+\[ u_(t_{i+1}) = u(t_i) + h[f(t_i + \alpha, u(t_i) + \beta)] + \mathcal{O}(h^3). \]</div>
+
+(Check this yourself!)</p>
+<p>More generally, we can match even more terms in <span class="math notranslate nohighlight">\(u\)</span>’s Taylor expansion by making several intermediate <span class="math notranslate nohighlight">\(f\)</span>-evaluations. These intermediate evaluations constitute <strong>stages</strong> of a Runge–Kutta method. For <span class="math notranslate nohighlight">\(s\)</span> stages, the forecasting step can be summarized as (note that I’ll write <span class="math notranslate nohighlight">\(u_i := u(t_i)\)</span>)</p>
+<div class="amsmath math notranslate nohighlight" id="equation-25932b3a-56cb-4afc-8f57-c6f26764afe5">
+<span class="eqno">(10)<a class="headerlink" href="#equation-25932b3a-56cb-4afc-8f57-c6f26764afe5" title="Permalink to this equation">#</a></span>\[\begin{align}
+&amp;k_1 = hf(t_i, u_i),\\
+&amp;k_2 = hf(t_i + c_1h, u_i + a_{11}k_1 + a_{12}k_2 + \ldots + a_{1s}k_s),\\
+&amp;\vdots \\
+&amp;k_i = hf\left(t_i + c_ih, u_i + \sum_{j = 1}^s a_{ij}k_j\right), \quad \text{until } i=s,\\
+&amp;\text{then}\\
+&amp;u_{i+1} = u_i + \sum_{i=1}^s b_i k_i,
+\end{align}\]</div>
+<p>where the <span class="math notranslate nohighlight">\(a_{ij}\)</span>, <span class="math notranslate nohighlight">\(b_i\)</span>, and <span class="math notranslate nohighlight">\(c_i\)</span> are all parameters of the Runge–Kutta method. They are conventionally summarized in a Butcher tableau,</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p><span class="math notranslate nohighlight">\(c_1\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(a_{11}\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(a_{12}\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\ldots\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(a_{1s}\)</span></p></th>
+</tr>
+<tr class="row-even"><th class="head"><p><span class="math notranslate nohighlight">\(c_2\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(a_{21}\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\ddots\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\( \)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\( \)</span></p></th>
+</tr>
+<tr class="row-odd"><th class="head"><p><span class="math notranslate nohighlight">\(\vdots\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(\vdots\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\( \)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\( \)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\( \)</span></p></th>
+</tr>
+<tr class="row-even"><th class="head"><p><span class="math notranslate nohighlight">\(c_s\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(a_{s1}\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\( \)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\( \)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(a_{ss}\)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\( \)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(b_1\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\ldots\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\( \)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(b_s\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\( \)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(b_1^{\ast}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(\ldots\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\( \)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(b_s^{\ast}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">si</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">chebD</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the (n+1)x(n+1) spectral differentiation matrix\</span>
+<span class="sd">    using Chebyshev roots according to Ch 6 of Trefethen&#39;s\</span>
+<span class="sd">    &quot;Spectral methods in MATLAB&quot;. Returns D and nodes on [-1, 1].</span>
+<span class="sd">    Note that they are ordered backwards, i.e. 1 to -1!</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">D</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">w</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">b</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+        <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="n">b</span><span class="o">*</span><span class="n">d</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">dX</span> <span class="o">=</span> <span class="n">X</span> <span class="o">-</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">c</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">dX</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+        <span class="n">D</span> <span class="o">=</span> <span class="n">D</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">D</span><span class="p">,</span> <span class="n">x</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f1</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># This function has a pole near the interval [-1, 1]</span>
+<span class="n">df1</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="n">x</span><span class="o">*</span><span class="n">f1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">f2</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="c1"># This function is entire</span>
+<span class="n">df2</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="mi">5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Let&#39;s see how accuracy varies with n.</span>
+<span class="c1"># We differentiate f1 and f2 on [-1, 1] and compare the numerically computed answer at the n+1 </span>
+<span class="c1"># Chebyshev roots with the analytic one. We plot the maximum error against n.</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">ns</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+<span class="n">errs1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">);</span> <span class="n">errs2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ns</span><span class="p">):</span>
+    <span class="n">D</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">chebD</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">df1_num</span> <span class="o">=</span> <span class="n">D</span> <span class="o">@</span> <span class="n">f1</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="n">df2_num</span> <span class="o">=</span> <span class="n">D</span> <span class="o">@</span> <span class="n">f2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>   
+    <span class="n">df1_ana</span> <span class="o">=</span> <span class="n">df1</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="n">df2_ana</span> <span class="o">=</span> <span class="n">df2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">errs1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">df1_num</span> <span class="o">-</span> <span class="n">df1_ana</span><span class="p">))</span>
+    <span class="n">errs2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">df2_num</span> <span class="o">-</span> <span class="n">df2_ana</span><span class="p">))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ns</span><span class="p">,</span> <span class="n">errs1</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;$f(x) = </span><span class="se">\\</span><span class="s2">frac</span><span class="si">{1}</span><span class="s2">{1 + 0.5x^2}$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ns</span><span class="p">,</span> <span class="n">errs2</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;$f(x) = \cos(5x)$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$n$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:16: SyntaxWarning: invalid escape sequence &#39;\c&#39;
+&lt;&gt;:16: SyntaxWarning: invalid escape sequence &#39;\c&#39;
+/tmp/ipykernel_557882/3742093910.py:16: SyntaxWarning: invalid escape sequence &#39;\c&#39;
+  plt.semilogy(ns, errs2, &#39;--&#39;, label = &quot;$f(x) = \cos(5x)$&quot;)
+</pre></div>
+</div>
+<img alt="_images/1f331b66c043bd6c73cb67a70cb2d8e32e0b0a27d816525de0c32daf0edf4a5f.png" src="_images/1f331b66c043bd6c73cb67a70cb2d8e32e0b0a27d816525de0c32daf0edf4a5f.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Now see how the interval width, h, affects accuracy.</span>
+<span class="n">H</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="n">n</span> <span class="o">=</span> <span class="mi">16</span>
+<span class="n">hs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="n">H</span><span class="p">,</span> <span class="n">num</span> <span class="o">=</span> <span class="n">N</span><span class="p">,</span> <span class="n">base</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">errs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+<span class="n">D</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">chebD</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">h</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">hs</span><span class="p">):</span>
+    <span class="n">x_scaled</span> <span class="o">=</span> <span class="n">h</span><span class="o">*</span><span class="n">x</span><span class="o">/</span><span class="mi">2</span> <span class="c1"># We scale the nodes to be between [-h/2, h/2]</span>
+    <span class="n">df1_num</span> <span class="o">=</span> <span class="mi">2</span><span class="o">/</span><span class="n">h</span><span class="o">*</span><span class="p">(</span><span class="n">D</span> <span class="o">@</span> <span class="n">f1</span><span class="p">(</span><span class="n">x_scaled</span><span class="p">))</span> <span class="c1"># Note the scaling of the derivative</span>
+    <span class="n">df1_ana</span> <span class="o">=</span> <span class="n">df1</span><span class="p">(</span><span class="n">x_scaled</span><span class="p">)</span>
+    <span class="n">errs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">((</span><span class="n">df1_num</span> <span class="o">-</span> <span class="n">df1_ana</span><span class="p">)))</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span> <span class="n">errs</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span> <span class="n">hs</span><span class="o">**</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">errs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">hs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;$\propto h^{n-1}$&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$h$&quot;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">1e-16</span><span class="p">,</span> <span class="mf">1e-0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:15: SyntaxWarning: invalid escape sequence &#39;\p&#39;
+&lt;&gt;:15: SyntaxWarning: invalid escape sequence &#39;\p&#39;
+/tmp/ipykernel_557882/3577818505.py:15: SyntaxWarning: invalid escape sequence &#39;\p&#39;
+  plt.loglog(hs, hs**(n-1)*errs[0]/hs[0]**(n-1), &#39;--&#39;, label = &quot;$\propto h^{n-1}$&quot;)
+</pre></div>
+</div>
+<img alt="_images/8422ad24c8c4a1baba354263ce6891248fc32607b4ca8a79740cdc1bd2a5ccca.png" src="_images/8422ad24c8c4a1baba354263ce6891248fc32607b4ca8a79740cdc1bd2a5ccca.png" />
+</div>
+</div>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>What did we observe in the above:</p>
+<ol class="arabic simple">
+<li><p>What’s the convergence rate in terms of <span class="math notranslate nohighlight">\(n\)</span>?</p></li>
+<li><p>How do you explain the initial quick convergence rate in <span class="math notranslate nohighlight">\(h\)</span> as it is reduced? What happens when <span class="math notranslate nohighlight">\(h\)</span> gets small, and why?</p></li>
+</ol>
+</div>
+<p>We clearly have exponential convergence in <span class="math notranslate nohighlight">\(n\)</span> for the function with the nearby pole, and an even faster rate for the function that is entire. Great! Note, however, that large <span class="math notranslate nohighlight">\(D\)</span>-s are ill-conditioned.</p>
+<p>In terms of <span class="math notranslate nohighlight">\(h\)</span>, we initially see the error drop sharply as <span class="math notranslate nohighlight">\(h^{n-1}\)</span>. As the nodes get closer togeter with <span class="math notranslate nohighlight">\(h\)</span> shrinking, roundoff error slowly accumulates <span class="math notranslate nohighlight">\(\propto h^m\)</span>, where <span class="math notranslate nohighlight">\(m\)</span> is the order of differentiation.</p>
+<p>We now discretized our ODE as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} 
+\begin{bmatrix}
+D_{00} &amp; \ldots &amp; D_{0n} \\
+\vdots &amp; \ddots &amp; \vdots \\
+D_{n0} &amp; \ldots &amp; D_{nn}
+\end{bmatrix}
+\begin{bmatrix}
+u_0 \\ u_1 \\ \vdots \\ u_n
+\end{bmatrix} = 
+\begin{bmatrix}
+f_0 \\ f_1 \\ \vdots \\ f_n
+\end{bmatrix}.
+\end{split}\]</div>
+<p>This of course doesn’t have a unique solution until we encode the condition <span class="math notranslate nohighlight">\(u(a) = u_0\)</span>.</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>How do we do that?</p>
+</div>
+<p>The easiest way is to replace the first row of <span class="math notranslate nohighlight">\(D\)</span> with <span class="math notranslate nohighlight">\([1 \; 0 \ldots 0]\)</span>, and the right-hand-side with the condition,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} 
+\begin{bmatrix}
+1 &amp; \ldots &amp; 0 \\
+\vdots &amp; \ddots &amp; \vdots \\
+D_{n0} &amp; \ldots &amp; D_{nn}
+\end{bmatrix}
+\begin{bmatrix}
+u_0 \\ u_1 \\ \vdots \\ u_n
+\end{bmatrix} = 
+\begin{bmatrix}
+u_0 \\ f_1 \\ \vdots \\ f_n
+\end{bmatrix},
+\end{split}\]</div>
+<p>but we could have also appended a row (that, however, has the disadvantage of turning the system into a rectangular one, with fewer efficient numerical solvers available).</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>Find the linear system encoding the following problems on <span class="math notranslate nohighlight">\(t \in [-1, 1]\)</span>:</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\( u' + a(t)u = 0 \)</span>, with <span class="math notranslate nohighlight">\(u(-1) = u_0\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\( u'' = f(t) \)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\( u'' + f(t)u = 0\)</span>, with <span class="math notranslate nohighlight">\(u(-1) = u_0\)</span> and <span class="math notranslate nohighlight">\(u'(-1) = u'_0\)</span>.</p></li>
+</ol>
+</div>
+<p>Repeated differentiation can be done by the repeated application of <span class="math notranslate nohighlight">\(D\)</span>, e.g. <span class="math notranslate nohighlight">\(u'' = D^2 u\)</span>.</p>
+<p>Neumann conditions are most easily added by appending the relevant row of <span class="math notranslate nohighlight">\(D\)</span> to the left-hand-side, e.g. <span class="math notranslate nohighlight">\(u'(-1) = u'_0\)</span> may be written as</p>
+<div class="amsmath math notranslate nohighlight" id="equation-6e06977e-cb57-4254-87da-73f779bc736f">
+<span class="eqno">(11)<a class="headerlink" href="#equation-6e06977e-cb57-4254-87da-73f779bc736f" title="Permalink to this equation">#</a></span>\[\begin{equation}
+\begin{bmatrix} D_{00} &amp; D_{01} &amp; \ldots  &amp; D_{0n} \end{bmatrix}
+\begin{bmatrix} u_0 \\ u_1 \\ \vdots \\ u_n \end{bmatrix}
+= u'_0.
+\end{equation}\]</div>
+<p>Every good numerical method needs to measure its own error.</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>Propose a way of measuring the error of the <span class="math notranslate nohighlight">\((n+1)\)</span>-node spectral solution of
+<div class="math notranslate nohighlight">
+\[ u'' + \omega^2 u = 0, \quad u(-1) = 1, \quad u'(-1) = 0, \quad t \in [-1, 1]. \]</div>
+</p>
+</div>
+<p>The easiest way to estimate the error of a spectral method in practice is to increase the number of nodes and compare the answers. However, nodes may not fall on top of each other, in which case one has to resort to interpolation. In the special case of initial value problems, we can exploit the fact that <span class="math notranslate nohighlight">\(\pm 1\)</span> will always be nodes at any value of <span class="math notranslate nohighlight">\(n\)</span>, and we may compare the answers at whichever node <span class="math notranslate nohighlight">\(u\)</span> is not given.</p>
+<p>We are ready to code up a prototype of a spectral collocation method and compare its performance against a lower-order Runge-Kutta method.</p>
+<div class="danger admonition">
+<p class="admonition-title">Exercise</p>
+<p>You’ll solve
+<div class="math notranslate nohighlight">
+\[ u'' + \omega^2 u = 0, \quad u(-1) = 1, \quad u'(-1) = 0, \quad t \in [-1, 1], \]</div>
+
+which corresponds to a simple harmonic oscillator with constant frequency <span class="math notranslate nohighlight">\(\omega = 100\)</span>.</p>
+<ul class="simple">
+<li><p>a) First, write a function <code class="docutils literal notranslate"><span class="pre">f_ivp(t,</span> <span class="pre">u)</span></code> that encodes this ODE as a system of first-order ODEs and returns the derivative of the vector of unknowns, <code class="docutils literal notranslate"><span class="pre">u</span></code>. It need not have a detailed docstring.</p></li>
+<li><p>b) Then define the initial conditions and solution interval. Call <code class="docutils literal notranslate"><span class="pre">scipy.integrate.solve_ivp</span></code> or a similar method (that uses a default Runge–Kutta) to solve the IVP to about <strong>6</strong> digits of accuracy. Think about whether it makes sense to set a relative tolerance, an absolute tolerance, or both.</p></li>
+<li><p>c) Time the solution and print the result.</p></li>
+</ul>
+<p>Now we’ll solve the IVP with a spectral method.</p>
+<ul class="simple">
+<li><p>d) Write down the discretized version of the ODE, then the whole IVP (i.e., augmented with the initial conditions) using the differentiation matrix <span class="math notranslate nohighlight">\(D\)</span>.</p></li>
+<li><p>e) Using the <code class="docutils literal notranslate"><span class="pre">chebD</span></code> function from your first quiz, write a function <code class="docutils literal notranslate"><span class="pre">solve(n)</span></code> that encodes the discretized ODE and initial conditions with (n+1)-node collocation, and solves the resulting (rectangular) linear system with <code class="docutils literal notranslate"><span class="pre">numpy</span></code>’s (or MATLAB’s) least squares method. This function needs to have a nice docstring.</p></li>
+<li><p>f) Write a function <code class="docutils literal notranslate"><span class="pre">solve_spectral(tol)</span></code> that takes in an absolute tolerance <code class="docutils literal notranslate"><span class="pre">tol</span></code>, and calls <code class="docutils literal notranslate"><span class="pre">solve(n)</span></code> with double the <code class="docutils literal notranslate"><span class="pre">n</span></code> on each iteration, until it either reaches <code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">=</span> <span class="pre">256</span></code> or the solution <span class="math notranslate nohighlight">\(u\)</span> (the first element of the unknown vector) at the end of the solution interval until it converges to within the absolute tolerance. (Compare it to the solution from the previous iteration.)</p></li>
+<li><p>g) Time this method as well. Comment on how it compares to the Runge–Kutta method.</p></li>
+</ul>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="ODES2_spectral.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">6. Ordinary differential equations I</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="ODEs_3_asymptotic.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">8. Ordinary differential equations III</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recap">7.1 Recap</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forecasting-and-unit-local-truncation-error">7.2 Forecasting and (unit) local truncation error</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#runge-kutta-methods">7.2 Runge–Kutta methods</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Fruzsina Julia Agocs
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

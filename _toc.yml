@@ -1,0 +1,22 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+chapters:
+# - file: hw_1
+# - file: hw_1_sol
+# - file: hw_2
+# - file: papers
+- file: course_introduction
+- file: comp_fundamentals
+- file: github
+- file: poly_interp
+- file: poly_interp2
+- file: quadrature
+- file: ODES2_spectral
+- file: ODEs_1_RK
+- file: ODEs_3_asymptotic
+# - file: adaptivity_stiffness_control_1
+# - file: special_quad_osc
+# - file: special_quad_sing
