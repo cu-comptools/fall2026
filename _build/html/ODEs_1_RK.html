@@ -245,7 +245,7 @@
       
       
       
-      <li><a href="https://mybinder.org/v2/gh/cu-comptools/fall2024/main?urlpath=tree/ODEs_1_RK.ipynb" target="_blank"
+      <li><a href="https://mybinder.org/v2/gh/cu-comptools/fall2026/main?urlpath=tree/ODEs_1_RK.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch on Binder"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -276,7 +276,7 @@
       
       
       
-      <li><a href="https://github.com/cu-comptools/fall2024" target="_blank"
+      <li><a href="https://github.com/cu-comptools/fall2026" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
    title="Source repository"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -293,7 +293,7 @@
       
       
       
-      <li><a href="https://github.com/cu-comptools/fall2024/issues/new?title=Issue%20on%20page%20%2FODEs_1_RK.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/cu-comptools/fall2026/issues/new?title=Issue%20on%20page%20%2FODEs_1_RK.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -419,7 +419,9 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recap">7.1 Recap</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forecasting-and-unit-local-truncation-error">7.2 Forecasting and (unit) local truncation error</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#runge-kutta-methods">7.2 Runge–Kutta methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#runge-kutta-methods">7.3 Runge–Kutta methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adaptive-stepsize">7.4 Adaptive stepsize</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stability">7.5 Stability</a></li>
 </ul>
             </nav>
         </div>
@@ -436,8 +438,8 @@ document.write(`
 <section id="recap">
 <h2>7.1 Recap<a class="headerlink" href="#recap" title="Link to this heading">#</a></h2>
 <p>Numerical libraries have plenty of methods for solving initial value problems, which they usually ask for in the standard form</p>
-<div class="amsmath math notranslate nohighlight" id="equation-77449a09-5e5a-470a-ae12-f92a0b107ef5">
-<span class="eqno">(9)<a class="headerlink" href="#equation-77449a09-5e5a-470a-ae12-f92a0b107ef5" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e73880e3-0fd3-4ce5-b2ba-7e7c35397bdc">
+<span class="eqno">(9)<a class="headerlink" href="#equation-e73880e3-0fd3-4ce5-b2ba-7e7c35397bdc" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathbf{u}'(t) &amp;= f(\mathbf{u}(t)), \quad t \in [a, b], \\
 \mathbf{u}(a) &amp;= \mathbf{u}_0,
 \end{align}\]</div>
@@ -546,7 +548,7 @@ which is the bound we wanted to show, with <span class="math notranslate nohighl
 <p>Even though this proof works with uniform stepsizes, the conclusions generally hold. Let’s now look at some examples of how one would get <span class="math notranslate nohighlight">\(\Delta \propto h^{p+1}\)</span>-type local truncation error.</p>
 </section>
 <section id="runge-kutta-methods">
-<h2>7.2 Runge–Kutta methods<a class="headerlink" href="#runge-kutta-methods" title="Link to this heading">#</a></h2>
+<h2>7.3 Runge–Kutta methods<a class="headerlink" href="#runge-kutta-methods" title="Link to this heading">#</a></h2>
 <p>Most large numerical libraries will have a <em>Runge–Kutta</em> method as a default ODE (initial value problem) solver.
 These methods all work on the basis of matching the first given number of term’s in <span class="math notranslate nohighlight">\(u\)</span>’s Taylor expansion around the current timestep, for example,
 <span class="math notranslate nohighlight">\(u(t_{i+1}) \approx u(t_i) + hu'(t_i) + \frac{1}{2}h^2 u''(t_i) + \mathcal{O}(h^3).\)</span>
@@ -569,8 +571,8 @@ We see that as we try to match more and more terms in the Taylor expansion, more
 
 (Check this yourself!)</p>
 <p>More generally, we can match even more terms in <span class="math notranslate nohighlight">\(u\)</span>’s Taylor expansion by making several intermediate <span class="math notranslate nohighlight">\(f\)</span>-evaluations. These intermediate evaluations constitute <strong>stages</strong> of a Runge–Kutta method. For <span class="math notranslate nohighlight">\(s\)</span> stages, the forecasting step can be summarized as (note that I’ll write <span class="math notranslate nohighlight">\(u_i := u(t_i)\)</span>)</p>
-<div class="amsmath math notranslate nohighlight" id="equation-25932b3a-56cb-4afc-8f57-c6f26764afe5">
-<span class="eqno">(10)<a class="headerlink" href="#equation-25932b3a-56cb-4afc-8f57-c6f26764afe5" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-35107b5f-e9cf-4a31-9c1c-4af4c83f4c47">
+<span class="eqno">(10)<a class="headerlink" href="#equation-35107b5f-e9cf-4a31-9c1c-4af4c83f4c47" title="Permalink to this equation">#</a></span>\[\begin{align}
 &amp;k_1 = hf(t_i, u_i),\\
 &amp;k_2 = hf(t_i + c_1h, u_i + a_{11}k_1 + a_{12}k_2 + \ldots + a_{1s}k_s),\\
 &amp;\vdots \\
@@ -622,208 +624,217 @@ We see that as we try to match more and more terms in the Taylor expansion, more
 </tbody>
 </table>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">si</span>
+<p>The method is called <strong>explicit</strong> if <span class="math notranslate nohighlight">\(a_{ij} = 0\)</span> for <span class="math notranslate nohighlight">\(j \geq i\)</span>, in which case the <span class="math notranslate nohighlight">\(k_i\)</span> may be evaluated sequentially (without the need to solve a linear system). Since most operations involved in this calculation are fundamental, the dominant cost of a single step of an explicit Runge–Kutta method will be determined by <strong>the number of <span class="math notranslate nohighlight">\(f\)</span>-evaluations</strong> per step, which is <span class="math notranslate nohighlight">\(s\)</span>.</p>
+<p>Otherwise, the method is <strong>implicit</strong>. In this case, we see that to evaluate the <span class="math notranslate nohighlight">\(k_i\)</span>, a linear system of size (at most) <span class="math notranslate nohighlight">\(s\)</span> by <span class="math notranslate nohighlight">\(s\)</span> needs to be solved, the cost of which may be comparable to the <span class="math notranslate nohighlight">\(f\)</span>-evaluations (depending on how complex <span class="math notranslate nohighlight">\(f\)</span> is).</p>
+<p>Butcher tableaus may have an extra bottom row, containing <span class="math notranslate nohighlight">\(b_i^{\ast}\)</span>. These are an alternative set of coefficients for making the linear combination
+<span class="math notranslate nohighlight">\(u_{i+1}^{\ast} = \sum_{i = 1}^s b_i^{\ast} k_i,\)</span>
+where <span class="math notranslate nohighlight">\(u_{i+1}^{\ast}\)</span> will typically be another estimate for <span class="math notranslate nohighlight">\(u_{i+1}\)</span>, accurate to some <span class="math notranslate nohighlight">\(\mathcal{O}(h^{p'+1})\)</span>, where <span class="math notranslate nohighlight">\(p'\)</span> is within a couple integers of <span class="math notranslate nohighlight">\(p\)</span>. Its use is that <span class="math notranslate nohighlight">\(|u_{i+1} - u_{i+1}^{\ast}|\)</span> provides a convenient error estimate for the LTE and may be used to update the stepsize <span class="math notranslate nohighlight">\(h\)</span> (see later).</p>
+<p>The <span class="math notranslate nohighlight">\(a_{ij}\)</span>, <span class="math notranslate nohighlight">\(b_i\)</span>, and <span class="math notranslate nohighlight">\(c_i\)</span> completely determine a Runge–Kutta method and are set in a manner similar to how we chose <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>. They have to obey a set of generally <em>nonlinear</em>, <em>algebraic</em> conditions called the <strong>order conditions</strong>. These conditions will typically leave a couple of degrees of freedom, i.e.\ there will be more parameters than constraints, and these remaining parameters are set by optimizing error constants.</p>
+<p>Very high-order Runge–Kutta methods are not typically used because one requires an increasingly large number of stages <span class="math notranslate nohighlight">\(s\)</span> to satisfy the order conditions to <span class="math notranslate nohighlight">\(p\)</span>-th order (resulting in <span class="math notranslate nohighlight">\(\mathcal{O}(h^{p+1})\)</span> error, and a “<span class="math notranslate nohighlight">\(p\)</span>-th order” method). The following table summarizes how many stages are necessary for a <span class="math notranslate nohighlight">\(p\)</span>-th order method.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-center"><p>Stages</p></th>
+<th class="head text-center"><p>Order</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-center"><p><span class="math notranslate nohighlight">\(s \leq 4\)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(p = s\)</span></p></td>
+</tr>
+<tr class="row-odd"><td class="text-center"><p><span class="math notranslate nohighlight">\( 5 \leq s \leq 7 \)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(p = s-1\)</span></p></td>
+</tr>
+<tr class="row-even"><td class="text-center"><p><span class="math notranslate nohighlight">\(8 \leq s \leq 9 \)</span></p></td>
+<td class="text-center"><p><span class="math notranslate nohighlight">\(p = s-2\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="adaptive-stepsize">
+<h2>7.4 Adaptive stepsize<a class="headerlink" href="#adaptive-stepsize" title="Link to this heading">#</a></h2>
+<p>Let’s revisit how the <span class="math notranslate nohighlight">\(i\)</span>-th stepsize, <span class="math notranslate nohighlight">\(h_i\)</span>, is selected in something like a <span class="math notranslate nohighlight">\(p\)</span>-th order Runge–Kutta method, whose LTE varies as
+<div class="math notranslate nohighlight">
+\[ \Delta_i = ch^{p+1}. \]</div>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">chebD</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Computes the (n+1)x(n+1) spectral differentiation matrix\</span>
-<span class="sd">    using Chebyshev roots according to Ch 6 of Trefethen&#39;s\</span>
-<span class="sd">    &quot;Spectral methods in MATLAB&quot;. Returns D and nodes on [-1, 1].</span>
-<span class="sd">    Note that they are ordered backwards, i.e. 1 to -1!</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">D</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">w</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-        <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">b</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">b</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
-        <span class="n">d</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
-        <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="n">b</span><span class="o">*</span><span class="n">d</span>
-        <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
-        <span class="n">dX</span> <span class="o">=</span> <span class="n">X</span> <span class="o">-</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span>
-        <span class="n">D</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="n">c</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">dX</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
-        <span class="n">D</span> <span class="o">=</span> <span class="n">D</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">D</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">D</span><span class="p">,</span> <span class="n">x</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">f1</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="c1"># This function has a pole near the interval [-1, 1]</span>
-<span class="n">df1</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="n">x</span><span class="o">*</span><span class="n">f1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
-<span class="n">f2</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="c1"># This function is entire</span>
-<span class="n">df2</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="o">-</span><span class="mi">5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">5</span><span class="o">*</span><span class="n">x</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Let&#39;s see how accuracy varies with n.</span>
-<span class="c1"># We differentiate f1 and f2 on [-1, 1] and compare the numerically computed answer at the n+1 </span>
-<span class="c1"># Chebyshev roots with the analytic one. We plot the maximum error against n.</span>
-<span class="n">N</span> <span class="o">=</span> <span class="mi">50</span>
-<span class="n">ns</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
-<span class="n">errs1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">);</span> <span class="n">errs2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ns</span><span class="p">):</span>
-    <span class="n">D</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">chebD</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-    <span class="n">df1_num</span> <span class="o">=</span> <span class="n">D</span> <span class="o">@</span> <span class="n">f1</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="n">df2_num</span> <span class="o">=</span> <span class="n">D</span> <span class="o">@</span> <span class="n">f2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>   
-    <span class="n">df1_ana</span> <span class="o">=</span> <span class="n">df1</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="n">df2_ana</span> <span class="o">=</span> <span class="n">df2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">errs1</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">df1_num</span> <span class="o">-</span> <span class="n">df1_ana</span><span class="p">))</span>
-    <span class="n">errs2</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">df2_num</span> <span class="o">-</span> <span class="n">df2_ana</span><span class="p">))</span>
+Assuming that <span class="math notranslate nohighlight">\(c\)</span> is constant during the solution of the ODE, i.e. doesn’t vary with <span class="math notranslate nohighlight">\(t\)</span> (this is <strong>not</strong> true in general as it depends on <span class="math notranslate nohighlight">\(f\)</span>), let’s assume the previous step, of size <span class="math notranslate nohighlight">\(h_{i-1}\)</span>, had local error <span class="math notranslate nohighlight">\(\Delta_{i-1}\)</span>, and that we wish to keep the LTE below a tolerance <span class="math notranslate nohighlight">\(\varepsilon\)</span>, supplied by the user. Then the largest possible next step we can take has an LTE of exactly <span class="math notranslate nohighlight">\(\varepsilon\)</span>. This means
+<div class="math notranslate nohighlight">
+\[ \Delta_i = \varepsilon = ch_i^{p+1}, \]</div>
 
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ns</span><span class="p">,</span> <span class="n">errs1</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;$f(x) = </span><span class="se">\\</span><span class="s2">frac</span><span class="si">{1}</span><span class="s2">{1 + 0.5x^2}$&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">ns</span><span class="p">,</span> <span class="n">errs2</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;$f(x) = \cos(5x)$&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$n$&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+where we can get <span class="math notranslate nohighlight">\(c\)</span> by expressing it from the LTE of the previous step,
+<div class="math notranslate nohighlight">
+\[ \Delta_{i-1} = ch_{i-1}^{p+1} \quad \rightarrow \quad c = \frac{\Delta_{i-1}}{h_{i-1}^{p+1}}, \]</div>
+
+and therefore get
+<div class="math notranslate nohighlight">
+\[ h_i = \left( \frac{\Delta_{i-1}}{\varepsilon} \right)^{\frac{1}{p+1}}h_{i-1}. \]</div>
+
+Thus if <span class="math notranslate nohighlight">\(\Delta_{i-1} &lt; \varepsilon\)</span> (the error was within tolerance), the step is <strong>accepted</strong> and the next stepsize is <strong>increased</strong>, whereas if <span class="math notranslate nohighlight">\(\Delta_{i-1} &gt; \varepsilon\)</span>, the step should <strong>not be accepted</strong> (LTE was above tolerance), and instead should be <strong>retried</strong> with the now <strong>reduced</strong> <span class="math notranslate nohighlight">\(h_i\)</span>.</p>
+<p>In practice, there are several safety factors to ensure that steps don’t get rejected. You can read about them in <a class="reference external" href="https://numerical.recipes/book.html">Numerical Recipes, Ch 17.2 “Adaptive Stepsize Control for Runge–Kutta”</a>.</p>
+<p>Stepsize control theory is a rich field that deals with the construction of various filters for getting rid of oscillatory behaviour in the stepsizes, which you can read about <a class="reference external" href="https://link.springer.com/article/10.1023/A:1021160023092">here</a>.</p>
+</section>
+<section id="stability">
+<h2>7.5 Stability<a class="headerlink" href="#stability" title="Link to this heading">#</a></h2>
+<p>What’s the use of implicit methods if they’re generally more computationally expensive than explicit ones?
+Their strength lies in stability. Note that this is a different notion of stability than that of an algorithm as we discussed in Ch. 1.</p>
+<p>For the sake of explaining what stability is, let us define the <strong>Dahlquist test equation</strong>,
+<div class="math notranslate nohighlight">
+\[ u' = \lambda u, \quad t \in [a, b]\]</div>
+
+subject to some initial condition at <span class="math notranslate nohighlight">\(t = a\)</span>.
+The solution of this ODE is
+<div class="math notranslate nohighlight">
+\[ u(t) = ce^{\lambda t}, \]</div>
+
+where <span class="math notranslate nohighlight">\(c\)</span> is determined by the initial condition. For <span class="math notranslate nohighlight">\(\lambda &lt; 0\)</span>, samples from <span class="math notranslate nohighlight">\(u(t)\)</span> will be monotonically decreasing, and it is the preservation of this property that defines the stability of an ODE solver.</p>
+<p>Define also the simplest explicit method, the <strong>forward Euler</strong>, via its forecasting rule
+<div class="math notranslate nohighlight">
+\[ u_{i+1} = u_i + hf(t_i, u(t_i)), \]</div>
+
+and the simplest implicit method, the <strong>backwards Euler</strong>,
+<div class="math notranslate nohighlight">
+\[ u_{i+1} = u_i + hf(t_{i+1}, u(t_{i+1}). \]</div>
+
+They both approximate <span class="math notranslate nohighlight">\(u(t)\)</span> as a piecewise linear function, but the piecewise slopes are evaluated at the start and end of the current timestep, respectively.
+Applied to the Dahlquist test equation, where <span class="math notranslate nohighlight">\(f(t, u) = \lambda\)</span>, the forward Euler method produces
+<div class="math notranslate nohighlight">
+\[ u_{i+1} = u_i(1+h\lambda) := u_i R(h\lambda),\]</div>
+
+where <span class="math notranslate nohighlight">\(R(h\lambda)\)</span> is the method’s stability function.</p>
+<p>Interpreted as a function of a complex variable <span class="math notranslate nohighlight">\(z\)</span>, the locus of points in the complex plane where <span class="math notranslate nohighlight">\(|R(z)| \leq 1\)</span>,
+<div class="math notranslate nohighlight">
+\[ \{z: |R(z)| \leq 1\} \]</div>
+
+is the stability region of a given method. This tells us for what combinations of <span class="math notranslate nohighlight">\(\lambda\)</span>, <span class="math notranslate nohighlight">\(h\)</span>, the solver produce a monotonically <em>decreasing</em> series. This is of course particularly interesting for negative <span class="math notranslate nohighlight">\(\lambda\)</span>, since then the exact solution is monotonically decreasing in <span class="math notranslate nohighlight">\(t\)</span>. Therefore we call a method <strong>A-stable</strong> if the stability region contains the entire left half-plane.</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>What is the stability region of the backwards and forward Euler methods? Are either A-stable?</p>
+</div>
+<p>Since the stability region only depends on the forecasting formula of a solver, it’s not too difficult to plot it once you have the mehtod itself coded up (especially if the method is explicit).</p>
+<p>The forward Euler method has the stability function
+<div class="math notranslate nohighlight">
+\[ R(z) = 1+z, \]</div>
+
+whereas the backwards Euler has
+<div class="math notranslate nohighlight">
+\[ R(z) = \frac{1}{1-z}. \]</div>
+
+Let’s plot their stability regions.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+
+<span class="c1"># Setting up a grid in the complex plane</span>
+<span class="n">z_re</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+<span class="n">z_im</span> <span class="o">=</span> <span class="n">z_re</span>
+<span class="n">z_re_grid</span><span class="p">,</span> <span class="n">z_im_grid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">z_re</span><span class="p">,</span> <span class="n">z_im</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">z_re_grid</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">z_im_grid</span>
+
+<span class="c1"># Forward Euler stability function </span>
+<span class="n">R_forward_euler</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">z</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">z</span><span class="p">)</span>
+<span class="c1"># Backwards Euler</span>
+<span class="n">R_backward_euler</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">z</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">z</span><span class="p">))</span>
+
+<span class="c1"># A handy utility function for plotting contours of R(z)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+    <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Re(z)&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Im(z)&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="n">cs</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">z_re_grid</span><span class="p">,</span> <span class="n">z_im_grid</span><span class="p">,</span> <span class="n">R</span><span class="p">(</span><span class="n">z</span><span class="p">),</span> <span class="n">levels</span><span class="p">,</span> <span class="n">extend</span> <span class="o">=</span> <span class="s1">&#39;both&#39;</span><span class="p">)</span>
+    <span class="n">cbar</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cs</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+
+<span class="n">plot</span><span class="p">(</span><span class="n">R_forward_euler</span><span class="p">,</span> <span class="s2">&quot;Forward Euler method stability func&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">R_backward_euler</span><span class="p">,</span> <span class="s2">&quot;Backwards Euler method stability func&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:16: SyntaxWarning: invalid escape sequence &#39;\c&#39;
-&lt;&gt;:16: SyntaxWarning: invalid escape sequence &#39;\c&#39;
-/tmp/ipykernel_557882/3742093910.py:16: SyntaxWarning: invalid escape sequence &#39;\c&#39;
-  plt.semilogy(ns, errs2, &#39;--&#39;, label = &quot;$f(x) = \cos(5x)$&quot;)
-</pre></div>
-</div>
-<img alt="_images/1f331b66c043bd6c73cb67a70cb2d8e32e0b0a27d816525de0c32daf0edf4a5f.png" src="_images/1f331b66c043bd6c73cb67a70cb2d8e32e0b0a27d816525de0c32daf0edf4a5f.png" />
+<img alt="_images/93b4b261aaa670ba7f0a33e4f3c82c83e1862624fba54d2962e6ceea63324b6d.png" src="_images/93b4b261aaa670ba7f0a33e4f3c82c83e1862624fba54d2962e6ceea63324b6d.png" />
+<img alt="_images/19db813589c7333b11fb886c4d06a7d5d801013f6b497099cb93b890ea2e2e95.png" src="_images/19db813589c7333b11fb886c4d06a7d5d801013f6b497099cb93b890ea2e2e95.png" />
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Now see how the interval width, h, affects accuracy.</span>
-<span class="n">H</span> <span class="o">=</span> <span class="mi">40</span>
-<span class="n">n</span> <span class="o">=</span> <span class="mi">16</span>
-<span class="n">hs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="n">H</span><span class="p">,</span> <span class="n">num</span> <span class="o">=</span> <span class="n">N</span><span class="p">,</span> <span class="n">base</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">errs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
-<span class="n">D</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">chebD</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">h</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">hs</span><span class="p">):</span>
-    <span class="n">x_scaled</span> <span class="o">=</span> <span class="n">h</span><span class="o">*</span><span class="n">x</span><span class="o">/</span><span class="mi">2</span> <span class="c1"># We scale the nodes to be between [-h/2, h/2]</span>
-    <span class="n">df1_num</span> <span class="o">=</span> <span class="mi">2</span><span class="o">/</span><span class="n">h</span><span class="o">*</span><span class="p">(</span><span class="n">D</span> <span class="o">@</span> <span class="n">f1</span><span class="p">(</span><span class="n">x_scaled</span><span class="p">))</span> <span class="c1"># Note the scaling of the derivative</span>
-    <span class="n">df1_ana</span> <span class="o">=</span> <span class="n">df1</span><span class="p">(</span><span class="n">x_scaled</span><span class="p">)</span>
-    <span class="n">errs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">((</span><span class="n">df1_num</span> <span class="o">-</span> <span class="n">df1_ana</span><span class="p">)))</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span> <span class="n">errs</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">loglog</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span> <span class="n">hs</span><span class="o">**</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">errs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">hs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;$\propto h^{n-1}$&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;$h$&quot;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">);</span> <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">1e-16</span><span class="p">,</span> <span class="mf">1e-0</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:15: SyntaxWarning: invalid escape sequence &#39;\p&#39;
-&lt;&gt;:15: SyntaxWarning: invalid escape sequence &#39;\p&#39;
-/tmp/ipykernel_557882/3577818505.py:15: SyntaxWarning: invalid escape sequence &#39;\p&#39;
-  plt.loglog(hs, hs**(n-1)*errs[0]/hs[0]**(n-1), &#39;--&#39;, label = &quot;$\propto h^{n-1}$&quot;)
-</pre></div>
-</div>
-<img alt="_images/8422ad24c8c4a1baba354263ce6891248fc32607b4ca8a79740cdc1bd2a5ccca.png" src="_images/8422ad24c8c4a1baba354263ce6891248fc32607b4ca8a79740cdc1bd2a5ccca.png" />
-</div>
-</div>
-<div class="admonition-question admonition">
-<p class="admonition-title">Question</p>
-<p>What did we observe in the above:</p>
-<ol class="arabic simple">
-<li><p>What’s the convergence rate in terms of <span class="math notranslate nohighlight">\(n\)</span>?</p></li>
-<li><p>How do you explain the initial quick convergence rate in <span class="math notranslate nohighlight">\(h\)</span> as it is reduced? What happens when <span class="math notranslate nohighlight">\(h\)</span> gets small, and why?</p></li>
-</ol>
-</div>
-<p>We clearly have exponential convergence in <span class="math notranslate nohighlight">\(n\)</span> for the function with the nearby pole, and an even faster rate for the function that is entire. Great! Note, however, that large <span class="math notranslate nohighlight">\(D\)</span>-s are ill-conditioned.</p>
-<p>In terms of <span class="math notranslate nohighlight">\(h\)</span>, we initially see the error drop sharply as <span class="math notranslate nohighlight">\(h^{n-1}\)</span>. As the nodes get closer togeter with <span class="math notranslate nohighlight">\(h\)</span> shrinking, roundoff error slowly accumulates <span class="math notranslate nohighlight">\(\propto h^m\)</span>, where <span class="math notranslate nohighlight">\(m\)</span> is the order of differentiation.</p>
-<p>We now discretized our ODE as</p>
-<div class="math notranslate nohighlight">
-\[\begin{split} 
-\begin{bmatrix}
-D_{00} &amp; \ldots &amp; D_{0n} \\
-\vdots &amp; \ddots &amp; \vdots \\
-D_{n0} &amp; \ldots &amp; D_{nn}
-\end{bmatrix}
-\begin{bmatrix}
-u_0 \\ u_1 \\ \vdots \\ u_n
-\end{bmatrix} = 
-\begin{bmatrix}
-f_0 \\ f_1 \\ \vdots \\ f_n
-\end{bmatrix}.
-\end{split}\]</div>
-<p>This of course doesn’t have a unique solution until we encode the condition <span class="math notranslate nohighlight">\(u(a) = u_0\)</span>.</p>
-<div class="admonition-question admonition">
-<p class="admonition-title">Question</p>
-<p>How do we do that?</p>
-</div>
-<p>The easiest way is to replace the first row of <span class="math notranslate nohighlight">\(D\)</span> with <span class="math notranslate nohighlight">\([1 \; 0 \ldots 0]\)</span>, and the right-hand-side with the condition,</p>
-<div class="math notranslate nohighlight">
-\[\begin{split} 
-\begin{bmatrix}
-1 &amp; \ldots &amp; 0 \\
-\vdots &amp; \ddots &amp; \vdots \\
-D_{n0} &amp; \ldots &amp; D_{nn}
-\end{bmatrix}
-\begin{bmatrix}
-u_0 \\ u_1 \\ \vdots \\ u_n
-\end{bmatrix} = 
-\begin{bmatrix}
-u_0 \\ f_1 \\ \vdots \\ f_n
-\end{bmatrix},
-\end{split}\]</div>
-<p>but we could have also appended a row (that, however, has the disadvantage of turning the system into a rectangular one, with fewer efficient numerical solvers available).</p>
-<div class="admonition-question admonition">
-<p class="admonition-title">Question</p>
-<p>Find the linear system encoding the following problems on <span class="math notranslate nohighlight">\(t \in [-1, 1]\)</span>:</p>
-<ol class="arabic simple">
-<li><p><span class="math notranslate nohighlight">\( u' + a(t)u = 0 \)</span>, with <span class="math notranslate nohighlight">\(u(-1) = u_0\)</span>,</p></li>
-<li><p><span class="math notranslate nohighlight">\( u'' = f(t) \)</span>,</p></li>
-<li><p><span class="math notranslate nohighlight">\( u'' + f(t)u = 0\)</span>, with <span class="math notranslate nohighlight">\(u(-1) = u_0\)</span> and <span class="math notranslate nohighlight">\(u'(-1) = u'_0\)</span>.</p></li>
-</ol>
-</div>
-<p>Repeated differentiation can be done by the repeated application of <span class="math notranslate nohighlight">\(D\)</span>, e.g. <span class="math notranslate nohighlight">\(u'' = D^2 u\)</span>.</p>
-<p>Neumann conditions are most easily added by appending the relevant row of <span class="math notranslate nohighlight">\(D\)</span> to the left-hand-side, e.g. <span class="math notranslate nohighlight">\(u'(-1) = u'_0\)</span> may be written as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6e06977e-cb57-4254-87da-73f779bc736f">
-<span class="eqno">(11)<a class="headerlink" href="#equation-6e06977e-cb57-4254-87da-73f779bc736f" title="Permalink to this equation">#</a></span>\[\begin{equation}
-\begin{bmatrix} D_{00} &amp; D_{01} &amp; \ldots  &amp; D_{0n} \end{bmatrix}
-\begin{bmatrix} u_0 \\ u_1 \\ \vdots \\ u_n \end{bmatrix}
-= u'_0.
-\end{equation}\]</div>
-<p>Every good numerical method needs to measure its own error.</p>
-<div class="admonition-question admonition">
-<p class="admonition-title">Question</p>
-<p>Propose a way of measuring the error of the <span class="math notranslate nohighlight">\((n+1)\)</span>-node spectral solution of
-<div class="math notranslate nohighlight">
-\[ u'' + \omega^2 u = 0, \quad u(-1) = 1, \quad u'(-1) = 0, \quad t \in [-1, 1]. \]</div>
-</p>
-</div>
-<p>The easiest way to estimate the error of a spectral method in practice is to increase the number of nodes and compare the answers. However, nodes may not fall on top of each other, in which case one has to resort to interpolation. In the special case of initial value problems, we can exploit the fact that <span class="math notranslate nohighlight">\(\pm 1\)</span> will always be nodes at any value of <span class="math notranslate nohighlight">\(n\)</span>, and we may compare the answers at whichever node <span class="math notranslate nohighlight">\(u\)</span> is not given.</p>
-<p>We are ready to code up a prototype of a spectral collocation method and compare its performance against a lower-order Runge-Kutta method.</p>
+<p>We see from these plots that the forward Euler method is not A-stable: it is not stable for <span class="math notranslate nohighlight">\(\lambda h &lt; -2\)</span> for negative, real <span class="math notranslate nohighlight">\(\lambda\)</span>. The backwards Euler method, however, is A-stable.</p>
+<p>Explicit methods in general polynomial stability functions and therefore <strong>bounded</strong> stability regions, meaning that for large enough negative <span class="math notranslate nohighlight">\(\lambda\)</span> values, they will need extremely small stepsizes to stay stable. This will eventually lead to conditioning issues. Implicit methods mitigate this, but at the expense of having to solve a linear system at each step, which adds non-negligible computational cost.</p>
 <div class="danger admonition">
-<p class="admonition-title">Exercise</p>
-<p>You’ll solve
-<div class="math notranslate nohighlight">
-\[ u'' + \omega^2 u = 0, \quad u(-1) = 1, \quad u'(-1) = 0, \quad t \in [-1, 1], \]</div>
-
-which corresponds to a simple harmonic oscillator with constant frequency <span class="math notranslate nohighlight">\(\omega = 100\)</span>.</p>
+<p class="admonition-title">Exercises</p>
+<ol class="arabic simple">
+<li><p>(Quiz 3)</p></li>
+</ol>
+<p>Read the question before starting. You may wish to do part c) first if your answer to b) doesn’t look right.</p>
+<p>The Butcher tableau below this exercise block describes an embedded Runge–Kutta pair.</p>
 <ul class="simple">
-<li><p>a) First, write a function <code class="docutils literal notranslate"><span class="pre">f_ivp(t,</span> <span class="pre">u)</span></code> that encodes this ODE as a system of first-order ODEs and returns the derivative of the vector of unknowns, <code class="docutils literal notranslate"><span class="pre">u</span></code>. It need not have a detailed docstring.</p></li>
-<li><p>b) Then define the initial conditions and solution interval. Call <code class="docutils literal notranslate"><span class="pre">scipy.integrate.solve_ivp</span></code> or a similar method (that uses a default Runge–Kutta) to solve the IVP to about <strong>6</strong> digits of accuracy. Think about whether it makes sense to set a relative tolerance, an absolute tolerance, or both.</p></li>
-<li><p>c) Time the solution and print the result.</p></li>
+<li><p>a) Implement a function, <code class="docutils literal notranslate"><span class="pre">step(...)</span></code>, that takes parameters <code class="docutils literal notranslate"><span class="pre">f</span></code> (callable), <code class="docutils literal notranslate"><span class="pre">u0</span></code> (vector), and <code class="docutils literal notranslate"><span class="pre">h</span></code> (float), where <code class="docutils literal notranslate"><span class="pre">f</span></code> is the function <span class="math notranslate nohighlight">\(f(t, u)\)</span> that encodes the right-hand-side of a linear ODE system, <code class="docutils literal notranslate"><span class="pre">u0</span></code> is <span class="math notranslate nohighlight">\(u_0\)</span>, the solution vector at the start of the timestep (say, <span class="math notranslate nohighlight">\(t = t_0\)</span>), and <code class="docutils literal notranslate"><span class="pre">h</span></code> is <span class="math notranslate nohighlight">\(h\)</span>, the timestep. The function should return <span class="math notranslate nohighlight">\(u\)</span>, the solution at <span class="math notranslate nohighlight">\(t_0 + h\)</span> computed via the <span class="math notranslate nohighlight">\(b\)</span> coefficients, and <span class="math notranslate nohighlight">\(u^{\ast}\)</span>, another estimate but evaluated using the <span class="math notranslate nohighlight">\(b^{\ast}\)</span> coefficients.</p></li>
+<li><p>b) Create a convergence plot (with log-log axes) of <span class="math notranslate nohighlight">\(u\)</span> and <span class="math notranslate nohighlight">\(u^{\ast}\)</span> as a function of <span class="math notranslate nohighlight">\(h\)</span>, referenced against a known solution of a simple ODE. The x-axis should span a few orders of magnitude of <span class="math notranslate nohighlight">\(h\)</span> so that you can read off the convergence rate. What is it for these two estimates? Deduce the order of this embedded Runge–Kutta method (you should get two orders).</p></li>
+<li><p>c) Write a unit test for the <code class="docutils literal notranslate"><span class="pre">step(...)</span></code> function that checks whether a simple ODE is solved <em>exactly</em>. Explain why the ODE you came up with should be solved exactly by this Runge–Kutta method.</p></li>
+<li><p>d) Write a nice docstring for the <code class="docutils literal notranslate"><span class="pre">step(...)</span></code> function.</p></li>
 </ul>
-<p>Now we’ll solve the IVP with a spectral method.</p>
+<ol class="arabic simple" start="2">
+<li><p>(Quiz 3)</p></li>
+</ol>
 <ul class="simple">
-<li><p>d) Write down the discretized version of the ODE, then the whole IVP (i.e., augmented with the initial conditions) using the differentiation matrix <span class="math notranslate nohighlight">\(D\)</span>.</p></li>
-<li><p>e) Using the <code class="docutils literal notranslate"><span class="pre">chebD</span></code> function from your first quiz, write a function <code class="docutils literal notranslate"><span class="pre">solve(n)</span></code> that encodes the discretized ODE and initial conditions with (n+1)-node collocation, and solves the resulting (rectangular) linear system with <code class="docutils literal notranslate"><span class="pre">numpy</span></code>’s (or MATLAB’s) least squares method. This function needs to have a nice docstring.</p></li>
-<li><p>f) Write a function <code class="docutils literal notranslate"><span class="pre">solve_spectral(tol)</span></code> that takes in an absolute tolerance <code class="docutils literal notranslate"><span class="pre">tol</span></code>, and calls <code class="docutils literal notranslate"><span class="pre">solve(n)</span></code> with double the <code class="docutils literal notranslate"><span class="pre">n</span></code> on each iteration, until it either reaches <code class="docutils literal notranslate"><span class="pre">n</span> <span class="pre">=</span> <span class="pre">256</span></code> or the solution <span class="math notranslate nohighlight">\(u\)</span> (the first element of the unknown vector) at the end of the solution interval until it converges to within the absolute tolerance. (Compare it to the solution from the previous iteration.)</p></li>
-<li><p>g) Time this method as well. Comment on how it compares to the Runge–Kutta method.</p></li>
+<li><p>a) Write a function, <code class="docutils literal notranslate"><span class="pre">stepsize(...)</span></code> that takes parameters <code class="docutils literal notranslate"><span class="pre">err</span></code> (float), and <code class="docutils literal notranslate"><span class="pre">atol</span></code> (float). <code class="docutils literal notranslate"><span class="pre">err</span></code> will mean a worst-offender error, the maximum of the LTE of <code class="docutils literal notranslate"><span class="pre">u</span></code>. <code class="docutils literal notranslate"><span class="pre">atol</span></code> is an absolute tolerance. This function should return <code class="docutils literal notranslate"><span class="pre">accept</span></code> (boolean), and <code class="docutils literal notranslate"><span class="pre">h</span></code> (float), which are a boolean variable indicating whether the current step is accepted or not, and <code class="docutils literal notranslate"><span class="pre">h</span></code> is the suggested next stepsize. The function should implement the basic stepsize-updater formula described in section 7.4 above. Add a simple maximum stepsize (say, <code class="docutils literal notranslate"><span class="pre">h</span> <span class="pre">=</span> <span class="pre">100</span></code>), to prevent the function from returning <code class="docutils literal notranslate"><span class="pre">h</span> <span class="pre">=</span> <span class="pre">inf</span></code> (this can happen when an ODE is solved exactly).</p></li>
+<li><p>b) Write a nice docstring for the <code class="docutils literal notranslate"><span class="pre">stepsize(...)</span></code> function.</p></li>
 </ul>
+<ol class="arabic simple" start="3">
+<li><p>(Quiz 3)</p></li>
+</ol>
+<ul class="simple">
+<li><p>a) Write a function, <code class="docutils literal notranslate"><span class="pre">solve(...)</span></code> that takes parameters <code class="docutils literal notranslate"><span class="pre">f</span></code>, <code class="docutils literal notranslate"><span class="pre">u0</span></code>, <code class="docutils literal notranslate"><span class="pre">t0</span></code> (float), <code class="docutils literal notranslate"><span class="pre">t1</span></code> (float), and <code class="docutils literal notranslate"><span class="pre">atol</span></code> (float). The first two parameters are as above, <code class="docutils literal notranslate"><span class="pre">t0</span></code> and <code class="docutils literal notranslate"><span class="pre">t1</span></code> define the ODE’s solution range, and <code class="docutils literal notranslate"><span class="pre">atol</span></code> is an absolute tolerance. This function should call <code class="docutils literal notranslate"><span class="pre">step()</span></code> repeatedly and update <span class="math notranslate nohighlight">\(t \to t+h\)</span>, until <code class="docutils literal notranslate"><span class="pre">t1</span></code> is reached. Each next guess for <span class="math notranslate nohighlight">\(h\)</span> should be obtained from <code class="docutils literal notranslate"><span class="pre">stepsize(...)</span></code>, and a step should only be accepted if its LTE is below the tolerance <code class="docutils literal notranslate"><span class="pre">atol</span></code>.</p></li>
+<li><p>b) Write a “unit test” (at this point, it’s more of an integration test) for this function. It should be similar to the one you wrote in 1.c.</p></li>
+<li><p>c) Write a nice dosctring for <code class="docutils literal notranslate"><span class="pre">solve(...)</span></code>.</p></li>
+</ul>
+<ol class="arabic simple" start="4">
+<li><p>(Quiz 3)</p></li>
+</ol>
+<p>Write a function that plots the stability region of this Runge–Kutta method, and explain your work. Comment on the plot. What is the maximum negative <span class="math notranslate nohighlight">\(\lambda\)</span> for which the solution of <span class="math notranslate nohighlight">\(u' = \lambda u\)</span> is stable with this method, assuming a constant stepsize of <span class="math notranslate nohighlight">\(h = 0.01\)</span>?</p>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p><span class="math notranslate nohighlight">\(0\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\( \)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\( \)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\( \)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\( \)</span></p></th>
+</tr>
+<tr class="row-even"><th class="head"><p><span class="math notranslate nohighlight">\(1\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(1\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\( \)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\( \)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\( \)</span></p></th>
+</tr>
+<tr class="row-odd"><th class="head"><p><span class="math notranslate nohighlight">\(1/2\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(3/8\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\( 1/8\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\( \)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\( \)</span></p></th>
+</tr>
+<tr class="row-even"><th class="head"><p><span class="math notranslate nohighlight">\(1\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\(-6.5\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\( -2.5\)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\( 10 \)</span></p></th>
+<th class="head"><p><span class="math notranslate nohighlight">\( \)</span></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-odd"><td><p><span class="math notranslate nohighlight">\( b \)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(1/2\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(1/2\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\( 0 \)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\( \)</span></p></td>
+</tr>
+<tr class="row-even"><td><p><span class="math notranslate nohighlight">\( b^{\ast} \)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\( 1/6\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(2/15\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(2/3 \)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(1/30\)</span></p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </section>
 </section>
@@ -894,7 +905,9 @@ which corresponds to a simple harmonic oscillator with constant frequency <span 
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recap">7.1 Recap</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forecasting-and-unit-local-truncation-error">7.2 Forecasting and (unit) local truncation error</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#runge-kutta-methods">7.2 Runge–Kutta methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#runge-kutta-methods">7.3 Runge–Kutta methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adaptive-stepsize">7.4 Adaptive stepsize</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stability">7.5 Stability</a></li>
 </ul>
   </nav></div>
 

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>3. Interpolation &#8212; Computational Tools for Multiscale Problems</title>
+    <title>9. Integral equations: Nystrom discretization &#8212; Computational Tools for Multiscale Problems</title>
   
   
   
@@ -59,11 +59,9 @@
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'poly_interp';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'nystrom';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="4. Interpolation II" href="poly_interp2.html" />
-    <link rel="prev" title="2. Good coding practices" href="github.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -126,6 +124,8 @@
       
       
       
+        
+      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -181,11 +181,11 @@
                 </a>
             </li>
         </ul>
-        <ul class="current nav bd-sidenav">
+        <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="course_introduction.html">0. Course introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="comp_fundamentals.html">1. Computation fundamentals</a></li>
 <li class="toctree-l1"><a class="reference internal" href="github.html">2. Good coding practices</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">3. Interpolation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">3. Interpolation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="poly_interp2.html">4. Interpolation II</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quadrature.html">5. Quadrature</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">6. Ordinary differential equations I</a></li>
@@ -245,7 +245,7 @@
       
       
       
-      <li><a href="https://mybinder.org/v2/gh/cu-comptools/fall2026/main?urlpath=tree/poly_interp.ipynb" target="_blank"
+      <li><a href="https://mybinder.org/v2/gh/cu-comptools/fall2026/main?urlpath=tree/nystrom.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch on Binder"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -293,7 +293,7 @@
       
       
       
-      <li><a href="https://github.com/cu-comptools/fall2026/issues/new?title=Issue%20on%20page%20%2Fpoly_interp.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/cu-comptools/fall2026/issues/new?title=Issue%20on%20page%20%2Fnystrom.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -323,7 +323,7 @@
       
       
       
-      <li><a href="_sources/poly_interp.ipynb" target="_blank"
+      <li><a href="_sources/nystrom.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -407,7 +407,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>3. Interpolation</h1>
+    <h1>9. Integral equations: Nystrom discretization</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -434,14 +434,17 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="interpolation">
-<h1>3. Interpolation<a class="headerlink" href="#interpolation" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="integral-equations-nystrom-discretization">
+<h1>9. Integral equations: Nystrom discretization<a class="headerlink" href="#integral-equations-nystrom-discretization" title="Link to this heading">#</a></h1>
 <div class="warning admonition">
 <p class="admonition-title">Additional resource</p>
-<p>Shen, Z., &amp; Serkh, K. (2022). <a class="reference external" href="https://arXiv.org/abs/2212.10519">On polynomial interpolation in the monomial basis</a></p>
+<p>R. Kress: Numerical Analysis, <a class="reference external" href="https://math.dartmouth.edu/archive/m126w12/public_html/Kress1998book_Ch12start.pdf">Ch 12.3</a></p>
 </div>
-<p>You have a function <span class="math notranslate nohighlight">\(f\)</span> defined on the interval <span class="math notranslate nohighlight">\([a, b]\)</span>, but only have access to <span class="math notranslate nohighlight">\(n + 1\)</span> evaluations of the function at unique nodes <span class="math notranslate nohighlight">\(\{x_0, x_1, x_2, \ldots, x_n\} := \{x_i\}_{i=0}^n\)</span>, where the function takes values <span class="math notranslate nohighlight">\(\{ y_0, y_1, y_2, \ldots, y_n \} := \{y_i\}_{i=0}^n\)</span>. How do you evaluate the function at some new point <span class="math notranslate nohighlight">\(x^{\ast}\)</span>?</p>
-<p>We start with the oldest trick in the book:</p>
+<p>Given</p>
+<ul class="simple">
+<li><p>an interval <span class="math notranslate nohighlight">\([a, b]\)</span>,</p></li>
+<li><p>a</p></li>
+</ul>
 <section id="the-vandermonde-trick">
 <h2>3.1. The Vandermonde trick<a class="headerlink" href="#the-vandermonde-trick" title="Link to this heading">#</a></h2>
 <p>Try fitting an degree-<span class="math notranslate nohighlight">\(n\)</span> polynomial through the points,
@@ -449,16 +452,16 @@ document.write(`
 \[ p(x) = \sum_{k = 0}^{n}a_k x^k, \]</div>
 
 so that the function evaluations become constraints</p>
-<div class="amsmath math notranslate nohighlight" id="equation-924635c7-933e-446b-b167-64c0e6942dc6">
-<span class="eqno">(1)<a class="headerlink" href="#equation-924635c7-933e-446b-b167-64c0e6942dc6" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-582a59ad-2be8-4bf8-a6d2-9b74f98d3ba9">
+<span class="eqno">()<a class="headerlink" href="#equation-582a59ad-2be8-4bf8-a6d2-9b74f98d3ba9" title="Permalink to this equation">#</a></span>\[\begin{align}
 p(x_0) &amp;= a_0 + a_1 x_0 + a_2 x_0^2 + \ldots + a_n x_0^n = y_0,\\
 p(x_1) &amp;= a_0 + a_1 x_1 + a_2 x_1^2 + \ldots + a_n x_1^n = y_1,\\
 \vdots &amp;\vphantom{=}\\
 p(x_n) &amp;= a_0 + a_1 x_n + a_2 x_n^2 + \ldots + a_n x_n^n = y_n.
 \end{align}\]</div>
 <p>This can be rewritten rather compactly as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d9045f6a-af1e-486d-8370-680aa0492430">
-<span class="eqno">(2)<a class="headerlink" href="#equation-d9045f6a-af1e-486d-8370-680aa0492430" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-958e3b8e-8a86-4286-afad-d278d40c4c94">
+<span class="eqno">()<a class="headerlink" href="#equation-958e3b8e-8a86-4286-afad-d278d40c4c94" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \begin{bmatrix}
 1 &amp; x_0 &amp; x_0^2 &amp; \ldots &amp; x_0^n \\
 1 &amp; x_1 &amp; x_1^2 &amp; \ldots &amp; x_1^n \\
@@ -710,7 +713,7 @@ Now try some other functions that require higher-order interpolation either beca
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/c05b4db83e1e1a6179660c5eb9c3cea226fa0ddeaa56f145bfa5e5442b5f6a3b.png" src="_images/c05b4db83e1e1a6179660c5eb9c3cea226fa0ddeaa56f145bfa5e5442b5f6a3b.png" />
+<img alt="_images/af9efad088b27aeb3321330be42fae41cfbea94ead2fd04c35867fb515945e64.png" src="_images/af9efad088b27aeb3321330be42fae41cfbea94ead2fd04c35867fb515945e64.png" />
 </div>
 </div>
 <div class="admonition-question admonition">
@@ -812,7 +815,7 @@ Therefore,</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/299b8b8d4ad0033e1bcea080eff2edefc08502440dc0577f542ffe3360e053dd.png" src="_images/299b8b8d4ad0033e1bcea080eff2edefc08502440dc0577f542ffe3360e053dd.png" />
+<img alt="_images/701a57662008004a9a3548ff791bf3c3b8f351d424658d016fd6105375844bfa.png" src="_images/701a57662008004a9a3548ff791bf3c3b8f351d424658d016fd6105375844bfa.png" />
 </div>
 </div>
 </section>
@@ -920,24 +923,6 @@ Once the weights are known, evaluating <span class="math notranslate nohighlight
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="github.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">2. Good coding practices</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="poly_interp2.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">4. Interpolation II</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div>
                 </footer>
               

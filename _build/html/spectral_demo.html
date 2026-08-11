@@ -187,6 +187,7 @@
 <li class="toctree-l1"><a class="reference internal" href="poly_interp2.html">4. Interpolation II</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quadrature.html">5. Quadrature</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">6. Ordinary differential equations I</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_1_RK.html">7. Ordinary differential equations II</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">8. Ordinary differential equations III</a></li>
 </ul>
 
@@ -242,7 +243,7 @@
       
       
       
-      <li><a href="https://mybinder.org/v2/gh/cu-comptools/fall2024/main?urlpath=tree/spectral_demo.ipynb" target="_blank"
+      <li><a href="https://mybinder.org/v2/gh/cu-comptools/fall2026/main?urlpath=tree/spectral_demo.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch on Binder"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -273,7 +274,7 @@
       
       
       
-      <li><a href="https://github.com/cu-comptools/fall2024" target="_blank"
+      <li><a href="https://github.com/cu-comptools/fall2026" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
    title="Source repository"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -290,7 +291,7 @@
       
       
       
-      <li><a href="https://github.com/cu-comptools/fall2024/issues/new?title=Issue%20on%20page%20%2Fspectral_demo.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/cu-comptools/fall2026/issues/new?title=Issue%20on%20page%20%2Fspectral_demo.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -486,10 +487,9 @@ document.write(`
     <span class="n">u</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
     <span class="n">err</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">while</span> <span class="n">err</span> <span class="o">&gt;</span> <span class="n">tol</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">256</span><span class="p">:</span> <span class="c1"># The second condition here is just to guard against an infinite loop</span>
-        <span class="n">u_new</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">u_new</span> <span class="o">=</span> <span class="n">solve</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
         <span class="n">err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">u_new</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="n">u</span> <span class="o">=</span> <span class="n">u_new</span><span class="p">;</span> <span class="n">n</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+        <span class="n">u</span> <span class="o">=</span> <span class="n">u_new</span><span class="p">;</span> <span class="n">n</span> <span class="o">*=</span> <span class="mi">2</span><span class="p">;</span>
     <span class="k">return</span> <span class="n">u</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     
 <span class="o">%</span><span class="k">time</span> solve_spectral()
@@ -513,141 +513,12 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>17 1.2013414457152881e-06
-18 8.568190271814627e-07
-19 5.594128889839489e-07
-20 3.1045499830305246e-07
-21 1.1876005914068337e-07
-22 5.147668141560907e-09
-23 1.3176731305413761e-08
-24 2.3630805548557457e-07
-25 8.967184839093779e-07
-26 2.6295832939072088e-06
-27 7.961628758456423e-06
-28 3.8420312016787985e-05
-29 0.0014043219954597717
-30 0.0013899045750185083
-31 2.1724910755767024e-05
-32 4.553260115710882e-06
-33 8.215698590054063e-07
-34 4.763494733567651e-07
-35 4.354970487777178e-06
-36 3.658161198021617e-05
-37 0.0006934849825284512
-38 0.0006791487259777643
-39 2.2696054550605814e-05
-40 5.4114489446920455e-06
-41 1.1289203110752474e-06
-42 3.583893666460773e-07
-43 3.0503541190613664e-06
-44 1.8942039417869863e-05
-45 0.000944530061774086
-46 0.0009608303428345864
-47 3.595135154185093e-05
-48 3.4784946429871496e-06
-49 2.5404039129250274e-06
-50 3.651486843280158e-05
-51 0.0005763485764960464
-52 0.0005577147709742073
-53 1.7431464142825803e-05
-54 2.07034485341695e-06
-55 3.1837519165524162e-06
-56 3.692432724558975e-05
-57 0.0009282590714478822
-58 0.0009066679164840826
-59 1.2329032709790792e-05
-60 5.509296479334428e-06
-61 0.0001826182562004139
-62 0.00024325343172806424
-63 7.078289456276305e-05
-64 4.852704361353673e-06
-65 9.496762765539356e-06
-66 0.0003838783311708854
-67 0.000414704824170151
-68 4.107489159017783e-05
-69 9.323505721343426e-06
-70 0.001279427171388041
-71 0.0013021659259647997
-72 3.210447992646261e-05
-73 7.202957534581358e-06
-74 0.00029753474450689126
-75 0.0003355986878311634
-76 4.448521862560478e-05
-77 3.7726406239184244e-05
-78 0.00037127168716801753
-79 0.0003400172180188928
-80 9.970263783764562e-06
-81 0.00024919634876130475
-82 0.0002937887142235909
-83 4.850265645707019e-05
-84 0.00019296752569659663
-85 0.00025413434535533617
-86 6.152013068546891e-05
-87 7.299424752531883e-05
-88 0.00021646100747503956
-89 0.00014345211578358709
-90 0.0003318113073774766
-91 0.0003758890801471087
-92 4.699645276232907e-05
-93 0.0017630596400301912
-94 0.001775999444561736
-95 7.237034549461093e-05
-96 0.00022168868495849384
-97 0.00016586388491404006
-98 0.004688699490688372
-99 0.004696660914775792
-100 0.00041048577818729486
-101 0.00043858405424808937
-102 0.00012368922205971172
-103 0.00018471628503456564
-104 0.00016111603182434204
-105 0.00016832230229773507
-106 0.0001441718503995845
-107 0.00015440316482380595
-108 0.00014546075491982382
-109 0.00013339807413951895
-110 0.00010054748165820484
-111 0.00012042994657866951
-112 4.147806912523872e-05
-113 0.00011365136240287075
-114 0.001046920259084368
-115 0.00010322572462755216
-116 0.009804478401688518
-117 0.000516617510909952
-118 0.08216078613753687
-119 0.008692850572425234
-120 0.2714622087739346
-121 0.01871745337015862
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 3.8 s, sys: 27.2 ms, total: 3.83 s
+Wall time: 168 ms
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>122 0.13685370846916167
-123 0.003728055716073264
-124 0.016199633204425024
-125 0.000348776983252419
-126 0.001226159727230114
-127 2.6643079910404488e-05
-128 7.96758958283017e-05
-129 1.704714620021086e-06
-130 4.687813898729409e-06
-131 1.0978280345907976e-07
-132 2.3492590173201933e-07
-133 3.3793016718242086e-09
-134 1.334074234415894e-08
-135 6.268562335876027e-10
-136 1.3882806015885762e-10
-137 6.732681079313352e-11
-138 8.805089990460147e-11
-139 1.786482073384832e-11
-140 1.1209422279279124e-11
-141 3.552769189951732e-12
-142 1.8655077482776505e-12
-143 3.6992631180510216e-13
-CPU times: user 5.46 s, sys: 2.93 ms, total: 5.47 s
-Wall time: 346 ms
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 2.38 s, sys: 5.32 ms, total: 2.38 s
-Wall time: 640 ms
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 2.09 s, sys: 6.07 ms, total: 2.1 s
+Wall time: 769 ms
 </pre></div>
 </div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(np.float64(1.0), np.float64(0.4871876749855047))

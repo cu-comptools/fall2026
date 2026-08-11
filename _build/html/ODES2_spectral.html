@@ -245,7 +245,7 @@
       
       
       
-      <li><a href="https://mybinder.org/v2/gh/cu-comptools/fall2024/main?urlpath=tree/ODES2_spectral.ipynb" target="_blank"
+      <li><a href="https://mybinder.org/v2/gh/cu-comptools/fall2026/main?urlpath=tree/ODES2_spectral.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch on Binder"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -276,7 +276,7 @@
       
       
       
-      <li><a href="https://github.com/cu-comptools/fall2024" target="_blank"
+      <li><a href="https://github.com/cu-comptools/fall2026" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
    title="Source repository"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -293,7 +293,7 @@
       
       
       
-      <li><a href="https://github.com/cu-comptools/fall2024/issues/new?title=Issue%20on%20page%20%2FODES2_spectral.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/cu-comptools/fall2026/issues/new?title=Issue%20on%20page%20%2FODES2_spectral.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -441,8 +441,8 @@ document.write(`
 <h2>6.1 Some basics<a class="headerlink" href="#some-basics" title="Link to this heading">#</a></h2>
 <p>Most numerical libraries will let you call well-established methods to solve <em>initial value problems</em>. These are (ordinary) differential equations with <em>complementary conditions</em> that are posed at the start of the solution range. <em>Boundary value problems</em> impose conditions at either end of this interval.</p>
 <p>Any higher-order IVP may be written in the form</p>
-<div class="amsmath math notranslate nohighlight" id="equation-4443d649-c96f-425b-820f-5fa9eecec79f">
-<span class="eqno">(6)<a class="headerlink" href="#equation-4443d649-c96f-425b-820f-5fa9eecec79f" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-4eb548fa-2893-489b-be03-48702fc3cf4e">
+<span class="eqno">(6)<a class="headerlink" href="#equation-4eb548fa-2893-489b-be03-48702fc3cf4e" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathbf{u}'(t) &amp;= f(\mathbf{u}(t)), \quad t \in [a, b], \\
 \mathbf{u}(a) &amp;= \mathbf{u}_0. 
 \end{align}\]</div>
@@ -491,8 +491,8 @@ document.write(`
 </table>
 </div>
 <p>The basic idea is to turn our ODE and supplementary information (boundary, initial, or mixed) into a (sequence of) linear system(s) to solve. Starting from the simplest example,</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7c3d7daf-91d0-4000-961c-4b1cdc09450c">
-<span class="eqno">(7)<a class="headerlink" href="#equation-7c3d7daf-91d0-4000-961c-4b1cdc09450c" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-74bfa0ef-3011-4204-93f0-a5db826cd52a">
+<span class="eqno">(7)<a class="headerlink" href="#equation-74bfa0ef-3011-4204-93f0-a5db826cd52a" title="Permalink to this equation">#</a></span>\[\begin{align}
 u' &amp;= f(t), \quad t \in [a, b], \\
 u(a) &amp;= u_0,
 \end{align}\]</div>
@@ -601,7 +601,7 @@ D^{(n)}\begin{bmatrix} u_0 \\ u_1 \\ \vdots \\ u_n \end{bmatrix} =
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:16: SyntaxWarning: invalid escape sequence &#39;\c&#39;
 &lt;&gt;:16: SyntaxWarning: invalid escape sequence &#39;\c&#39;
-/tmp/ipykernel_556404/3742093910.py:16: SyntaxWarning: invalid escape sequence &#39;\c&#39;
+/tmp/ipykernel_2301111/3742093910.py:16: SyntaxWarning: invalid escape sequence &#39;\c&#39;
   plt.semilogy(ns, errs2, &#39;--&#39;, label = &quot;$f(x) = \cos(5x)$&quot;)
 </pre></div>
 </div>
@@ -634,7 +634,7 @@ D^{(n)}\begin{bmatrix} u_0 \\ u_1 \\ \vdots \\ u_n \end{bmatrix} =
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:15: SyntaxWarning: invalid escape sequence &#39;\p&#39;
 &lt;&gt;:15: SyntaxWarning: invalid escape sequence &#39;\p&#39;
-/tmp/ipykernel_556404/3577818505.py:15: SyntaxWarning: invalid escape sequence &#39;\p&#39;
+/tmp/ipykernel_2301111/3577818505.py:15: SyntaxWarning: invalid escape sequence &#39;\p&#39;
   plt.loglog(hs, hs**(n-1)*errs[0]/hs[0]**(n-1), &#39;--&#39;, label = &quot;$\propto h^{n-1}$&quot;)
 </pre></div>
 </div>
@@ -698,8 +698,8 @@ u_0 \\ f_1 \\ \vdots \\ f_n
 </div>
 <p>Repeated differentiation can be done by the repeated application of <span class="math notranslate nohighlight">\(D\)</span>, e.g. <span class="math notranslate nohighlight">\(u'' = D^2 u\)</span>.</p>
 <p>Neumann conditions are most easily added by appending the relevant row of <span class="math notranslate nohighlight">\(D\)</span> to the left-hand-side, e.g. <span class="math notranslate nohighlight">\(u'(-1) = u'_0\)</span> may be written as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-166ae118-3bad-4a74-a3f7-0576e73840cb">
-<span class="eqno">(8)<a class="headerlink" href="#equation-166ae118-3bad-4a74-a3f7-0576e73840cb" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-f36fa450-33d3-47f6-b341-58b7d617cfb9">
+<span class="eqno">(8)<a class="headerlink" href="#equation-f36fa450-33d3-47f6-b341-58b7d617cfb9" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \begin{bmatrix} D_{00} &amp; D_{01} &amp; \ldots  &amp; D_{0n} \end{bmatrix}
 \begin{bmatrix} u_0 \\ u_1 \\ \vdots \\ u_n \end{bmatrix}
 = u'_0.

@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -185,6 +185,12 @@
 <li class="toctree-l1"><a class="reference internal" href="course_introduction.html">0. Course introduction</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">1. Computation fundamentals</a></li>
 <li class="toctree-l1"><a class="reference internal" href="github.html">2. Good coding practices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">3. Interpolation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp2.html">4. Interpolation II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quadrature.html">5. Quadrature</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">6. Ordinary differential equations I</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_1_RK.html">7. Ordinary differential equations II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">8. Ordinary differential equations III</a></li>
 </ul>
 
     </div>
@@ -239,7 +245,7 @@
       
       
       
-      <li><a href="https://mybinder.org/v2/gh/cu-comptools/fall2024/main?urlpath=tree/comp_fundamentals.ipynb" target="_blank"
+      <li><a href="https://mybinder.org/v2/gh/cu-comptools/fall2026/main?urlpath=tree/comp_fundamentals.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch on Binder"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -270,7 +276,7 @@
       
       
       
-      <li><a href="https://github.com/cu-comptools/fall2024" target="_blank"
+      <li><a href="https://github.com/cu-comptools/fall2026" target="_blank"
    class="btn btn-sm btn-source-repository-button dropdown-item"
    title="Source repository"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -287,7 +293,7 @@
       
       
       
-      <li><a href="https://github.com/cu-comptools/fall2024/issues/new?title=Issue%20on%20page%20%2Fcomp_fundamentals.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/cu-comptools/fall2026/issues/new?title=Issue%20on%20page%20%2Fcomp_fundamentals.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -695,18 +701,6 @@ If I were to evaluate <span class="math notranslate nohighlight">\(p\)</span> at
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">run_line_magic</span><span class="p">(</span><span class="s1">&#39;matplotlib&#39;</span><span class="p">,</span> <span class="s1">&#39;inline&#39;</span><span class="p">)</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;numpy&#39;
-</pre></div>
-</div>
-</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -732,7 +726,7 @@ If I were to evaluate <span class="math notranslate nohighlight">\(p\)</span> at
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/480a6d1acfcc9ae0ea30ef9701eeda294f0bf33c6f5d466517184b6b83eb74ac.png" src="_images/480a6d1acfcc9ae0ea30ef9701eeda294f0bf33c6f5d466517184b6b83eb74ac.png" />
+<img alt="_images/c3866c7be01d93e08d1e6a6aaf596eb91744e63db7b24619020375b58d5f5afb.png" src="_images/c3866c7be01d93e08d1e6a6aaf596eb91744e63db7b24619020375b58d5f5afb.png" />
 </div>
 </div>
 <p>What’s going on? We are very close to the roots of the poynomial, so the scale of the <span class="math notranslate nohighlight">\(y\)</span>-axis is <span class="math notranslate nohighlight">\(10^{-10}\)</span>, and we observe differences between the two evaluation methods of order <span class="math notranslate nohighlight">\(10^{-11}\)</span>, with the factorized evaluation giving a visibly smoother curve.</p>
