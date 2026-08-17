@@ -3,13 +3,13 @@
 Welcome to **CSCI 5526 Fall 2026: Computational Tools for Multiscale Problems**. 
 
 ```{admonition} Logistics
-**Course**: CSCI 5526, Fall 2026
-**Time**: Tuesday and Thursday, 2:00 PM – 3:15 PM   
-**Location**: University Club 6
-**Instructor**: Fruzsina Agocs   
-**Email**: fruzsina.agocs@colorado.edu   
-**Office hours**: TBD
-<a href="img/syllabus.pdf" target="_blank">**Syllabus**</a> 
+* **Course**: CSCI 5526, Fall 2026
+* **Time**: Tuesday and Thursday, 2:00 PM – 3:15 PM   
+* **Location**: University Club 6
+* **Instructor**: Fruzsina Agocs  
+* **Email**: fruzsina.agocs@colorado.edu   
+* **Office hours**: TBD
+* <a href="img/syllabus.pdf" target="_blank">**Syllabus**</a> 
 ```
 
 ## Resources 
