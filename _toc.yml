@@ -9,7 +9,7 @@ chapters:
 # - file: hw_2
 # - file: papers
 - file: course_introduction
-- file: comp_fundamentals
+- file: floatingpoint
 - file: github
 - file: poly_interp
 - file: poly_interp2
