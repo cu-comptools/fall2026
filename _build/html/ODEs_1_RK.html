@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>7. Ordinary differential equations II &#8212; Computational Tools for Multiscale Problems</title>
+    <title>8. Ordinary differential equations II &#8212; Computational Tools for Multiscale Problems</title>
   
   
   
@@ -62,8 +62,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'ODEs_1_RK';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="8. Ordinary differential equations III" href="ODEs_3_asymptotic.html" />
-    <link rel="prev" title="6. Ordinary differential equations I" href="ODES2_spectral.html" />
+    <link rel="next" title="9. Ordinary differential equations III" href="ODEs_3_asymptotic.html" />
+    <link rel="prev" title="7. Ordinary differential equations I" href="ODES2_spectral.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -183,14 +183,15 @@
         </ul>
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="course_introduction.html">0. Course introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="comp_fundamentals.html">1. Computation fundamentals</a></li>
-<li class="toctree-l1"><a class="reference internal" href="github.html">2. Good coding practices</a></li>
-<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">3. Interpolation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="poly_interp2.html">4. Interpolation II</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quadrature.html">5. Quadrature</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">6. Ordinary differential equations I</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">7. Ordinary differential equations II</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">8. Ordinary differential equations III</a></li>
+<li class="toctree-l1"><a class="reference internal" href="floatingpoint.html">1. Floating point representation and roundoff error</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conditionnumber.html">2. Conditioning of a problem and the condition number</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">3. Good coding practices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">4. Interpolation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp2.html">5. Interpolation II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quadrature.html">6. Quadrature</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">7. Ordinary differential equations I</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">8. Ordinary differential equations II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">9. Ordinary differential equations III</a></li>
 </ul>
 
     </div>
@@ -407,7 +408,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>7. Ordinary differential equations II</h1>
+    <h1>8. Ordinary differential equations II</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -417,11 +418,11 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recap">7.1 Recap</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forecasting-and-unit-local-truncation-error">7.2 Forecasting and (unit) local truncation error</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#runge-kutta-methods">7.3 Runge–Kutta methods</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adaptive-stepsize">7.4 Adaptive stepsize</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stability">7.5 Stability</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recap">8.1 Recap</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forecasting-and-unit-local-truncation-error">8.2 Forecasting and (unit) local truncation error</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#runge-kutta-methods">8.3 Runge–Kutta methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adaptive-stepsize">8.4 Adaptive stepsize</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stability">8.5 Stability</a></li>
 </ul>
             </nav>
         </div>
@@ -434,12 +435,12 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="ordinary-differential-equations-ii">
-<h1>7. Ordinary differential equations II<a class="headerlink" href="#ordinary-differential-equations-ii" title="Link to this heading">#</a></h1>
+<h1>8. Ordinary differential equations II<a class="headerlink" href="#ordinary-differential-equations-ii" title="Link to this heading">#</a></h1>
 <section id="recap">
-<h2>7.1 Recap<a class="headerlink" href="#recap" title="Link to this heading">#</a></h2>
+<h2>8.1 Recap<a class="headerlink" href="#recap" title="Link to this heading">#</a></h2>
 <p>Numerical libraries have plenty of methods for solving initial value problems, which they usually ask for in the standard form</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e73880e3-0fd3-4ce5-b2ba-7e7c35397bdc">
-<span class="eqno">(9)<a class="headerlink" href="#equation-e73880e3-0fd3-4ce5-b2ba-7e7c35397bdc" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-c4e8530b-55a1-4435-9bc1-64712e26714c">
+<span class="eqno">(9)<a class="headerlink" href="#equation-c4e8530b-55a1-4435-9bc1-64712e26714c" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathbf{u}'(t) &amp;= f(\mathbf{u}(t)), \quad t \in [a, b], \\
 \mathbf{u}(a) &amp;= \mathbf{u}_0,
 \end{align}\]</div>
@@ -462,7 +463,7 @@ Optionally, you can usually set</p></li>
 </ul>
 </section>
 <section id="forecasting-and-unit-local-truncation-error">
-<h2>7.2 Forecasting and (unit) local truncation error<a class="headerlink" href="#forecasting-and-unit-local-truncation-error" title="Link to this heading">#</a></h2>
+<h2>8.2 Forecasting and (unit) local truncation error<a class="headerlink" href="#forecasting-and-unit-local-truncation-error" title="Link to this heading">#</a></h2>
 <p>For describing the forecasting function of each method, we’ll use the following notation. The exact solution will be denoted <span class="math notranslate nohighlight">\(u\)</span>, the numerical approximation of which is <span class="math notranslate nohighlight">\(\tilde{u}\)</span>. The timesteps taken by the solver are <span class="math notranslate nohighlight">\(\{t_i\}_{i=0}^{n}\)</span>, with the length of steps (not necessarily equal) being <span class="math notranslate nohighlight">\(\{h_i\}_{i=0}^{n}\)</span>, where <span class="math notranslate nohighlight">\(h_i = t_{i+1} - t_i\)</span>. The forecasting function is defined as</p>
 <div class="math notranslate nohighlight">
 \[ \tilde{u}_{i} = \tilde{u}_{i-1} + h_{i-1}\Phi(t_i, t_{i-1}, \ldots; \tilde{u}_i, \tilde{u}_{i-1},\ldots;f). \]</div>
@@ -548,7 +549,7 @@ which is the bound we wanted to show, with <span class="math notranslate nohighl
 <p>Even though this proof works with uniform stepsizes, the conclusions generally hold. Let’s now look at some examples of how one would get <span class="math notranslate nohighlight">\(\Delta \propto h^{p+1}\)</span>-type local truncation error.</p>
 </section>
 <section id="runge-kutta-methods">
-<h2>7.3 Runge–Kutta methods<a class="headerlink" href="#runge-kutta-methods" title="Link to this heading">#</a></h2>
+<h2>8.3 Runge–Kutta methods<a class="headerlink" href="#runge-kutta-methods" title="Link to this heading">#</a></h2>
 <p>Most large numerical libraries will have a <em>Runge–Kutta</em> method as a default ODE (initial value problem) solver.
 These methods all work on the basis of matching the first given number of term’s in <span class="math notranslate nohighlight">\(u\)</span>’s Taylor expansion around the current timestep, for example,
 <span class="math notranslate nohighlight">\(u(t_{i+1}) \approx u(t_i) + hu'(t_i) + \frac{1}{2}h^2 u''(t_i) + \mathcal{O}(h^3).\)</span>
@@ -571,8 +572,8 @@ We see that as we try to match more and more terms in the Taylor expansion, more
 
 (Check this yourself!)</p>
 <p>More generally, we can match even more terms in <span class="math notranslate nohighlight">\(u\)</span>’s Taylor expansion by making several intermediate <span class="math notranslate nohighlight">\(f\)</span>-evaluations. These intermediate evaluations constitute <strong>stages</strong> of a Runge–Kutta method. For <span class="math notranslate nohighlight">\(s\)</span> stages, the forecasting step can be summarized as (note that I’ll write <span class="math notranslate nohighlight">\(u_i := u(t_i)\)</span>)</p>
-<div class="amsmath math notranslate nohighlight" id="equation-35107b5f-e9cf-4a31-9c1c-4af4c83f4c47">
-<span class="eqno">(10)<a class="headerlink" href="#equation-35107b5f-e9cf-4a31-9c1c-4af4c83f4c47" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-079a69b9-305c-4b10-bf88-cbb80b7a8668">
+<span class="eqno">(10)<a class="headerlink" href="#equation-079a69b9-305c-4b10-bf88-cbb80b7a8668" title="Permalink to this equation">#</a></span>\[\begin{align}
 &amp;k_1 = hf(t_i, u_i),\\
 &amp;k_2 = hf(t_i + c_1h, u_i + a_{11}k_1 + a_{12}k_2 + \ldots + a_{1s}k_s),\\
 &amp;\vdots \\
@@ -652,7 +653,7 @@ where <span class="math notranslate nohighlight">\(u_{i+1}^{\ast}\)</span> will 
 </div>
 </section>
 <section id="adaptive-stepsize">
-<h2>7.4 Adaptive stepsize<a class="headerlink" href="#adaptive-stepsize" title="Link to this heading">#</a></h2>
+<h2>8.4 Adaptive stepsize<a class="headerlink" href="#adaptive-stepsize" title="Link to this heading">#</a></h2>
 <p>Let’s revisit how the <span class="math notranslate nohighlight">\(i\)</span>-th stepsize, <span class="math notranslate nohighlight">\(h_i\)</span>, is selected in something like a <span class="math notranslate nohighlight">\(p\)</span>-th order Runge–Kutta method, whose LTE varies as
 <div class="math notranslate nohighlight">
 \[ \Delta_i = ch^{p+1}. \]</div>
@@ -674,7 +675,7 @@ Thus if <span class="math notranslate nohighlight">\(\Delta_{i-1} &lt; \varepsil
 <p>Stepsize control theory is a rich field that deals with the construction of various filters for getting rid of oscillatory behaviour in the stepsizes, which you can read about <a class="reference external" href="https://link.springer.com/article/10.1023/A:1021160023092">here</a>.</p>
 </section>
 <section id="stability">
-<h2>7.5 Stability<a class="headerlink" href="#stability" title="Link to this heading">#</a></h2>
+<h2>8.5 Stability<a class="headerlink" href="#stability" title="Link to this heading">#</a></h2>
 <p>What’s the use of implicit methods if they’re generally more computationally expensive than explicit ones?
 Their strength lies in stability. Note that this is a different notion of stability than that of an algorithm as we discussed in Ch. 1.</p>
 <p>For the sake of explaining what stability is, let us define the <strong>Dahlquist test equation</strong>,
@@ -875,7 +876,7 @@ Let’s plot their stability regions.</p>
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">6. Ordinary differential equations I</p>
+        <p class="prev-next-title">7. Ordinary differential equations I</p>
       </div>
     </a>
     <a class="right-next"
@@ -883,7 +884,7 @@ Let’s plot their stability regions.</p>
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">8. Ordinary differential equations III</p>
+        <p class="prev-next-title">9. Ordinary differential equations III</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -903,11 +904,11 @@ Let’s plot their stability regions.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recap">7.1 Recap</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forecasting-and-unit-local-truncation-error">7.2 Forecasting and (unit) local truncation error</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#runge-kutta-methods">7.3 Runge–Kutta methods</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adaptive-stepsize">7.4 Adaptive stepsize</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stability">7.5 Stability</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recap">8.1 Recap</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forecasting-and-unit-local-truncation-error">8.2 Forecasting and (unit) local truncation error</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#runge-kutta-methods">8.3 Runge–Kutta methods</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adaptive-stepsize">8.4 Adaptive stepsize</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stability">8.5 Stability</a></li>
 </ul>
   </nav></div>
 

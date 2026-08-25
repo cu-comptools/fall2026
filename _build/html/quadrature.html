@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>5. Quadrature &#8212; Computational Tools for Multiscale Problems</title>
+    <title>6. Quadrature &#8212; Computational Tools for Multiscale Problems</title>
   
   
   
@@ -62,8 +62,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'quadrature';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="6. Ordinary differential equations I" href="ODES2_spectral.html" />
-    <link rel="prev" title="4. Interpolation II" href="poly_interp2.html" />
+    <link rel="next" title="7. Ordinary differential equations I" href="ODES2_spectral.html" />
+    <link rel="prev" title="5. Interpolation II" href="poly_interp2.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -183,14 +183,15 @@
         </ul>
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="course_introduction.html">0. Course introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="comp_fundamentals.html">1. Computation fundamentals</a></li>
-<li class="toctree-l1"><a class="reference internal" href="github.html">2. Good coding practices</a></li>
-<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">3. Interpolation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="poly_interp2.html">4. Interpolation II</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">5. Quadrature</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">6. Ordinary differential equations I</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ODEs_1_RK.html">7. Ordinary differential equations II</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">8. Ordinary differential equations III</a></li>
+<li class="toctree-l1"><a class="reference internal" href="floatingpoint.html">1. Floating point representation and roundoff error</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conditionnumber.html">2. Conditioning of a problem and the condition number</a></li>
+<li class="toctree-l1"><a class="reference internal" href="github.html">3. Good coding practices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">4. Interpolation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp2.html">5. Interpolation II</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">6. Quadrature</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">7. Ordinary differential equations I</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_1_RK.html">8. Ordinary differential equations II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">9. Ordinary differential equations III</a></li>
 </ul>
 
     </div>
@@ -407,7 +408,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>5. Quadrature</h1>
+    <h1>6. Quadrature</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -432,7 +433,7 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="quadrature">
-<h1>5. Quadrature<a class="headerlink" href="#quadrature" title="Link to this heading">#</a></h1>
+<h1>6. Quadrature<a class="headerlink" href="#quadrature" title="Link to this heading">#</a></h1>
 <p>In quadrature (numerical integration), the goal is to approximate</p>
 <div class="math notranslate nohighlight">
 \[ Q(f) := \int_a^b f(x)\mathrm{d}x \]</div>
@@ -636,8 +637,8 @@ and then we can set <span class="math notranslate nohighlight">\(c = b-a\)</span
 <div class="math notranslate nohighlight">
 \[ I_n = \int_{|z| = r'} m(z) u(z)\mathrm{d}z. \]</div>
 <p>The construction of <span class="math notranslate nohighlight">\(m(z)\)</span> ensures that when we apply Cauchy’s theorem to the above integral, we pick up the evaluations of <span class="math notranslate nohighlight">\(u(z)\)</span> with the right quadrature weights as the residues of the integrand at the poles, and that the poles are the quadrature nodes <span class="math notranslate nohighlight">\(z_k\)</span>. Then we may write</p>
-<div class="amsmath math notranslate nohighlight" id="equation-cc2f51d6-be60-44fb-81a1-d50660437e00">
-<span class="eqno">(5)<a class="headerlink" href="#equation-cc2f51d6-be60-44fb-81a1-d50660437e00" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-89098b14-3cd2-4813-9562-682c2bd61c23">
+<span class="eqno">(5)<a class="headerlink" href="#equation-89098b14-3cd2-4813-9562-682c2bd61c23" title="Permalink to this equation">#</a></span>\[\begin{align}
 I_n - I &amp;= \int_{|z| = r'} \left[ m(z) + iz^{-1} \right] u(z)\mathrm{d}z  \\ 
 &amp;= \int_{|z| = r'} \frac{iz^{-1} u(z)}{-z^N + 1}\mathrm{d}z \\
 &amp;\leq M \int_{|z| = r'} \left| \frac{iz^{-1}}{-z^N + 1}\right| \mathrm{d}z \\
@@ -702,7 +703,7 @@ This integrates degree-2 polynomials exactly.</p>
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">4. Interpolation II</p>
+        <p class="prev-next-title">5. Interpolation II</p>
       </div>
     </a>
     <a class="right-next"
@@ -710,7 +711,7 @@ This integrates degree-2 polynomials exactly.</p>
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">6. Ordinary differential equations I</p>
+        <p class="prev-next-title">7. Ordinary differential equations I</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

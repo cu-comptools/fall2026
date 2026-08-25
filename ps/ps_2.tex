@@ -1,0 +1,57 @@
+\documentclass[11pt]{article}
+\usepackage[letterpaper,margin=0.85in,top=1.05in,bottom=0.7in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{lastpage}
+%\usepackage{newtxtext,newtxmath}
+
+\definecolor{accent}{HTML}{274C77}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\headheight}{42pt}
+\setlength{\headsep}{18pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{%
+  \begin{minipage}[t]{0.56\textwidth}
+  \textbf{CSCI 5526}\\[-1pt]
+  Computational Tools for Multiscale Problems
+  \end{minipage}}
+\fancyhead[R]{%
+  \begin{minipage}[t]{0.38\textwidth}\raggedleft
+  \today\\[-1pt]
+  \textbf{Due:} --
+  \end{minipage}}
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{accent}\leaders\hrule height \headrulewidth\hfill}}
+
+% Number only; no "Problem x" heading.
+\newcommand{\problem}[1]{\vspace{0.6em}\noindent{\large\bfseries #1.}\hspace{0.45em}}
+
+% Uniform blank response area after every problem.
+\newcommand{\answerspace}{\par\vspace{3.5in}}
+
+\begin{document}
+
+\begin{center}
+  {\fontsize{25}{30}\selectfont\bfseries Problem Set 2}\par
+  \vspace{0.35em}
+  {\large\color{gray!75!black}Condition number}
+\end{center}
+\vspace{0.75em}
+
+\problem{1}
+If the relative condition number of the real-valued functions $f$ and $g$ are $\kappa_f$ and $\kappa_g$ respectively, show that for $h(x) = f(g(x))$, 
+$$\kappa_h(x) = \kappa_f(g(x))\kappa_g(x).$$
+\answerspace
+
+\vspace{-2in}
+\problem{2}
+The polynomial $p(x) = a_0 + a_1x + \ldots + a_nx^n$ has a root $x = r$. What is the (relative) condition number of the root $r$ with respect to perturbations in the coefficient $a_k$, keeping all other coefficients constant? Simplify your answer as much as possible. Deduce when root finding problems become ill-conditioned (there are multiple cases here!).
+\answerspace
+
+\end{document}

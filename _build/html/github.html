@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>2. Good coding practices &#8212; Computational Tools for Multiscale Problems</title>
+    <title>3. Good coding practices &#8212; Computational Tools for Multiscale Problems</title>
   
   
   
@@ -60,8 +60,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'github';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="3. Interpolation" href="poly_interp.html" />
-    <link rel="prev" title="1. Computation fundamentals" href="comp_fundamentals.html" />
+    <link rel="next" title="4. Interpolation" href="poly_interp.html" />
+    <link rel="prev" title="2. Conditioning of a problem and the condition number" href="conditionnumber.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -181,14 +181,15 @@
         </ul>
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="course_introduction.html">0. Course introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="comp_fundamentals.html">1. Computation fundamentals</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">2. Good coding practices</a></li>
-<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">3. Interpolation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="poly_interp2.html">4. Interpolation II</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quadrature.html">5. Quadrature</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">6. Ordinary differential equations I</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ODEs_1_RK.html">7. Ordinary differential equations II</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">8. Ordinary differential equations III</a></li>
+<li class="toctree-l1"><a class="reference internal" href="floatingpoint.html">1. Floating point representation and roundoff error</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conditionnumber.html">2. Conditioning of a problem and the condition number</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">3. Good coding practices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">4. Interpolation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp2.html">5. Interpolation II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quadrature.html">6. Quadrature</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">7. Ordinary differential equations I</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_1_RK.html">8. Ordinary differential equations II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">9. Ordinary differential equations III</a></li>
 </ul>
 
     </div>
@@ -405,7 +406,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>2. Good coding practices</h1>
+    <h1>3. Good coding practices</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -415,15 +416,15 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-control-with-github">2.1 Version control (with GitHub)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#repositories-cloning-and-forking">2.1.1 Repositories, cloning and forking</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#making-progress-add-commit-push">2.1.2 Making progress: add, commit, push</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#branching-and-merging">2.1.3 Branching and merging</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pull-requests">2.1.4 Pull requests</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-control-with-github">3.1 Version control (with GitHub)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#repositories-cloning-and-forking">3.1.1 Repositories, cloning and forking</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#making-progress-add-commit-push">3.1.2 Making progress: add, commit, push</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#branching-and-merging">3.1.3 Branching and merging</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pull-requests">3.1.4 Pull requests</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">2.2 Documentation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">2.3 Testing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">3.2 Documentation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">3.3 Testing</a></li>
 </ul>
             </nav>
         </div>
@@ -436,7 +437,7 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="good-coding-practices">
-<h1>2. Good coding practices<a class="headerlink" href="#good-coding-practices" title="Link to this heading">#</a></h1>
+<h1>3. Good coding practices<a class="headerlink" href="#good-coding-practices" title="Link to this heading">#</a></h1>
 <div class="warning admonition">
 <p class="admonition-title">Additional resources</p>
 <p>A collection of links that appear in this lecture:</p>
@@ -446,7 +447,7 @@ document.write(`
 </ul>
 </div>
 <section id="version-control-with-github">
-<h2>2.1 Version control (with GitHub)<a class="headerlink" href="#version-control-with-github" title="Link to this heading">#</a></h2>
+<h2>3.1 Version control (with GitHub)<a class="headerlink" href="#version-control-with-github" title="Link to this heading">#</a></h2>
 <p>Version control is the practice of tracking and organizing (source) code in software engineering.
 Git is a version control system which automates this process, and GitHub is one of the hosting platforms that uses Git. It allows you to roll back to previous versions of your code, make experimental changes on new branches, merge fixes, and work collaboratively on the same codebase.</p>
 <p>The only place where you can run all Git commands is via its command line interface, accessed via the <code class="docutils literal notranslate"><span class="pre">git</span></code> package. All commands start with <code class="docutils literal notranslate"><span class="pre">git</span></code>, and you can generate a list of them with descriptions using the <code class="docutils literal notranslate"><span class="pre">man</span></code> (for “manual”) bash command in your terminal,</p>
@@ -463,7 +464,7 @@ on Linux, or <code class="docutils literal notranslate"><span class="pre">brew</
 </ol>
 </div>
 <section id="repositories-cloning-and-forking">
-<h3>2.1.1 Repositories, cloning and forking<a class="headerlink" href="#repositories-cloning-and-forking" title="Link to this heading">#</a></h3>
+<h3>3.1.1 Repositories, cloning and forking<a class="headerlink" href="#repositories-cloning-and-forking" title="Link to this heading">#</a></h3>
 <p>On GitHub, your code is organized in structures called <em>repositories</em>, which you can think of as separate projects. Within a repository, your code may be organized in a directory structure. It is stored “in the cloud”, meaning on some server somewhere else.</p>
 <p>You can have several copies of the code that lives on GitHub, e.g. on your personal laptop, on your workstation at the university, etc. We’ll call these copies <em>local</em> copies. To get a local copy, you can <em>fork</em> or <em>clone</em> a repository.</p>
 <p><strong>Forking</strong> creates a copy of the repository in that moment and associates the copy with your account. You’re then free to develop it however you like, it is your individual copy with no others having access to it. You would typically fork a repository if you</p>
@@ -499,7 +500,7 @@ git<span class="w"> </span>init
 <p>These three commands created a directory with your chosen repo name, changed diretories into that directory, and then initialized a git repository. Alternatively, the GitHub web interface walks you through creating a repository which you can then clone to your local machine.</p>
 </section>
 <section id="making-progress-add-commit-push">
-<h3>2.1.2 Making progress: add, commit, push<a class="headerlink" href="#making-progress-add-commit-push" title="Link to this heading">#</a></h3>
+<h3>3.1.2 Making progress: add, commit, push<a class="headerlink" href="#making-progress-add-commit-push" title="Link to this heading">#</a></h3>
 <p>Once a local copy is created, GitHub tracks changes to the files within a repository via <em>commits</em>. These are incremental changes to source code.</p>
 <p>All files within your repository start off being untracket by git. You can add them to the version control system like this</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>add<span class="w"> </span>&lt;files&gt;<span class="w"> </span>
@@ -513,14 +514,14 @@ git<span class="w"> </span>init
 <p>It is good practice to add an <strong>informative</strong> commit message so that future you can understand what changes were made in a commit.</p>
 </section>
 <section id="branching-and-merging">
-<h3>2.1.3 Branching and merging<a class="headerlink" href="#branching-and-merging" title="Link to this heading">#</a></h3>
+<h3>3.1.3 Branching and merging<a class="headerlink" href="#branching-and-merging" title="Link to this heading">#</a></h3>
 </section>
 <section id="pull-requests">
-<h3>2.1.4 Pull requests<a class="headerlink" href="#pull-requests" title="Link to this heading">#</a></h3>
+<h3>3.1.4 Pull requests<a class="headerlink" href="#pull-requests" title="Link to this heading">#</a></h3>
 </section>
 </section>
 <section id="documentation">
-<h2>2.2 Documentation<a class="headerlink" href="#documentation" title="Link to this heading">#</a></h2>
+<h2>3.2 Documentation<a class="headerlink" href="#documentation" title="Link to this heading">#</a></h2>
 <p>Documentation is essential for people (including yourself) to be able to use and reproduce your results.
 There are roughly 3 levels of it:</p>
 <ol class="arabic simple">
@@ -559,7 +560,7 @@ There are roughly 3 levels of it:</p>
 <p>If you write docstrings in the above format (which is called the NumPy format), or a different standardized format such as the Google format, it can be converted to API documentation automatically. For example, <a class="reference external" href="https://oscode.readthedocs.io/en/latest/">this C++/Python software package</a> has API documentation that was auto-generated from docstrings. Docstrings may contain math formulae, or more complicated examples, see e.g the <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html">SciPy documentation</a> (click on “source” near the name of the function the link leads you to and you’ll see that it was all generated from a docstring).</p>
 </section>
 <section id="testing">
-<h2>2.3 Testing<a class="headerlink" href="#testing" title="Link to this heading">#</a></h2>
+<h2>3.3 Testing<a class="headerlink" href="#testing" title="Link to this heading">#</a></h2>
 <p>Debugging code becomes far quicker when it is written in a modular way (i.e. is broken down into functions that only do one specific task), and and the modules have separate tests. This allows you to narrow down <em>where</em> the bug is coming from. If you have version control, you can also track <em>when</em> a bug was introduced. Roughly speaking, there are two types of tests,</p>
 <ul class="simple">
 <li><p>unit tests (test the functionality of a small function that only does one thing),</p></li>
@@ -604,12 +605,12 @@ There are roughly 3 levels of it:</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="comp_fundamentals.html"
+       href="conditionnumber.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">1. Computation fundamentals</p>
+        <p class="prev-next-title">2. Conditioning of a problem and the condition number</p>
       </div>
     </a>
     <a class="right-next"
@@ -617,7 +618,7 @@ There are roughly 3 levels of it:</p>
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">3. Interpolation</p>
+        <p class="prev-next-title">4. Interpolation</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -637,15 +638,15 @@ There are roughly 3 levels of it:</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-control-with-github">2.1 Version control (with GitHub)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#repositories-cloning-and-forking">2.1.1 Repositories, cloning and forking</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#making-progress-add-commit-push">2.1.2 Making progress: add, commit, push</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#branching-and-merging">2.1.3 Branching and merging</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pull-requests">2.1.4 Pull requests</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#version-control-with-github">3.1 Version control (with GitHub)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#repositories-cloning-and-forking">3.1.1 Repositories, cloning and forking</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#making-progress-add-commit-push">3.1.2 Making progress: add, commit, push</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#branching-and-merging">3.1.3 Branching and merging</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pull-requests">3.1.4 Pull requests</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">2.2 Documentation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">2.3 Testing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">3.2 Documentation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">3.3 Testing</a></li>
 </ul>
   </nav></div>
 

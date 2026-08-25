@@ -1,0 +1,71 @@
+\documentclass[11pt]{article}
+\usepackage[letterpaper,margin=0.85in,top=1.05in,bottom=0.7in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{lastpage}
+%\usepackage{newtxtext,newtxmath}
+
+\definecolor{accent}{HTML}{274C77}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\headheight}{42pt}
+\setlength{\headsep}{18pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{%
+  \begin{minipage}[t]{0.56\textwidth}
+  \textbf{CSCI 5526}\\[-1pt]
+  Computational Tools for Multiscale Problems
+  \end{minipage}}
+\fancyhead[R]{%
+  \begin{minipage}[t]{0.38\textwidth}\raggedleft
+  August 20, 2026\\[-1pt]
+  \textbf{Due:} 08/27/2026 2pm
+  \end{minipage}}
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{accent}\leaders\hrule height \headrulewidth\hfill}}
+
+% Number only; no "Problem x" heading.
+\newcommand{\problem}[1]{\vspace{0.6em}\noindent{\large\bfseries #1.}\hspace{0.45em}}
+
+% Uniform blank response area after every problem.
+\newcommand{\answerspace}{\par\vspace{3.5in}}
+
+\begin{document}
+
+\begin{center}
+  {\fontsize{25}{30}\selectfont\bfseries Problem Set 1}\par
+  \vspace{0.35em}
+  {\large\color{gray!75!black}Floating-Point Representation and Computer Arithmetic}
+\end{center}
+\vspace{0.75em}
+
+\problem{1}
+Consider a (slightly bizarre) variation of floating point representation, where the exponent $n$ is represented by two bits and the fractional part of the mantissa, $f$, is represented by seven bits. What are the largest and smallest positive machine numbers that can be represented using this system (not including $\pm\infty$ or $\pm 0$)? Give your answers as both binary and decimal numbers.
+\answerspace
+
+\problem{2}
+Consider a variation of floating point representation in which the exponent is represented by $d$ bits and the fractional part of the mantissa is represented by four bits. If the largest and smallest positive machine numbers in this system are $248$ and $1.5625\times10^{-2}$, respectively, what is $d$?
+\answerspace
+
+\newpage
+
+\problem{3}
+Consider a computer that uses an arithmetic system that simply stores numbers in $n$-bit memory locations by dicing up the desired number range into $2^n-1$ even-size chunks. Explain why this is a Really Bad idea.
+\answerspace
+
+\problem{4}
+Consider yet another variation of floating point representation with
+\begin{itemize}[leftmargin=1.65em,itemsep=0.15em,topsep=0.35em]
+  \item one sign bit ($1=$ negative),
+  \item five exponent bits (without sign bits, but with the appropriate bias),
+  \item and eight mantissa bits.
+\end{itemize}
+What is the decimal (base-10) value of the number that is represented as $1\ 10011\ 10001000$? Show your work.
+\answerspace
+
+\end{document}
