@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>1. Computation fundamentals &#8212; Computational Tools for Multiscale Problems</title>
+    <title>3. Stability &#8212; Computational Tools for Multiscale Problems</title>
   
   
   
@@ -59,7 +59,7 @@
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'comp_fundamentals';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'stability_old';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -240,7 +240,7 @@
       
       
       
-      <li><a href="https://mybinder.org/v2/gh/cu-comptools/fall2026/main?urlpath=tree/comp_fundamentals.ipynb" target="_blank"
+      <li><a href="https://mybinder.org/v2/gh/cu-comptools/fall2026/main?urlpath=tree/stability_old.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch on Binder"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -288,7 +288,7 @@
       
       
       
-      <li><a href="https://github.com/cu-comptools/fall2026/issues/new?title=Issue%20on%20page%20%2Fcomp_fundamentals.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/cu-comptools/fall2026/issues/new?title=Issue%20on%20page%20%2Fstability_old.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -318,7 +318,7 @@
       
       
       
-      <li><a href="_sources/comp_fundamentals.ipynb" target="_blank"
+      <li><a href="_sources/stability_old.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -402,7 +402,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>1. Computation fundamentals</h1>
+    <h1>3. Stability</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -412,9 +412,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#floating-point-arithmetic">1.1 Floating-point arithmetic</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conditioning-of-a-problem-condition-number">1.2 Conditioning of a problem; condition number</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stability">1.3 Stability</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-error">3.1 Types of error</a></li>
 </ul>
             </nav>
         </div>
@@ -426,170 +424,20 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="computation-fundamentals">
-<h1>1. Computation fundamentals<a class="headerlink" href="#computation-fundamentals" title="Link to this heading">#</a></h1>
-<p>There are several sources of errors in computation:</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="stability">
+<h1>3. Stability<a class="headerlink" href="#stability" title="Link to this heading">#</a></h1>
+<p>Having looked at the source of numerical error being:</p>
 <ul class="simple">
-<li><p><strong>roundoff</strong>, a consequence of our digital representation of numbers,</p></li>
-<li><p><strong>conditioning</strong>, a property of the problem, and</p></li>
-<li><p><strong>stability</strong>, a property of the algorithm we use.</p></li>
+<li><p>the finite-precision representation computers use for real numbers,</p></li>
+<li><p>and the property of problems to amplify input errors by their relative condition number,
+we now turn our attention to the one thing we do have control over: what algorithm we use to solve a given problem, and how the algorithm itself affects errors.</p></li>
 </ul>
 <div class="warning admonition">
 <p class="admonition-title">Additional resource</p>
-<p>Trefethen and Bau’s <strong>Numerical Linear Algebra</strong>, Chapters 12-14.</p>
+<p>Corless &amp; Fillion: A graduate introduction to numerical methods, Ch. 1.4</p>
 </div>
-<section id="floating-point-arithmetic">
-<h2>1.1 Floating-point arithmetic<a class="headerlink" href="#floating-point-arithmetic" title="Link to this heading">#</a></h2>
-<p>Computers work in terms of floating-point numbers instead of reals <span class="math notranslate nohighlight">\(\mathbb{R}\)</span>.</p>
-<p>Let’s say <span class="math notranslate nohighlight">\(\circ\)</span> is an operator that rounds the real number <span class="math notranslate nohighlight">\(x \in \mathbb{R}\)</span> to the nearest floating-point number <span class="math notranslate nohighlight">\(\tilde{x}\)</span>:</p>
-<div class="math notranslate nohighlight">
-\[ \tilde{x} := \circ x. \]</div>
-<p>The <em>absolute</em> error induced by this representation is</p>
-<div class="math notranslate nohighlight">
-\[ \Delta x = \circ x - x = \tilde{x} - x, \]</div>
-<p>and the <em>relative</em> error is</p>
-<div class="math notranslate nohighlight">
-\[ \delta x = \frac{\Delta x}{x} = \frac{\tilde{x} - x}{x}. \]</div>
-<p>We can rearrange this as</p>
-<div class="math notranslate nohighlight">
-\[ \tilde{x} = (1 + \delta x)x. \]</div>
-<p>The IEEE (Institute of Electrical and Electronics Engineers) standard <em>guarantees</em> that</p>
-<div class="math notranslate nohighlight">
-\[ |\delta x| &lt; \mu_M = \tfrac{1}{2}\varepsilon_M, \]</div>
-<p>where <span class="math notranslate nohighlight">\(\varepsilon_M\)</span> is <strong>machine precision</strong>.</p>
-<div class="admonition-question admonition">
-<p class="admonition-title">Question</p>
-<p>Where does <span class="math notranslate nohighlight">\(\varepsilon_M\)</span> come from, and what is it in single and double precision arithmetic?</p>
-</div>
-<p>Numbers in floating-point arithmetic are represented as</p>
-<div class="math notranslate nohighlight">
-\[ \pm (1 + f) \cdot 2^n, \]</div>
-<p>where <span class="math notranslate nohighlight">\(n\)</span> is the <strong>exponent</strong> and <span class="math notranslate nohighlight">\((1+f)\)</span> is the <strong>mantissa</strong>.</p>
-<p>A fixed number of bits called the binary <strong>precision</strong>, denoted <span class="math notranslate nohighlight">\(d\)</span>, is then used to store <span class="math notranslate nohighlight">\(f\)</span> in base 2:</p>
-<div class="math notranslate nohighlight">
-\[ f = \sum_{i = 1}^d b_i 2^{-i}, \quad b_i \in \{0, 1\}. \]</div>
-<p>It’s useful to pull out a constant <span class="math notranslate nohighlight">\(2^{-d}\)</span> to get</p>
-<div class="math notranslate nohighlight">
-\[ f = 2^{-d}\sum_{i = 1}^{d} b_i 2^{d - i} = 2^{-d}z, \]</div>
-<p>where <span class="math notranslate nohighlight">\(z\)</span> is now an integer.</p>
-<div class="admonition-question admonition">
-<p class="admonition-title">Question</p>
-<p>What values can <span class="math notranslate nohighlight">\(z\)</span> take? How many numbers are there between <span class="math notranslate nohighlight">\(2^n\)</span> and <span class="math notranslate nohighlight">\(2^{n+1}\)</span>? What does that say about the relationship between <span class="math notranslate nohighlight">\(\varepsilon_M\)</span> and <span class="math notranslate nohighlight">\(d\)</span>?</p>
-</div>
-<p><span class="math notranslate nohighlight">\(z\)</span> takes values in <span class="math notranslate nohighlight">\( z \in \{0, 1, 2, \ldots, 2^{d} - 1\}\)</span>, therefore there are <span class="math notranslate nohighlight">\(2^d\)</span> integers between two adjacent powers of <span class="math notranslate nohighlight">\(2\)</span> in floating-point arithmetic. From this we can read off that</p>
-<div class="math notranslate nohighlight">
-\[ \varepsilon_M = 2^{-d}. \]</div>
-<p>In single precision, <span class="math notranslate nohighlight">\(d = 23\)</span> bits are used to represent the mantissa, therefore <span class="math notranslate nohighlight">\(\varepsilon_M \approx 2\cdot 10^{-7}\)</span> and from <span class="math notranslate nohighlight">\(\mu_M\)</span> we expect each number to be accurate to around 7 digits. For double precision, <span class="math notranslate nohighlight">\(d = 52\)</span> and numbers can be trusted to 16 digits.</p>
-</section>
-<section id="conditioning-of-a-problem-condition-number">
-<h2>1.2 Conditioning of a problem; condition number<a class="headerlink" href="#conditioning-of-a-problem-condition-number" title="Link to this heading">#</a></h2>
-<p>Conditioning is entirely the property of a problem; it tells you how accurate an anwer you can <em>expect</em> from “ideal” (i.e. backwards-stable) algorithms solving it.</p>
-<p>“Problem” in this context is a map:</p>
-<div class="math notranslate nohighlight">
-\[ f: X \to Y, \]</div>
-<ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(X\)</span> is the set of input parameters/space <em>defining</em> the problem (all the information you need to solve it),</p></li>
-<li><p><span class="math notranslate nohighlight">\(Y\)</span> is the space of solutions.</p></li>
-</ul>
-<p><span class="math notranslate nohighlight">\(f\)</span> could for example be</p>
-<ul class="simple">
-<li><p>a function that doubles its input, <span class="math notranslate nohighlight">\(f(x) = 2x\)</span>, or</p></li>
-<li><p>a function that returns the roots of a polynomial defined via a vector <span class="math notranslate nohighlight">\(\mathbb{x}\)</span> of its coefficients, or</p></li>
-<li><p>a mapping between an initial value problem (say, an ODE and its initial conditions) and its set of solutions.</p></li>
-</ul>
-<p>The conditioning of <span class="math notranslate nohighlight">\(f\)</span> is the <em>sensitivity</em> of its output <span class="math notranslate nohighlight">\(f(x)\)</span> to perturbations in its input <span class="math notranslate nohighlight">\(x\)</span>. If the perturbation in the input <span class="math notranslate nohighlight">\(x\)</span> is <span class="math notranslate nohighlight">\(\delta x\)</span>, then the change in the output is <span class="math notranslate nohighlight">\(\delta f := f(x + \delta x) - f(x)\)</span>.</p>
-<p>The <strong>absolute condition number</strong> is defined as
-<div class="math notranslate nohighlight">
-\[ \tilde{\kappa} = \tilde{\kappa}(x) := \lim_{\delta \to 0} \sup_{|\delta x| \leq \delta} \frac{|| \delta f|| }{|| \delta x||} := \sup_{\delta x} \frac{|| \delta f|| }{|| \delta x||}, \]</div>
-
-where the <span class="math notranslate nohighlight">\(|| \cdot ||\)</span> denotes the 2-norm.</p>
-<p>If <span class="math notranslate nohighlight">\(x \in \mathbb{C}^n\)</span>, <span class="math notranslate nohighlight">\(f \in \mathbb{C}^m\)</span> are <span class="math notranslate nohighlight">\(n\)</span>- and <span class="math notranslate nohighlight">\(m\)</span>-dimensional vectors, respectively (meaning: there are multiple inputs and/or outputs), then we can measure how a perturbation in any of the inputs affects any of the outputs via the <strong>Jacobian</strong> matrix <span class="math notranslate nohighlight">\(J_{ij} \in \mathbb{C}^{m \times n}\)</span>,
-<div class="math notranslate nohighlight">
-\[ \frac{\partial f_i}{\partial x_j} = J_{ij}(x). \]</div>
-
-In this case, as <span class="math notranslate nohighlight">\(\tilde{\kappa}(x) = ||J(x)||\)</span>.</p>
-<p>A more practical quantity is the <strong>relative condition number</strong>, defined as
-<div class="math notranslate nohighlight">
-\[ \kappa(x) := \sup_{\delta x} \frac{||\delta f||/||f(x)||}{||\delta x||/||x||} = \frac{||J(x)||}{||f(x)||/||x||} \]</div>
-
-i.e. as the <em>relative</em> change in output for a small <em>relative</em> change in input.</p>
-<p>For scalar functions <span class="math notranslate nohighlight">\(f\)</span>, this simplifies to <span class="math notranslate nohighlight">\(\kappa(x) = \left|\frac{xf'(x)}{f(x)}\right|.\)</span></p>
-<div class="admonition-question admonition">
-<p class="admonition-title">Question</p>
-<p>Why do we care about perturbations in the input? Aren’t problems (e.g. functions) mostly defined exactly?</p>
-</div>
-<p>Due to floating-point representation (roundoff) error, there is always at least <span class="math notranslate nohighlight">\(\mu_M\)</span> relative uncertainty/error in the input.</p>
-<div class="admonition-question admonition">
-<p class="admonition-title">Question</p>
-<p>What does the condition number depend on? Does it depend on the precision (single, double) we use?</p>
-</div>
-<p>The condition number tells you how much this error is amplified by the problem. It is only a function of the problem and the data, and not the algorithm/computer/precision. If the perturbation <span class="math notranslate nohighlight">\(\delta x \ll 1\)</span>, then</p>
-<div class="math notranslate nohighlight">
-\[ \frac{||\delta f||}{||f(x)||} \approx \kappa(x) ||\delta x||, \]</div>
-<p>so if <span class="math notranslate nohighlight">\(\kappa = 10^d\)</span>, we expect to lose <span class="math notranslate nohighlight">\(d\)</span> digits of accuracy in computing <span class="math notranslate nohighlight">\(f\)</span> from <span class="math notranslate nohighlight">\(x\)</span>.</p>
-<p>We say that a problem is
-<div class="math notranslate nohighlight">
-\[\begin{split}
-\kappa \begin{cases} &amp;&lt; 10^3 \quad \text{well-conditioned,} \\
-&amp;\gg 10^3 \quad \text{ill-conditioned}. \end{cases}
-\end{split}\]</div>
-</p>
-<div class="admonition-question admonition">
-<p class="admonition-title">Question</p>
-<p>What happens if <span class="math notranslate nohighlight">\(\kappa \approx 1/\mu_M\)</span>?</p>
-</div>
-<p>If <span class="math notranslate nohighlight">\(\kappa \approx 1/\mu_M\)</span>, we do not expect any useful digits in the answer, and the function <span class="math notranslate nohighlight">\(f\)</span> is essentially uncomputable…</p>
-<div class="admonition-question admonition">
-<p class="admonition-title">Question</p>
-<p>What to do if this happens but we still need to compute <span class="math notranslate nohighlight">\(f\)</span> to some useful digits?</p>
-</div>
-<p>… unless we raise the precision and hence lower <span class="math notranslate nohighlight">\(\varepsilon_M\)</span> (e.g. single to double, double to quad).</p>
-<p>Let’s have a look at the conditioning of some common operations.</p>
-<div class="admonition-question admonition">
-<p class="admonition-title">Question</p>
-<p>What’s the condition number of</p>
-<ul class="simple">
-<li><p><span class="math notranslate nohighlight">\(f(x) = 2x\)</span>,</p></li>
-<li><p><span class="math notranslate nohighlight">\(f(x) = x^{\alpha}\)</span>,</p></li>
-<li><p><span class="math notranslate nohighlight">\(f(x_1, x_2) = x_1 - x_2\)</span>,</p></li>
-<li><p><span class="math notranslate nohighlight">\(f(x) = \sin(x)\)</span> for, say, <span class="math notranslate nohighlight">\(x = 10^{100}\)</span>,</p></li>
-<li><p><span class="math notranslate nohighlight">\(f(x) = Ax\)</span> (where <span class="math notranslate nohighlight">\(A\)</span> is an <span class="math notranslate nohighlight">\(m \times m\)</span> matrix),</p></li>
-<li><p><span class="math notranslate nohighlight">\(f\)</span>, if <span class="math notranslate nohighlight">\(f(x)\)</span> returns the solution of <span class="math notranslate nohighlight">\(Ax = b\)</span> given a matrix <span class="math notranslate nohighlight">\(A\)</span> and a vector <span class="math notranslate nohighlight">\(b\)</span>?</p></li>
-</ul>
-</div>
-<ol class="arabic simple">
-<li><p>For <span class="math notranslate nohighlight">\(f(x) = 2x\)</span>, <span class="math notranslate nohighlight">\(J = f' = 2\)</span>, so <span class="math notranslate nohighlight">\(\kappa = \left|\frac{2x}{2x}\right| = 1\)</span>, always well-conditioned.</p></li>
-<li><p>For <span class="math notranslate nohighlight">\(f(x) = x^{\alpha}\)</span>, <span class="math notranslate nohighlight">\(J = f' \propto \alpha\)</span>, <span class="math notranslate nohighlight">\(\kappa = |\alpha|\)</span> is well-conditioned for reasonable powers <span class="math notranslate nohighlight">\(\alpha\)</span>,</p></li>
-<li><p>Now there are multiple inputs (<span class="math notranslate nohighlight">\(n = 2\)</span>) but a single output (<span class="math notranslate nohighlight">\(m = 1\)</span>), so we have <span class="math notranslate nohighlight">\(J = [ 1 -1]\)</span>, <span class="math notranslate nohighlight">\(||J|| = \sqrt{2},\)</span> and <span class="math notranslate nohighlight">\(\kappa = \frac{\sqrt{2}\sqrt{x_1^2 + x_2^2}}{|x_1 - x_2|}\)</span>, which <span class="math notranslate nohighlight">\(\to \infty\)</span> as <span class="math notranslate nohighlight">\(x_1 \to x_2 \neq 0\)</span>! So this problem becomes ill-conditioned for close-by inputs. This is a well-known phenomenon called <strong>subtractive</strong> or <strong>catastrophic cancellation</strong>.</p></li>
-<li><p><span class="math notranslate nohighlight">\(f(x) = \sin(x)\)</span>, <span class="math notranslate nohighlight">\(||J|| \leq 1\)</span>, but <span class="math notranslate nohighlight">\(\kappa = \frac{||J|||x|}{|\sin(x)|} \geq |x|\)</span> gets huge with increasing <span class="math notranslate nohighlight">\(x\)</span>. Note, however, that the absolute convergence number is just <span class="math notranslate nohighlight">\(\leq 1\)</span>.</p></li>
-<li><p><span class="math notranslate nohighlight">\(f(x) = Ax\)</span>, so <span class="math notranslate nohighlight">\(J = A\)</span>. Then <span class="math notranslate nohighlight">\(\kappa = ||A|| \frac{||x||}{||Ax||}\)</span>. If <span class="math notranslate nohighlight">\(A\)</span> is non-singular, <span class="math notranslate nohighlight">\(\kappa \leq ||A||||A^{-1}||\)</span>, since <span class="math notranslate nohighlight">\(||x|| = ||A^{-1} Ax|| \leq ||A^{-1}||||Ax||\)</span>.</p></li>
-</ol>
-<div class="admonition-question admonition">
-<p class="admonition-title">Question</p>
-<p>When is there an exact equality?</p>
-</div>
-<ol class="arabic simple" start="6">
-<li><p>Solving a linear system. <span class="math notranslate nohighlight">\(Ax = b\)</span>, so <span class="math notranslate nohighlight">\(f(b) = A^{-1}b\)</span>. We can use the previous result (replace <span class="math notranslate nohighlight">\(A\)</span> with <span class="math notranslate nohighlight">\(A^{-1}\)</span>) to get <span class="math notranslate nohighlight">\(\kappa \leq ||A^{-1}||||A||.\)</span></p></li>
-</ol>
-<div class="admonition-question admonition">
-<p class="admonition-title">Question</p>
-<p>What was perturbed in the above calculation of <span class="math notranslate nohighlight">\(\kappa\)</span>? Is there another quantity we can vary and define a cond. no. in terms of?</p>
-</div>
-<p>We may also perturb <span class="math notranslate nohighlight">\(A\)</span> instead of <span class="math notranslate nohighlight">\(b\)</span>. If the input is <span class="math notranslate nohighlight">\(A\)</span>, output is <span class="math notranslate nohighlight">\(x\)</span> (<span class="math notranslate nohighlight">\(b\)</span> const.), then consider an infinitesimal change in the input, <span class="math notranslate nohighlight">\(A + \delta A\)</span> causing an infinitesimal change in output, <span class="math notranslate nohighlight">\(x + \delta x\)</span>:
-<div class="math notranslate nohighlight">
-\[ (A + \delta A)(x + \delta x) = b, \]</div>
-
-<div class="math notranslate nohighlight">
-\[ Ax + \delta A x + A \delta x + \delta A \delta x = b. \]</div>
-
-Ignore the last term on the LHS (correct to first order) and cancel the <span class="math notranslate nohighlight">\(Ax = b\)</span> to get
-<div class="math notranslate nohighlight">
-\[ \delta x = -A^{-1}\delta A x, \]</div>
-
-therefore <span class="math notranslate nohighlight">\(\frac{||\delta x||}{||x||} \leq ||A^{-1}||||\delta A||,\)</span> and <span class="math notranslate nohighlight">\(\kappa \leq ||A^{-1}||||A||\)</span> again.</p>
-</section>
-<section id="stability">
-<h2>1.3 Stability<a class="headerlink" href="#stability" title="Link to this heading">#</a></h2>
+<section id="types-of-error">
+<h2>3.1 Types of error<a class="headerlink" href="#types-of-error" title="Link to this heading">#</a></h2>
 <p>Stability is entirely the property of the algorithm used to solve a problem. If an algorithm is stable, this loosely means that it gets the right answer, even if it is not exact.</p>
 <p>Let’s say we have a fixed</p>
 <ul class="simple">
@@ -600,7 +448,7 @@ therefore <span class="math notranslate nohighlight">\(\frac{||\delta x||}{||x||
 \[ x \to \circ x \to \tilde{f} (x). \]</div>
 </p></li>
 </ul>
-<p>Then the relative error of the computation is
+<p>Then the relative <strong>forward error</strong> of the computation is
 <div class="math notranslate nohighlight">
 \[ \frac{|| \tilde{f}(x) - f(x)||}{||f(x)||}. \]</div>
 
@@ -795,9 +643,7 @@ Write down in words the steps of the machine algorithm <span class="math notrans
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#floating-point-arithmetic">1.1 Floating-point arithmetic</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conditioning-of-a-problem-condition-number">1.2 Conditioning of a problem; condition number</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stability">1.3 Stability</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-error">3.1 Types of error</a></li>
 </ul>
   </nav></div>
 

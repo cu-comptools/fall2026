@@ -1,0 +1,819 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>4. Stability &#8212; Computational Tools for Multiscale Problems</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'stability';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="2. Conditioning of a problem and the condition number" href="conditionnumber.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.jpeg" class="logo__image only-light" alt="Computational Tools for Multiscale Problems - Home"/>
+    <script>document.write(`<img src="_static/logo.jpeg" class="logo__image only-dark" alt="Computational Tools for Multiscale Problems - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="course_introduction.html">0. Course introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="floatingpoint.html">1. Floating point representation and roundoff error</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conditionnumber.html">2. Conditioning of a problem and the condition number</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">4. Stability</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/cu-comptools/fall2026/main?urlpath=tree/stability.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/cu-comptools/fall2026" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/cu-comptools/fall2026/issues/new?title=Issue%20on%20page%20%2Fstability.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/stability.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>4. Stability</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithms-and-an-intuitive-definition-of-stability">4.1 Algorithms and an intuitive definition of stability</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-error">4.2 Types of error</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-stability">4.3 Types of stability</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-stability">4.3.1 Forward stability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-stability">4.3.2 Backward stability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mixed-forward-backward-stability">4.3.3 Mixed forward-backward stability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison">4.3.4 Comparison</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="stability">
+<h1>4. Stability<a class="headerlink" href="#stability" title="Link to this heading">#</a></h1>
+<p>Having looked at the source of numerical error being:</p>
+<ul class="simple">
+<li><p>the finite-precision representation computers use for real numbers,</p></li>
+<li><p>and the property of problems to amplify input errors by their relative condition number,
+we now turn our attention to the one thing we do have control over: what algorithm we use to solve a given problem, and how the algorithm itself affects errors.</p></li>
+</ul>
+<div class="warning admonition">
+<p class="admonition-title">Additional resource</p>
+<p>Corless &amp; Fillion: A graduate introduction to numerical methods, Ch. 1.4</p>
+</div>
+<section id="algorithms-and-an-intuitive-definition-of-stability">
+<h2>4.1 Algorithms and an intuitive definition of stability<a class="headerlink" href="#algorithms-and-an-intuitive-definition-of-stability" title="Link to this heading">#</a></h2>
+<p>Using notation from our definition of the condition number, there is no perfect implementation of a problem <span class="math notranslate nohighlight">\(f\)</span>. We replace it with a <strong>realistic algorithm</strong> <span class="math notranslate nohighlight">\(\tilde f\)</span>, that maps inputs to outputs just like <span class="math notranslate nohighlight">\(f\)</span>.</p>
+<p>An <strong>algorithm</strong></p>
+<ul class="simple">
+<li><p>solves a problem,</p></li>
+<li><p>has steps unambiguously defined in terms of known operations,</p></li>
+<li><p>and uses a finite number of steps.</p></li>
+</ul>
+<p>Some algorithms are better than others. Loosely, a <strong>stable</strong> algorithm returns results as accurately as the problem allows; there is no getting around a large relative condition number <span class="math notranslate nohighlight">\(\kappa_{\mathrm{rel}}\)</span>.</p>
+<p>We, however, distinguish between different types of stability, and therefore different types of error.</p>
+</section>
+<section id="types-of-error">
+<h2>4.2 Types of error<a class="headerlink" href="#types-of-error" title="Link to this heading">#</a></h2>
+<p>It is useful to think of error on the input side as error at the “back” (this will be called <strong>backward error</strong>), and error on the output side as error at the “front” (<strong>forward error</strong>).</p>
+<p>In an ideal world, an unperturbed real input <span class="math notranslate nohighlight">\(x\in\mathbb R\)</span> would be mapped by the exact problem to the exact answer
+<div class="math notranslate nohighlight">
+\[
+y=f(x), \qquad y\in\mathbb R.
+\]</div>
+</p>
+<p>Computers, however, use floating-point / finite-precision representation. Merely converting the real input to floating point introduces a small perturbation,
+<div class="math notranslate nohighlight">
+\[
+x \longrightarrow x+\Delta x,
+\]</div>
+
+which is a type of <strong>backward error</strong>. If
+<div class="math notranslate nohighlight">
+\[
+\left|\frac{\Delta x}{x}\right| \lesssim \varepsilon_M,
+\]</div>
+
+then the conditioning of the problem can amplify that perturbation to produce a forward error in the output:
+<div class="math notranslate nohighlight">
+\[
+\left|\frac{\Delta y}{y}\right| \lesssim \kappa_{\mathrm{rel}}\varepsilon_M.
+\]</div>
+</p>
+<a class="reference internal image-reference" href="_images/conditioning_errors.png" id="conditioning-errors-fig"><img alt="_images/conditioning_errors.png" class="align-center" id="conditioning-errors-fig" src="_images/conditioning_errors.png" style="width: 85%;" />
+</a>
+</section>
+<section id="types-of-stability">
+<h2>4.3 Types of stability<a class="headerlink" href="#types-of-stability" title="Link to this heading">#</a></h2>
+<section id="forward-stability">
+<h3>4.3.1 Forward stability<a class="headerlink" href="#forward-stability" title="Link to this heading">#</a></h3>
+<p>Now add the final complication: replace the perfect evaluation of <span class="math notranslate nohighlight">\(f\)</span> by the realistic algorithm <span class="math notranslate nohighlight">\(\tilde f\)</span>. Even when the algorithm is given the unperturbed input <span class="math notranslate nohighlight">\(x\)</span>, its answer may differ from the exact answer by <span class="math notranslate nohighlight">\(\Delta\tilde y\)</span>:
+<div class="math notranslate nohighlight">
+\[
+\tilde f(x)=y+\Delta\tilde y=f(x)+\Delta\tilde y.
+\]</div>
+</p>
+<p>The first notion of stability is defined directly in terms of this error, and is therefore called <strong>forward stability</strong>.</p>
+<p>An algorithm <span class="math notranslate nohighlight">\(\tilde f\)</span> is <strong>forward stable</strong> if, for every <span class="math notranslate nohighlight">\(x\)</span>,
+<div class="math notranslate nohighlight">
+\[
+\tilde f(x)=f(x)+\Delta\tilde y
+\]</div>
+
+with small relative forward error,
+<div class="math notranslate nohighlight">
+\[
+\left|\frac{\Delta\tilde y}{y}\right|=\mathcal O(\varepsilon_M).
+\]</div>
+</p>
+<a class="reference internal image-reference" href="_images/forward_stability.png" id="forward-stability-fig"><img alt="_images/forward_stability.png" class="align-center" id="forward-stability-fig" src="_images/forward_stability.png" style="width: 70%;" />
+</a>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>In light of what we know about conditioning, is forward stability reasonable to expect or demand?</p>
+</div>
+<p><strong>Answer: no, not in general.</strong> If the problem is ill-conditioned, then any computer algorithm necessarily has to represent the real input <span class="math notranslate nohighlight">\(x\)</span> by a nearby floating-point number <span class="math notranslate nohighlight">\(x+\Delta x\)</span>. A large <span class="math notranslate nohighlight">\(\kappa_{\mathrm{rel}}\)</span> can amplify the small relative input perturbation
+<div class="math notranslate nohighlight">
+\[
+\left|\frac{\Delta x}{x}\right|=\mathcal O(\varepsilon_M)
+\]</div>
+
+into a much larger relative output perturbation, of order
+<div class="math notranslate nohighlight">
+\[
+\kappa_{\mathrm{rel}}\varepsilon_M.
+\]</div>
+</p>
+<p>So, if a small forward error cannot reasonably be demanded, we can instead ask for a small <strong>backward</strong> error.</p>
+</section>
+<section id="backward-stability">
+<h3>4.3.2 Backward stability<a class="headerlink" href="#backward-stability" title="Link to this heading">#</a></h3>
+<p>The question now is: <strong>is there a nearby input <span class="math notranslate nohighlight">\(x+\Delta x\)</span>, close to the unperturbed input <span class="math notranslate nohighlight">\(x\)</span>, for which the exact problem produces the same answer as the algorithm?</strong></p>
+<p>An algorithm <span class="math notranslate nohighlight">\(\tilde f\)</span> is <strong>backward stable</strong> if, for every <span class="math notranslate nohighlight">\(x\)</span>,
+<div class="math notranslate nohighlight">
+\[
+\tilde f(x)=f(x+\Delta x)
+\]</div>
+
+for some small perturbation <span class="math notranslate nohighlight">\(\Delta x\)</span>, meaning
+<div class="math notranslate nohighlight">
+\[
+\left|\frac{\Delta x}{x}\right|=\mathcal O(\varepsilon_M).
+\]</div>
+</p>
+<a class="reference internal image-reference" href="_images/backward_stability.png" id="backward-stability-fig"><img alt="_images/backward_stability.png" class="align-center" id="backward-stability-fig" src="_images/backward_stability.png" style="width: 70%;" />
+</a>
+<p>Think of a <strong>backward stable</strong> algorithm as one producing the right answer to nearly the right problem, and a <strong>forward stable</strong> algorithm as one that produces nearly the right answer to the right problem.</p>
+<p>Backward stability is a strict requirement, but it is often a reasonable one to expect (and sometimes the best we can hope for).</p>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<p>Consider floating-point addition for real inputs <span class="math notranslate nohighlight">\(x_1,x_2\in\mathbb R\)</span>. Let the exact problem be
+<div class="math notranslate nohighlight">
+\[
+f(x_1,x_2)=x_1+x_2,
+\]</div>
+
+and let <span class="math notranslate nohighlight">\(\tilde f(x_1,x_2)\)</span> denote the floating-point algorithm.
+What steps does the floating-point addition algorithm take?</p>
+</div>
+<ol class="arabic simple">
+<li><p>All computer algorithms have to convert the input real number to floating point first.
+Write
+<div class="math notranslate nohighlight">
+\[
+x_1\longrightarrow x_1(1+\delta x_1), \qquad
+x_2\longrightarrow x_2(1+\delta x_2),
+\]</div>
+
+where the conversion roundoff errors satisfy
+<div class="math notranslate nohighlight">
+\[
+|\delta x_1|,\ |\delta x_2|\leq \varepsilon_M
+\qquad (=\mathcal O(\varepsilon_M)).
+\]</div>
+</p></li>
+<li><p>Then, the computer performs floating point addition.
+The result is itself a floating point number, and is not necessarily exactly the sum of its two floating-point operands (even if they are two real numbers that are exactly represented as floating point numbers!). Therefore, for another roundoff error <span class="math notranslate nohighlight">\(\delta=\mathcal O(\varepsilon_M)\)</span>,
+<div class="math notranslate nohighlight">
+\[
+\tilde f(x_1,x_2)
+=(1+\delta)\left[x_1(1+\delta x_1 )+x_2(1+ \delta x_2)\right].
+\]</div>
+
+In shorthand,
+<div class="math notranslate nohighlight">
+\[
+\tilde f(x_1,x_2)=\tilde{x}_1\oplus \tilde{x}_2.
+\]</div>
+</p></li>
+</ol>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>Is floating-point addition backward stable?</p>
+</div>
+<p>For backward stability we want to know whether it is always possible to write
+<div class="math notranslate nohighlight">
+\[
+\tilde f(x_1,x_2)
+=f\!\left(x_1(1+\varepsilon_1),x_2(1+\varepsilon_2)\right)
+\]</div>
+
+with
+<div class="math notranslate nohighlight">
+\[
+\varepsilon_1,\varepsilon_2=\mathcal O(\varepsilon_M).
+\]</div>
+</p>
+<p>Expand the floating-point result:
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\tilde f(x_1,x_2)
+&amp;=(1+\delta+\delta_{x_1}+\delta\,\delta_{x_1})x_1 \\
+&amp;\quad +(1+\delta+\delta_{x_2}+\delta\,\delta_{x_2})x_2.
+\end{aligned}
+\end{split}\]</div>
+
+The products <span class="math notranslate nohighlight">\(\delta\,\delta_{x_i}\)</span> are second order in machine precision, so they are even smaller (about <span class="math notranslate nohighlight">\(10^{-32}\)</span> in double precision) and may be neglected in a first-order analysis. Hence
+<div class="math notranslate nohighlight">
+\[
+\tilde f(x_1,x_2)
+=(1+\mathcal O(\varepsilon_M))x_1
+ +(1+\mathcal O(\varepsilon_M))x_2.
+\]</div>
+
+Therefore
+<div class="math notranslate nohighlight">
+\[
+\tilde f(x_1,x_2)=f(x_1+\Delta x_1,x_2+\Delta x_2)
+\]</div>
+
+with small relative perturbations in both inputs. Thus <strong>floating-point addition is backward stable</strong>.</p>
+<p>The same logic applies to floating-point subtraction and to most other elementary operations - but not all of them.</p>
+</section>
+<section id="mixed-forward-backward-stability">
+<h3>4.3.3 Mixed forward-backward stability<a class="headerlink" href="#mixed-forward-backward-stability" title="Link to this heading">#</a></h3>
+<p>Finally, consider a third and more lenient notion of stability. This is often what people have in mind when they say that an algorithm is simply <strong>numerically stable</strong>.</p>
+<p>An algorithm <span class="math notranslate nohighlight">\(\tilde f\)</span> is stable in the <strong>mixed forward-backward sense</strong> if, for every <span class="math notranslate nohighlight">\(x\)</span>, there exists a nearby input <span class="math notranslate nohighlight">\(x+\Delta x\)</span> such that
+<div class="math notranslate nohighlight">
+\[
+\frac{\|\tilde f(x)-f(x+\Delta x)\|}{\|f(x+\Delta x)\|}
+=\mathcal O(\varepsilon_M),
+\]</div>
+
+while simultaneously
+<div class="math notranslate nohighlight">
+\[
+\left\|\frac{\Delta x}{x}\right\|=\mathcal O(\varepsilon_M).
+\]</div>
+</p>
+<a class="reference internal image-reference" href="_images/mixed_stability.png" id="mixed-stability-fig"><img alt="_images/mixed_stability.png" class="align-center" id="mixed-stability-fig" src="_images/mixed_stability.png" style="width: 75%;" />
+</a>
+<p>We can interpret a mixed forward-backward stable algorithm as one that produces <strong>nearly the right answer to nearly the right question</strong>. Sometimes - often - this is the best we can hope for.</p>
+</section>
+<section id="comparison">
+<h3>4.3.4 Comparison<a class="headerlink" href="#comparison" title="Link to this heading">#</a></h3>
+<p>Let’s compare these three types of stability, growing more less strict from left to right.</p>
+<a class="reference internal image-reference" href="_images/stability_comparison.png" id="stability-comparison-fig"><img alt="_images/stability_comparison.png" class="align-center" id="stability-comparison-fig" src="_images/stability_comparison.png" style="width: 100%;" />
+</a>
+<p>In summary, if the algorithm<strong>forward stable:</strong> it produces nearly the right answer for the (exact same) question. This can be an unreasonable demand for an ill-conditioned problem.
+If it is <strong>backward stable</strong>, the algorithm produces the right answer to a nearby question. This is a strong and very useful requirement, but it is not always possible.
+Finally, a <strong>mixed forward-backward stable</strong> algorithm produces a close answer to a close problem. This is the most lenient of the three and is often attainable.</p>
+<div class="danger admonition">
+<p class="admonition-title">Exercises</p>
+<ol class="arabic">
+<li><p>Consider the machine algorithm (that uses floating-point representation) for subtracting <span class="math notranslate nohighlight">\(1\)</span> from a real number. You’ll investigate whether it’s stable and backwards stable.</p>
+<p>a) The exact problem (a mapping <span class="math notranslate nohighlight">\(f: X \mapsto Y\)</span>) is <span class="math notranslate nohighlight">\( f(x) = 1 - x. \)</span>
+Write down in words the steps of the machine algorithm <span class="math notranslate nohighlight">\(\tilde{f}\)</span> that computes the difference. Express <span class="math notranslate nohighlight">\(\tilde{f}(x)\)</span> in terms of the input <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<p>b) What does <span class="math notranslate nohighlight">\(\tilde{f}(x)\)</span> have to equal, in terms of a floating-point number close to <span class="math notranslate nohighlight">\(x\)</span> denoted <span class="math notranslate nohighlight">\(\tilde{x},\)</span> for the algorithm to be <em>backwards stable</em>?</p>
+<p>c) By expressing <span class="math notranslate nohighlight">\(\tilde{x}\)</span> in terms of <span class="math notranslate nohighlight">\(x\)</span> and some small relative roundoff error <span class="math notranslate nohighlight">\(\varepsilon\)</span> (<span class="math notranslate nohighlight">\(|\varepsilon| \leq \mu_M\)</span>), eliminate <span class="math notranslate nohighlight">\(\tilde{x}\)</span> from the above result. To <strong>first order</strong> in small quantities, what does <span class="math notranslate nohighlight">\(\varepsilon\)</span> have to equal for backwards stability? Is this <span class="math notranslate nohighlight">\(\varepsilon\)</span> <strong>always</strong> <span class="math notranslate nohighlight">\(\mathcal{O}(\mu_M)\)</span> (i.e. for all <span class="math notranslate nohighlight">\(x\)</span>, uniformly)? What does this mean for the backwards stability of this algorithm?</p>
+<p>d) What is the condition for <em>mixed forward-backward stability</em> (or just “stability”) in terms of <span class="math notranslate nohighlight">\(f\)</span>, <span class="math notranslate nohighlight">\(\tilde{f}\)</span>, <span class="math notranslate nohighlight">\(x\)</span>, and <span class="math notranslate nohighlight">\(\tilde{x}\)</span>?</p>
+<p>e) Is this algorithm stable in the mixed forward-backward sense? Show your work.</p>
+</li>
+<li><p>Let <span class="math notranslate nohighlight">\( f(x) = \frac{e^x-1}{x}.\)</span></p>
+<p>a) Find the relative condition number of <span class="math notranslate nohighlight">\(f\)</span>, call it <span class="math notranslate nohighlight">\(\kappa_f\)</span>. What is the maximum of <span class="math notranslate nohighlight">\(\kappa_f\)</span> over <span class="math notranslate nohighlight">\(-1 \leq x \leq 1\)</span>? (You can simply plot it and read off the maximum, or find it analytically.)</p>
+<p>b) Use the “obvious” algorithm <code class="docutils literal notranslate"><span class="pre">(np.exp(x)</span> <span class="pre">-</span> <span class="pre">1)/x</span></code>
+to compute <span class="math notranslate nohighlight">\(f(x)\)</span> at
+<div class="math notranslate nohighlight">
+\[ x = 10^{-2},10^{-3},10^{-4},\ldots,10^{-11}.\]</div>
+</p>
+<p>c) Create a second algorithm using the first 8 terms of the Taylor expansion of <span class="math notranslate nohighlight">\(e^x\)</span> around <span class="math notranslate nohighlight">\(0\)</span>, and evaluate it at the same values of <span class="math notranslate nohighlight">\(x\)</span> as in part b).</p>
+<p>c) Make an array of the relative difference between the two algorithms as a function of <span class="math notranslate nohighlight">\(x\)</span>. Plot it. Which algorithm is more accurate, and why?</p>
+</li>
+<li><p>The (20th order) Wilkinson polynomial is defined as
+<div class="math notranslate nohighlight">
+\[ p(x) = (x-1)(x-2)\cdots(x-20). \]</div>
+</p>
+<p>a) Create the polynomial <span class="math notranslate nohighlight">\(p\)</span> with the <code class="docutils literal notranslate"><span class="pre">numpy.polynomial.Polynomial.fromroots(...)</span></code> command.</p>
+<p>b)  Now let’s pretend we don’t know its roots: generate and store the roots using <code class="docutils literal notranslate"><span class="pre">p.roots()</span></code>.
+Fill an array with the relative error values of these numerically acquired roots. If we define our algorithm as “finding the roots of a polynomial given its coefficients”, then what type of error does this array represent?</p>
+<p>c) Take the numerically evaluated roots, and use them to define a new polynomial, <span class="math notranslate nohighlight">\(q(x)\)</span>. Use the command <code class="docutils literal notranslate"><span class="pre">q.convert().coef</span></code> to obtain an array of its coefficients. Compare these to the coefficients of <span class="math notranslate nohighlight">\(p(x)\)</span> and compute the relative error on the numerically generated coefficients. What type of error does the resulting array represent?</p>
+<p>d) What can you then say about the type of stability of the “rootfinding from coefficients” algorithm? Can it be forward stable? Backward stable? Stable in the mixed sense?</p>
+</li>
+</ol>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="conditionnumber.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">2. Conditioning of a problem and the condition number</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithms-and-an-intuitive-definition-of-stability">4.1 Algorithms and an intuitive definition of stability</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-error">4.2 Types of error</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-stability">4.3 Types of stability</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-stability">4.3.1 Forward stability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-stability">4.3.2 Backward stability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mixed-forward-backward-stability">4.3.3 Mixed forward-backward stability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison">4.3.4 Comparison</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Fruzsina Julia Agocs
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

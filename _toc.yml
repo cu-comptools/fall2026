@@ -11,13 +11,14 @@ chapters:
 - file: course_introduction
 - file: floatingpoint
 - file: conditionnumber
-- file: github
-- file: poly_interp
-- file: poly_interp2
-- file: quadrature
-- file: ODES2_spectral
-- file: ODEs_1_RK
-- file: ODEs_3_asymptotic
+- file: stability
+# - file: github
+# - file: poly_interp
+# - file: poly_interp2
+# - file: quadrature
+# - file: ODES2_spectral
+# - file: ODEs_1_RK
+# - file: ODEs_3_asymptotic
 # - file: adaptivity_stiffness_control_1
 # - file: special_quad_osc
 # - file: special_quad_sing
