@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -183,14 +183,10 @@
         </ul>
         <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="course_introduction.html">0. Course introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="comp_fundamentals.html">1. Computation fundamentals</a></li>
-<li class="toctree-l1"><a class="reference internal" href="github.html">2. Good coding practices</a></li>
-<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">3. Interpolation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="poly_interp2.html">4. Interpolation II</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quadrature.html">5. Quadrature</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">6. Ordinary differential equations I</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ODEs_1_RK.html">7. Ordinary differential equations II</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">8. Ordinary differential equations III</a></li>
+<li class="toctree-l1"><a class="reference internal" href="floatingpoint.html">1. Floating point representation and roundoff error</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conditionnumber.html">2. Conditioning of a problem and the condition number</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stability.html">4. Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">5. Interpolation</a></li>
 </ul>
 
     </div>
@@ -452,16 +448,16 @@ document.write(`
 \[ p(x) = \sum_{k = 0}^{n}a_k x^k, \]</div>
 
 so that the function evaluations become constraints</p>
-<div class="amsmath math notranslate nohighlight" id="equation-582a59ad-2be8-4bf8-a6d2-9b74f98d3ba9">
-<span class="eqno">()<a class="headerlink" href="#equation-582a59ad-2be8-4bf8-a6d2-9b74f98d3ba9" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e97bf6b8-79b1-44f0-b825-0df412c16a75">
+<span class="eqno">()<a class="headerlink" href="#equation-e97bf6b8-79b1-44f0-b825-0df412c16a75" title="Permalink to this equation">#</a></span>\[\begin{align}
 p(x_0) &amp;= a_0 + a_1 x_0 + a_2 x_0^2 + \ldots + a_n x_0^n = y_0,\\
 p(x_1) &amp;= a_0 + a_1 x_1 + a_2 x_1^2 + \ldots + a_n x_1^n = y_1,\\
 \vdots &amp;\vphantom{=}\\
 p(x_n) &amp;= a_0 + a_1 x_n + a_2 x_n^2 + \ldots + a_n x_n^n = y_n.
 \end{align}\]</div>
 <p>This can be rewritten rather compactly as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-958e3b8e-8a86-4286-afad-d278d40c4c94">
-<span class="eqno">()<a class="headerlink" href="#equation-958e3b8e-8a86-4286-afad-d278d40c4c94" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-d54d3634-0592-47e4-9640-355dfe54130a">
+<span class="eqno">()<a class="headerlink" href="#equation-d54d3634-0592-47e4-9640-355dfe54130a" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \begin{bmatrix}
 1 &amp; x_0 &amp; x_0^2 &amp; \ldots &amp; x_0^n \\
 1 &amp; x_1 &amp; x_1^2 &amp; \ldots &amp; x_1^n \\
@@ -713,7 +709,7 @@ Now try some other functions that require higher-order interpolation either beca
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/af9efad088b27aeb3321330be42fae41cfbea94ead2fd04c35867fb515945e64.png" src="_images/af9efad088b27aeb3321330be42fae41cfbea94ead2fd04c35867fb515945e64.png" />
+<img alt="_images/89c485a97ccd40d01e03e53a86f2df9b95125febb3b11697802a0dbc94b52225.png" src="_images/89c485a97ccd40d01e03e53a86f2df9b95125febb3b11697802a0dbc94b52225.png" />
 </div>
 </div>
 <div class="admonition-question admonition">
@@ -815,7 +811,7 @@ Therefore,</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/701a57662008004a9a3548ff791bf3c3b8f351d424658d016fd6105375844bfa.png" src="_images/701a57662008004a9a3548ff791bf3c3b8f351d424658d016fd6105375844bfa.png" />
+<img alt="_images/e9dcbfa38bec61a7979ca845857052507edc96cabcae4b6bb6c77d29f94a93a0.png" src="_images/e9dcbfa38bec61a7979ca845857052507edc96cabcae4b6bb6c77d29f94a93a0.png" />
 </div>
 </div>
 </section>

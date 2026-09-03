@@ -12,6 +12,7 @@ chapters:
 - file: floatingpoint
 - file: conditionnumber
 - file: stability
+- file: poly_interp
 # - file: github
 # - file: poly_interp
 # - file: poly_interp2

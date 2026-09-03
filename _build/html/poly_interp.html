@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>4. Interpolation &#8212; Computational Tools for Multiscale Problems</title>
+    <title>5. Interpolation &#8212; Computational Tools for Multiscale Problems</title>
   
   
   
@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -62,8 +62,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'poly_interp';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="5. Interpolation II" href="poly_interp2.html" />
-    <link rel="prev" title="3. Good coding practices" href="github.html" />
+    <link rel="prev" title="4. Stability" href="stability.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -185,13 +184,8 @@
 <li class="toctree-l1"><a class="reference internal" href="course_introduction.html">0. Course introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="floatingpoint.html">1. Floating point representation and roundoff error</a></li>
 <li class="toctree-l1"><a class="reference internal" href="conditionnumber.html">2. Conditioning of a problem and the condition number</a></li>
-<li class="toctree-l1"><a class="reference internal" href="github.html">3. Good coding practices</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">4. Interpolation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="poly_interp2.html">5. Interpolation II</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quadrature.html">6. Quadrature</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">7. Ordinary differential equations I</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ODEs_1_RK.html">8. Ordinary differential equations II</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">9. Ordinary differential equations III</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stability.html">4. Stability</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">5. Interpolation</a></li>
 </ul>
 
     </div>
@@ -408,7 +402,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>4. Interpolation</h1>
+    <h1>5. Interpolation</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -418,12 +412,12 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-vandermonde-trick">4.1. The Vandermonde trick</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choice-of-nodes-and-choice-of-basis">4.2 Choice of nodes and choice of basis</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#is-the-monomial-basis-a-bad-choice">4.2.1 Is the monomial basis a bad choice?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-vandermonde-trick">5.1. The Vandermonde trick</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choice-of-nodes-and-choice-of-basis">5.2 Choice of nodes and choice of basis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#is-the-monomial-basis-a-bad-choice">5.2.1 Is the monomial basis a bad choice?</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barycentric-interpolation">4.3 Barycentric interpolation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barycentric-interpolation">5.3 Barycentric interpolation</a></li>
 </ul>
             </nav>
         </div>
@@ -436,7 +430,7 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="interpolation">
-<h1>4. Interpolation<a class="headerlink" href="#interpolation" title="Link to this heading">#</a></h1>
+<h1>5. Interpolation<a class="headerlink" href="#interpolation" title="Link to this heading">#</a></h1>
 <div class="warning admonition">
 <p class="admonition-title">Additional resource</p>
 <p>Shen, Z., &amp; Serkh, K. (2022). <a class="reference external" href="https://arXiv.org/abs/2212.10519">On polynomial interpolation in the monomial basis</a></p>
@@ -444,22 +438,22 @@ document.write(`
 <p>You have a function <span class="math notranslate nohighlight">\(f\)</span> defined on the interval <span class="math notranslate nohighlight">\([a, b]\)</span>, but only have access to <span class="math notranslate nohighlight">\(n + 1\)</span> evaluations of the function at unique nodes <span class="math notranslate nohighlight">\(\{x_0, x_1, x_2, \ldots, x_n\} := \{x_i\}_{i=0}^n\)</span>, where the function takes values <span class="math notranslate nohighlight">\(\{ y_0, y_1, y_2, \ldots, y_n \} := \{y_i\}_{i=0}^n\)</span>. How do you evaluate the function at some new point <span class="math notranslate nohighlight">\(x^{\ast}\)</span>?</p>
 <p>We start with the oldest trick in the book:</p>
 <section id="the-vandermonde-trick">
-<h2>4.1. The Vandermonde trick<a class="headerlink" href="#the-vandermonde-trick" title="Link to this heading">#</a></h2>
+<h2>5.1. The Vandermonde trick<a class="headerlink" href="#the-vandermonde-trick" title="Link to this heading">#</a></h2>
 <p>Try fitting an degree-<span class="math notranslate nohighlight">\(n\)</span> polynomial through the points,
 <div class="math notranslate nohighlight">
 \[ p(x) = \sum_{k = 0}^{n}a_k x^k, \]</div>
 
 so that the function evaluations become constraints</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a3384f7d-7913-413b-8b00-3066dc356748">
-<span class="eqno">(1)<a class="headerlink" href="#equation-a3384f7d-7913-413b-8b00-3066dc356748" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-883d4268-5917-444b-85ae-d334705aefc1">
+<span class="eqno">(1)<a class="headerlink" href="#equation-883d4268-5917-444b-85ae-d334705aefc1" title="Permalink to this equation">#</a></span>\[\begin{align}
 p(x_0) &amp;= a_0 + a_1 x_0 + a_2 x_0^2 + \ldots + a_n x_0^n = y_0,\\
 p(x_1) &amp;= a_0 + a_1 x_1 + a_2 x_1^2 + \ldots + a_n x_1^n = y_1,\\
 \vdots &amp;\vphantom{=}\\
 p(x_n) &amp;= a_0 + a_1 x_n + a_2 x_n^2 + \ldots + a_n x_n^n = y_n.
 \end{align}\]</div>
 <p>This can be rewritten rather compactly as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-6ae1cc8b-9f15-4248-bd17-4aff839c666a">
-<span class="eqno">(2)<a class="headerlink" href="#equation-6ae1cc8b-9f15-4248-bd17-4aff839c666a" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-fa1bbcaa-faca-4191-a208-ab030f9f9d58">
+<span class="eqno">(2)<a class="headerlink" href="#equation-fa1bbcaa-faca-4191-a208-ab030f9f9d58" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \begin{bmatrix}
 1 &amp; x_0 &amp; x_0^2 &amp; \ldots &amp; x_0^n \\
 1 &amp; x_1 &amp; x_1^2 &amp; \ldots &amp; x_1^n \\
@@ -505,7 +499,7 @@ y_0 \\ y_1 \\ \vdots \\ y_n
 <p>To investigate when it <em>really</em> is inappropriate to use Vandermonde matrices, we’ll need to distinguish between two different sources of error: the choice of interpolating polynomial, and the choice of basis it is represented in.</p>
 </section>
 <section id="choice-of-nodes-and-choice-of-basis">
-<h2>4.2 Choice of nodes and choice of basis<a class="headerlink" href="#choice-of-nodes-and-choice-of-basis" title="Link to this heading">#</a></h2>
+<h2>5.2 Choice of nodes and choice of basis<a class="headerlink" href="#choice-of-nodes-and-choice-of-basis" title="Link to this heading">#</a></h2>
 <div class="admonition-question admonition">
 <p class="admonition-title">Question</p>
 <p>Assume that you are given the function <span class="math notranslate nohighlight">\(f\)</span> and nothing else. What parameters are you free to pick when interpolating it?</p>
@@ -536,7 +530,7 @@ since
 so <span class="math notranslate nohighlight">\(p(x_i) = \sum y_k \delta_{ki} = y_i\)</span> <span class="math notranslate nohighlight">\(\forall i\)</span> is a solution and is unique.</p>
 </div>
 <section id="is-the-monomial-basis-a-bad-choice">
-<h3>4.2.1 Is the monomial basis a bad choice?<a class="headerlink" href="#is-the-monomial-basis-a-bad-choice" title="Link to this heading">#</a></h3>
+<h3>5.2.1 Is the monomial basis a bad choice?<a class="headerlink" href="#is-the-monomial-basis-a-bad-choice" title="Link to this heading">#</a></h3>
 <p>It is <a class="reference external" href="https://link.springer.com/article/10.1007/PL00005392">true</a> that the condition number of the Vandermonde matrix <span class="math notranslate nohighlight">\(M\)</span> gets exponentially large with <span class="math notranslate nohighlight">\(n\)</span> for any set of real collocation nodes <span class="math notranslate nohighlight">\(\{x_i\}_{i=0}^n\)</span>. We can check that with a little script:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -664,7 +658,7 @@ Now try some other functions that require higher-order interpolation either beca
 <tr class="row-odd"><td class="text-left"><p><span class="math notranslate nohighlight">\(c_1e^{-c_2 n^2}\)</span></p></td>
 <td class="text-right"><p>quadratic</p></td>
 </tr>
-<tr class="row-even"><td class="text-left"><p><span class="math notranslate nohighlight">\(c_1e^{-c_2 n^r}\)</span>, <span class="math notranslate nohighlight">\(r \geq 1\)</span></p></td>
+<tr class="row-even"><td class="text-left"><p>dependent on the smoothness of the function</p></td>
 <td class="text-right"><p>spectral</p></td>
 </tr>
 </tbody>
@@ -711,7 +705,7 @@ Now try some other functions that require higher-order interpolation either beca
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/f99887636c7aec7ef3c8db3f2a1e4f5b24b6dfe2e97d3d3416a9d4869e09de8b.png" src="_images/f99887636c7aec7ef3c8db3f2a1e4f5b24b6dfe2e97d3d3416a9d4869e09de8b.png" />
+<img alt="_images/57fcad2cb151d92ffa99f9433b71284e79b8f57c0d43cb6385a827edcb2c8523.png" src="_images/57fcad2cb151d92ffa99f9433b71284e79b8f57c0d43cb6385a827edcb2c8523.png" />
 </div>
 </div>
 <div class="admonition-question admonition">
@@ -813,13 +807,13 @@ Therefore,</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/db8b8f4dca685e369cf0c3a255d9c4d7917cf53f534b77f6851da9b7c508f0a0.png" src="_images/db8b8f4dca685e369cf0c3a255d9c4d7917cf53f534b77f6851da9b7c508f0a0.png" />
+<img alt="_images/c7fb4cdf29694819c64c6419aff5dcca30d9efba061ba4a02b966276f5d0b8fa.png" src="_images/c7fb4cdf29694819c64c6419aff5dcca30d9efba061ba4a02b966276f5d0b8fa.png" />
 </div>
 </div>
 </section>
 </section>
 <section id="barycentric-interpolation">
-<h2>4.3 Barycentric interpolation<a class="headerlink" href="#barycentric-interpolation" title="Link to this heading">#</a></h2>
+<h2>5.3 Barycentric interpolation<a class="headerlink" href="#barycentric-interpolation" title="Link to this heading">#</a></h2>
 <p>For when the monomial basis produces a large backward error, an alternative representation of the interpolating polynomial <span class="math notranslate nohighlight">\(p\)</span> is in the Lagrange basis, with basis functions
 <div class="math notranslate nohighlight">
 \[l_j(x) = \frac{\prod_{k \neq j} (x - x_k)}{\prod_{k \neq j} (x_j - x_k)} \quad \text{for } j = 0, 1, 2, \ldots, n.\]</div>
@@ -878,15 +872,11 @@ and into <span class="math notranslate nohighlight">\(p(x)\)</span> to get
 <p>The weights <span class="math notranslate nohighlight">\(\lambda_j\)</span> takes <span class="math notranslate nohighlight">\(\mathcal{O}(n^2)\)</span> time, but the big difference is that they only need to be computed <em>once</em>, and not for each <span class="math notranslate nohighlight">\(x\)</span>. In the best case, for e.g. Chebyshev collocation nodes, they are known analytically.
 Once the weights are known, evaluating <span class="math notranslate nohighlight">\(p(x)\)</span> then only takes <span class="math notranslate nohighlight">\(\mathcal{O}(n)\)</span> effort.</p>
 <div class="danger admonition">
-<p class="admonition-title">Exercise</p>
+<p class="admonition-title">Exercises</p>
 <ol class="arabic simple">
-<li><p>(Quiz 2)</p></li>
+<li><p>Write code using the barycentric interpolation formula (you may use an external package for this, or you may write your own) to compute a sequence of polynomial interpolants to a function <span class="math notranslate nohighlight">\(f\)</span> on <span class="math notranslate nohighlight">\([−1, 1]\)</span> in points selected by a <em>greedy</em> algorithm: take <span class="math notranslate nohighlight">\(x_0\)</span> to be a point where <span class="math notranslate nohighlight">\(|f(x)|\)</span> achieves its maximum, then <span class="math notranslate nohighlight">\(x_1\)</span> to be a point where <span class="math notranslate nohighlight">\(|(f − p_0)(x)|\)</span> achieves its maximum, then <span class="math notranslate nohighlight">\(x_2\)</span> to be a point where <span class="math notranslate nohighlight">\(|(f − p_1)(x)|\)</span> achieves its maximum, and so on. Plot the error curves <span class="math notranslate nohighlight">\((f − p_n)(x)\)</span>, <span class="math notranslate nohighlight">\(x \in [−1, 1]\)</span>, computed by this algorithm for <span class="math notranslate nohighlight">\(f(x) = |x|\)</span> and <span class="math notranslate nohighlight">\(0 \leq n \leq 25\)</span>. Comment on the spacing of the grid <span class="math notranslate nohighlight">\(\{ x_0, x_1, \ldots, x_{25} \}\)</span>.</p></li>
+<li><p>Find an expression for the Lagrange weights for <span class="math notranslate nohighlight">\(n\)</span> evenly spaced interpolation nodes on <span class="math notranslate nohighlight">\([-1, 1]\)</span> (including the endpoints). What happens to the weights as <span class="math notranslate nohighlight">\(n\)</span> increases? (This is what causes the Runge phenomenon!)</p></li>
 </ol>
-<ul class="simple">
-<li><p>a) Write code using the barycentric interpolation formula (you may use an external package for this, or you may write your own) to compute a sequence of polynomial interpolants to a function <span class="math notranslate nohighlight">\(f\)</span> on <span class="math notranslate nohighlight">\([−1, 1]\)</span> in points selected by a <em>greedy</em> algorithm: take <span class="math notranslate nohighlight">\(x_0\)</span> to be a point where <span class="math notranslate nohighlight">\(|f(x)|\)</span> achieves its maximum, then <span class="math notranslate nohighlight">\(x_1\)</span> to be a point where <span class="math notranslate nohighlight">\(|(f − p_0)(x)|\)</span> achieves its maximum, then <span class="math notranslate nohighlight">\(x_2\)</span> to be a point where <span class="math notranslate nohighlight">\(|(f − p_1)(x)|\)</span> achieves its maximum, and so on. Plot the error curves <span class="math notranslate nohighlight">\((f − p_n)(x)\)</span>, <span class="math notranslate nohighlight">\(x \in [−1, 1]\)</span>, computed by this algorithm for <span class="math notranslate nohighlight">\(f(x) = |x|\)</span> and <span class="math notranslate nohighlight">\(0 \leq n \leq 25\)</span>. Comment on the spacing of the grid <span class="math notranslate nohighlight">\(\{ x_0, x_1, \ldots, x_{25} \}\)</span>.</p></li>
-<li><p>b) Make sure to write a <em>unit test</em> for your interpolation routine, and put “test” in the function’s name.</p></li>
-<li><p>c) Write <em>docstrings</em> for your functions documenting the types and any limitations on their input, their outputs, and what they do.</p></li>
-</ul>
 </div>
 </section>
 </section>
@@ -922,22 +912,13 @@ Once the weights are known, evaluating <span class="math notranslate nohighlight
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="github.html"
+       href="stability.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">3. Good coding practices</p>
+        <p class="prev-next-title">4. Stability</p>
       </div>
-    </a>
-    <a class="right-next"
-       href="poly_interp2.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">5. Interpolation II</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -955,12 +936,12 @@ Once the weights are known, evaluating <span class="math notranslate nohighlight
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-vandermonde-trick">4.1. The Vandermonde trick</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choice-of-nodes-and-choice-of-basis">4.2 Choice of nodes and choice of basis</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#is-the-monomial-basis-a-bad-choice">4.2.1 Is the monomial basis a bad choice?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-vandermonde-trick">5.1. The Vandermonde trick</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choice-of-nodes-and-choice-of-basis">5.2 Choice of nodes and choice of basis</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#is-the-monomial-basis-a-bad-choice">5.2.1 Is the monomial basis a bad choice?</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barycentric-interpolation">4.3 Barycentric interpolation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barycentric-interpolation">5.3 Barycentric interpolation</a></li>
 </ul>
   </nav></div>
 

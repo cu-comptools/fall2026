@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -62,8 +62,6 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'ODES2_spectral';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="8. Ordinary differential equations II" href="ODEs_1_RK.html" />
-    <link rel="prev" title="6. Quadrature" href="quadrature.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -126,6 +124,8 @@
       
       
       
+        
+      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -181,17 +181,12 @@
                 </a>
             </li>
         </ul>
-        <ul class="current nav bd-sidenav">
+        <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="course_introduction.html">0. Course introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="floatingpoint.html">1. Floating point representation and roundoff error</a></li>
 <li class="toctree-l1"><a class="reference internal" href="conditionnumber.html">2. Conditioning of a problem and the condition number</a></li>
-<li class="toctree-l1"><a class="reference internal" href="github.html">3. Good coding practices</a></li>
-<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">4. Interpolation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="poly_interp2.html">5. Interpolation II</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quadrature.html">6. Quadrature</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">7. Ordinary differential equations I</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ODEs_1_RK.html">8. Ordinary differential equations II</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">9. Ordinary differential equations III</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stability.html">4. Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">5. Interpolation</a></li>
 </ul>
 
     </div>
@@ -442,8 +437,8 @@ document.write(`
 <h2>7.1 Some basics<a class="headerlink" href="#some-basics" title="Link to this heading">#</a></h2>
 <p>Most numerical libraries will let you call well-established methods to solve <em>initial value problems</em>. These are (ordinary) differential equations with <em>complementary conditions</em> that are posed at the start of the solution range. <em>Boundary value problems</em> impose conditions at either end of this interval.</p>
 <p>Any higher-order IVP may be written in the form</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0dd102d1-f243-453f-8157-1fe32c570b82">
-<span class="eqno">(6)<a class="headerlink" href="#equation-0dd102d1-f243-453f-8157-1fe32c570b82" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-79f3fc79-fe3d-45a9-afff-51b516a8a025">
+<span class="eqno">()<a class="headerlink" href="#equation-79f3fc79-fe3d-45a9-afff-51b516a8a025" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathbf{u}'(t) &amp;= f(\mathbf{u}(t)), \quad t \in [a, b], \\
 \mathbf{u}(a) &amp;= \mathbf{u}_0. 
 \end{align}\]</div>
@@ -492,8 +487,8 @@ document.write(`
 </table>
 </div>
 <p>The basic idea is to turn our ODE and supplementary information (boundary, initial, or mixed) into a (sequence of) linear system(s) to solve. Starting from the simplest example,</p>
-<div class="amsmath math notranslate nohighlight" id="equation-654a0f2e-9e3a-496f-8ac1-c4600b23a9d2">
-<span class="eqno">(7)<a class="headerlink" href="#equation-654a0f2e-9e3a-496f-8ac1-c4600b23a9d2" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-0170ea28-f7e7-45eb-8774-01738318e65b">
+<span class="eqno">()<a class="headerlink" href="#equation-0170ea28-f7e7-45eb-8774-01738318e65b" title="Permalink to this equation">#</a></span>\[\begin{align}
 u' &amp;= f(t), \quad t \in [a, b], \\
 u(a) &amp;= u_0,
 \end{align}\]</div>
@@ -602,7 +597,7 @@ D^{(n)}\begin{bmatrix} u_0 \\ u_1 \\ \vdots \\ u_n \end{bmatrix} =
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:16: SyntaxWarning: invalid escape sequence &#39;\c&#39;
 &lt;&gt;:16: SyntaxWarning: invalid escape sequence &#39;\c&#39;
-/tmp/ipykernel_1284938/3742093910.py:16: SyntaxWarning: invalid escape sequence &#39;\c&#39;
+/tmp/ipykernel_75203/3742093910.py:16: SyntaxWarning: invalid escape sequence &#39;\c&#39;
   plt.semilogy(ns, errs2, &#39;--&#39;, label = &quot;$f(x) = \cos(5x)$&quot;)
 </pre></div>
 </div>
@@ -635,7 +630,7 @@ D^{(n)}\begin{bmatrix} u_0 \\ u_1 \\ \vdots \\ u_n \end{bmatrix} =
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:15: SyntaxWarning: invalid escape sequence &#39;\p&#39;
 &lt;&gt;:15: SyntaxWarning: invalid escape sequence &#39;\p&#39;
-/tmp/ipykernel_1284938/3577818505.py:15: SyntaxWarning: invalid escape sequence &#39;\p&#39;
+/tmp/ipykernel_75203/3577818505.py:15: SyntaxWarning: invalid escape sequence &#39;\p&#39;
   plt.loglog(hs, hs**(n-1)*errs[0]/hs[0]**(n-1), &#39;--&#39;, label = &quot;$\propto h^{n-1}$&quot;)
 </pre></div>
 </div>
@@ -699,8 +694,8 @@ u_0 \\ f_1 \\ \vdots \\ f_n
 </div>
 <p>Repeated differentiation can be done by the repeated application of <span class="math notranslate nohighlight">\(D\)</span>, e.g. <span class="math notranslate nohighlight">\(u'' = D^2 u\)</span>.</p>
 <p>Neumann conditions are most easily added by appending the relevant row of <span class="math notranslate nohighlight">\(D\)</span> to the left-hand-side, e.g. <span class="math notranslate nohighlight">\(u'(-1) = u'_0\)</span> may be written as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-97ec8e4a-47fd-481a-b5f5-ac067222cb9c">
-<span class="eqno">(8)<a class="headerlink" href="#equation-97ec8e4a-47fd-481a-b5f5-ac067222cb9c" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-429cc3a0-cf1c-4c70-b926-453f89b96ec8">
+<span class="eqno">()<a class="headerlink" href="#equation-429cc3a0-cf1c-4c70-b926-453f89b96ec8" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \begin{bmatrix} D_{00} &amp; D_{01} &amp; \ldots  &amp; D_{0n} \end{bmatrix}
 \begin{bmatrix} u_0 \\ u_1 \\ \vdots \\ u_n \end{bmatrix}
 = u'_0.
@@ -789,24 +784,6 @@ which corresponds to a simple harmonic oscillator with constant frequency <span 
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="quadrature.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">6. Quadrature</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="ODEs_1_RK.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">8. Ordinary differential equations II</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div>
                 </footer>
               

@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -62,8 +62,6 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'quadrature';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="7. Ordinary differential equations I" href="ODES2_spectral.html" />
-    <link rel="prev" title="5. Interpolation II" href="poly_interp2.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -126,6 +124,8 @@
       
       
       
+        
+      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -181,17 +181,12 @@
                 </a>
             </li>
         </ul>
-        <ul class="current nav bd-sidenav">
+        <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="course_introduction.html">0. Course introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="floatingpoint.html">1. Floating point representation and roundoff error</a></li>
 <li class="toctree-l1"><a class="reference internal" href="conditionnumber.html">2. Conditioning of a problem and the condition number</a></li>
-<li class="toctree-l1"><a class="reference internal" href="github.html">3. Good coding practices</a></li>
-<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">4. Interpolation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="poly_interp2.html">5. Interpolation II</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">6. Quadrature</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">7. Ordinary differential equations I</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ODEs_1_RK.html">8. Ordinary differential equations II</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">9. Ordinary differential equations III</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stability.html">4. Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">5. Interpolation</a></li>
 </ul>
 
     </div>
@@ -457,7 +452,7 @@ document.write(`
 \[\int_a^b f(x)\mathrm{d}x \approx \int_a^b (L_nf)(x)\mathrm{d}x, \]</div>
 <p>where <span class="math notranslate nohighlight">\(L_n: C[a,b] \to P_n\)</span>, the space of degree-<span class="math notranslate nohighlight">\(n\)</span> polynomials. This form of quadrature is <strong>interpolatory quadrature</strong>, and has weights</p>
 <div class="math notranslate nohighlight" id="equation-interp-quad-wk">
-<span class="eqno">(4)<a class="headerlink" href="#equation-interp-quad-wk" title="Link to this equation">#</a></span>\[ 
+<span class="eqno">()<a class="headerlink" href="#equation-interp-quad-wk" title="Link to this equation">#</a></span>\[ 
 w_k = \frac{1}{q'_{n+1}(x_k)} \int_a^b \frac{q_{n+1}(x)}{x - x_k} \mathrm{d} x \quad \text{for }k = 0, 1, \ldots, n.
 \]</div>
 <p>(Recall that <span class="math notranslate nohighlight">\(q_n(x) = \prod_{k=0}^n (x - x_k)\)</span>.)</p>
@@ -487,7 +482,7 @@ w_k = \int_a^b l_k(x)\mathrm{d}x = \int_a^b \prod_{j = 0, j \neq k}^n \frac{x - 
 \[ q_{n+1}(x) = \prod_{j=0}^n (a + hz - a - jz) = h^{n+1}\prod_{j=0}^n (z - j), \]</div>
 <div class="math notranslate nohighlight">
 \[ q'_{n+1}(x_k) = \frac{\mathrm{d}q_{n+1}}{\mathrm{d}z} \frac{\mathrm{d} x}{\mathrm{d}x}\Bigg|_{j = k} = h^{n+1} \frac{1}{h} \prod_{j=0, j\neq k}^n (k - j) = h^n k! (n-k)!(-1)^{n-k}.  \]</div>
-<p>Substituting these into <a class="reference internal" href="#equation-interp-quad-wk">(4)</a>, we get the expression required. The symmetry of weights can be shown making the substitutions <span class="math notranslate nohighlight">\(k \to n - k\)</span>, <span class="math notranslate nohighlight">\(z \to n - y\)</span> (check this yourself!).</p>
+<p>Substituting these into <a class="reference internal" href="#equation-interp-quad-wk">()</a>, we get the expression required. The symmetry of weights can be shown making the substitutions <span class="math notranslate nohighlight">\(k \to n - k\)</span>, <span class="math notranslate nohighlight">\(z \to n - y\)</span> (check this yourself!).</p>
 <p>Setting <span class="math notranslate nohighlight">\(n = 1\)</span>, we get the simplest form of Newton-Cotes, the trapezoidal rule</p>
 <div class="math notranslate nohighlight">
 \[ \int_a^b f(x) \mathrm{d}x \approx \frac{b-a}{2} \left[ f(a) + f(b)\right] \]</div>
@@ -638,7 +633,7 @@ and then we can set <span class="math notranslate nohighlight">\(c = b-a\)</span
 \[ I_n = \int_{|z| = r'} m(z) u(z)\mathrm{d}z. \]</div>
 <p>The construction of <span class="math notranslate nohighlight">\(m(z)\)</span> ensures that when we apply Cauchy’s theorem to the above integral, we pick up the evaluations of <span class="math notranslate nohighlight">\(u(z)\)</span> with the right quadrature weights as the residues of the integrand at the poles, and that the poles are the quadrature nodes <span class="math notranslate nohighlight">\(z_k\)</span>. Then we may write</p>
 <div class="amsmath math notranslate nohighlight" id="equation-89098b14-3cd2-4813-9562-682c2bd61c23">
-<span class="eqno">(5)<a class="headerlink" href="#equation-89098b14-3cd2-4813-9562-682c2bd61c23" title="Permalink to this equation">#</a></span>\[\begin{align}
+<span class="eqno">()<a class="headerlink" href="#equation-89098b14-3cd2-4813-9562-682c2bd61c23" title="Permalink to this equation">#</a></span>\[\begin{align}
 I_n - I &amp;= \int_{|z| = r'} \left[ m(z) + iz^{-1} \right] u(z)\mathrm{d}z  \\ 
 &amp;= \int_{|z| = r'} \frac{iz^{-1} u(z)}{-z^N + 1}\mathrm{d}z \\
 &amp;\leq M \int_{|z| = r'} \left| \frac{iz^{-1}}{-z^N + 1}\right| \mathrm{d}z \\
@@ -697,24 +692,6 @@ This integrates degree-2 polynomials exactly.</p>
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="poly_interp2.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">5. Interpolation II</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="ODES2_spectral.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">7. Ordinary differential equations I</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div>
                 </footer>
               
