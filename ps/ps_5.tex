@@ -1,0 +1,64 @@
+\documentclass[11pt]{article}
+\usepackage[letterpaper,margin=0.85in,top=1.05in,bottom=0.7in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{lastpage}
+%\usepackage{newtxtext,newtxmath}
+
+\definecolor{accent}{HTML}{274C77}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\headheight}{42pt}
+\setlength{\headsep}{18pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{%
+  \begin{minipage}[t]{0.56\textwidth}
+  \textbf{CSCI 5526}\\[-1pt]
+  Computational Tools for Multiscale Problems
+  \end{minipage}}
+\fancyhead[R]{%
+  \begin{minipage}[t]{0.38\textwidth}\raggedleft
+  \today\\[-1pt]
+  \textbf{Due:} 09/17/2026 2pm
+  \end{minipage}}
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{accent}\leaders\hrule height \headrulewidth\hfill}}
+
+% Number only; no "Problem x" heading.
+\newcommand{\problem}[1]{\vspace{0.6em}\noindent{\large\bfseries #1.}\hspace{0.45em}}
+
+% Uniform blank response area after every problem.
+\newcommand{\answerspace}{\par\vspace{3.5in}}
+
+\begin{document}
+
+\begin{center}
+  {\fontsize{25}{30}\selectfont\bfseries Problem Set 5}\par
+  \vspace{0.35em}
+  {\large\color{gray!75!black}Interpolation II}
+\end{center}
+\vspace{0.75em}
+
+\problem{1}
+Write code using the barycentric interpolation formula (you may use an external
+package for this, or you may write your own) to compute a sequence of
+polynomial interpolants to a function $f$ on $[-1, 1]$ in points selected by a
+greedy algorithm: take $x_0$ to be a point where $|f(x)|$ achieves its
+maximum, then $x_1$ to be a point where $|(f - p_0)(x)|$ achieves its maximum,
+then $x_2$ to be a point where $|(f - p_1)(x)|$ achieves its maximum, and so
+on. Plot the error curves $(f - p_n)(x)$, $x \in [-1, 1]$, computed by this
+algorithm for $f(x) = |x|$ and $0 \leq n \leq 25$. Comment on the spacing of
+the grid $\{ x_0, x_1, \ldots, x_{25} \}$.
+\answerspace
+
+\problem{2}
+Find an expression for the Lagrange weights for $n$ evenly spaced interpolation
+nodes on $[-1, 1]$ (including the endpoints). What happens to the weights as
+$n$ increases? (This is what causes the Runge phenomenon!)
+\answerspace
+\end{document}
