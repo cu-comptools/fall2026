@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>5. Interpolation &#8212; Computational Tools for Multiscale Problems</title>
+    <title>4. Interpolation &#8212; Computational Tools for Multiscale Problems</title>
   
   
   
@@ -28,11 +28,11 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -62,7 +62,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'poly_interp';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="4. Stability" href="stability.html" />
+    <link rel="next" title="5. Smooth quadrature" href="quadrature.html" />
+    <link rel="prev" title="3. Stability" href="stability.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -184,8 +185,9 @@
 <li class="toctree-l1"><a class="reference internal" href="course_introduction.html">0. Course introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="floatingpoint.html">1. Floating point representation and roundoff error</a></li>
 <li class="toctree-l1"><a class="reference internal" href="conditionnumber.html">2. Conditioning of a problem and the condition number</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stability.html">4. Stability</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">5. Interpolation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stability.html">3. Stability</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">4. Interpolation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quadrature.html">5. Smooth quadrature</a></li>
 </ul>
 
     </div>
@@ -402,7 +404,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>5. Interpolation</h1>
+    <h1>4. Interpolation</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -412,12 +414,12 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-vandermonde-trick">5.1. The Vandermonde trick</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choice-of-nodes-and-choice-of-basis">5.2 Choice of nodes and choice of basis</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-vandermonde-trick">4.1. The Vandermonde trick</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choice-of-nodes-and-choice-of-basis">4.2 Choice of nodes and choice of basis</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#is-the-monomial-basis-a-bad-choice">5.2.1 Is the monomial basis a bad choice?</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barycentric-interpolation">5.3 Barycentric interpolation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barycentric-interpolation">4.3 Barycentric interpolation</a></li>
 </ul>
             </nav>
         </div>
@@ -430,7 +432,7 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="interpolation">
-<h1>5. Interpolation<a class="headerlink" href="#interpolation" title="Link to this heading">#</a></h1>
+<h1>4. Interpolation<a class="headerlink" href="#interpolation" title="Link to this heading">#</a></h1>
 <div class="warning admonition">
 <p class="admonition-title">Additional resource</p>
 <p>Shen, Z., &amp; Serkh, K. (2022). <a class="reference external" href="https://arXiv.org/abs/2212.10519">On polynomial interpolation in the monomial basis</a></p>
@@ -438,22 +440,22 @@ document.write(`
 <p>You have a function <span class="math notranslate nohighlight">\(f\)</span> defined on the interval <span class="math notranslate nohighlight">\([a, b]\)</span>, but only have access to <span class="math notranslate nohighlight">\(n + 1\)</span> evaluations of the function at unique nodes <span class="math notranslate nohighlight">\(\{x_0, x_1, x_2, \ldots, x_n\} := \{x_i\}_{i=0}^n\)</span>, where the function takes values <span class="math notranslate nohighlight">\(\{ y_0, y_1, y_2, \ldots, y_n \} := \{y_i\}_{i=0}^n\)</span>. How do you evaluate the function at some new point <span class="math notranslate nohighlight">\(x^{\ast}\)</span>?</p>
 <p>We start with the oldest trick in the book:</p>
 <section id="the-vandermonde-trick">
-<h2>5.1. The Vandermonde trick<a class="headerlink" href="#the-vandermonde-trick" title="Link to this heading">#</a></h2>
+<h2>4.1. The Vandermonde trick<a class="headerlink" href="#the-vandermonde-trick" title="Link to this heading">#</a></h2>
 <p>Try fitting an degree-<span class="math notranslate nohighlight">\(n\)</span> polynomial through the points,
 <div class="math notranslate nohighlight">
 \[ p(x) = \sum_{k = 0}^{n}a_k x^k, \]</div>
 
 so that the function evaluations become constraints</p>
-<div class="amsmath math notranslate nohighlight" id="equation-883d4268-5917-444b-85ae-d334705aefc1">
-<span class="eqno">(1)<a class="headerlink" href="#equation-883d4268-5917-444b-85ae-d334705aefc1" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-53bf287d-985a-4226-9259-1fd0edf375a8">
+<span class="eqno">(1)<a class="headerlink" href="#equation-53bf287d-985a-4226-9259-1fd0edf375a8" title="Permalink to this equation">#</a></span>\[\begin{align}
 p(x_0) &amp;= a_0 + a_1 x_0 + a_2 x_0^2 + \ldots + a_n x_0^n = y_0,\\
 p(x_1) &amp;= a_0 + a_1 x_1 + a_2 x_1^2 + \ldots + a_n x_1^n = y_1,\\
 \vdots &amp;\vphantom{=}\\
 p(x_n) &amp;= a_0 + a_1 x_n + a_2 x_n^2 + \ldots + a_n x_n^n = y_n.
 \end{align}\]</div>
 <p>This can be rewritten rather compactly as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-fa1bbcaa-faca-4191-a208-ab030f9f9d58">
-<span class="eqno">(2)<a class="headerlink" href="#equation-fa1bbcaa-faca-4191-a208-ab030f9f9d58" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-ed35d9bf-876e-427b-abe0-6a979335c621">
+<span class="eqno">(2)<a class="headerlink" href="#equation-ed35d9bf-876e-427b-abe0-6a979335c621" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \begin{bmatrix}
 1 &amp; x_0 &amp; x_0^2 &amp; \ldots &amp; x_0^n \\
 1 &amp; x_1 &amp; x_1^2 &amp; \ldots &amp; x_1^n \\
@@ -499,7 +501,7 @@ y_0 \\ y_1 \\ \vdots \\ y_n
 <p>To investigate when it <em>really</em> is inappropriate to use Vandermonde matrices, we’ll need to distinguish between two different sources of error: the choice of interpolating polynomial, and the choice of basis it is represented in.</p>
 </section>
 <section id="choice-of-nodes-and-choice-of-basis">
-<h2>5.2 Choice of nodes and choice of basis<a class="headerlink" href="#choice-of-nodes-and-choice-of-basis" title="Link to this heading">#</a></h2>
+<h2>4.2 Choice of nodes and choice of basis<a class="headerlink" href="#choice-of-nodes-and-choice-of-basis" title="Link to this heading">#</a></h2>
 <div class="admonition-question admonition">
 <p class="admonition-title">Question</p>
 <p>Assume that you are given the function <span class="math notranslate nohighlight">\(f\)</span> and nothing else. What parameters are you free to pick when interpolating it?</p>
@@ -534,8 +536,8 @@ so <span class="math notranslate nohighlight">\(p(x_i) = \sum y_k \delta_{ki} = 
 <p>It is <a class="reference external" href="https://link.springer.com/article/10.1007/PL00005392">true</a> that the condition number of the Vandermonde matrix <span class="math notranslate nohighlight">\(M\)</span> gets exponentially large with <span class="math notranslate nohighlight">\(n\)</span> for any set of real collocation nodes <span class="math notranslate nohighlight">\(\{x_i\}_{i=0}^n\)</span>. We can check that with a little script:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
 </pre></div>
 </div>
@@ -543,7 +545,7 @@ so <span class="math notranslate nohighlight">\(p(x_i) = \sum y_k \delta_{ki} = 
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">vdm</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">vdm</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">    Computes the Vandermonde matrix from the input collocation nodes x.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -568,13 +570,13 @@ so <span class="math notranslate nohighlight">\(p(x_i) = \sum y_k \delta_{ki} = 
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/7c2bafac4f4a0597832dcccf381c0e917237423a5fb9ee26b26fde2c7ce7e0cf.png" src="_images/7c2bafac4f4a0597832dcccf381c0e917237423a5fb9ee26b26fde2c7ce7e0cf.png" />
+<img alt="_images/a20433a97f2b75b084d1c295c7f4805a9a3f0db8ffd4669365176bf60c5d8006.png" src="_images/a20433a97f2b75b084d1c295c7f4805a9a3f0db8ffd4669365176bf60c5d8006.png" />
 </div>
 </div>
 <p>This suggests that even at the modest <span class="math notranslate nohighlight">\(n = 10\)</span>, <span class="math notranslate nohighlight">\(\kappa \approx 10^3\)</span>. But let’s see if we lose accuracy already at that point:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">interpvdm</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">x_star</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">interpvdm</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">x_star</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Given a function f, collocation nodes x, and target nodes x_star,\</span>
 <span class="sd">    computes interpolation matrix using the monomial basis and returns\</span>
 <span class="sd">    f interpolated at x_star.</span>
@@ -602,7 +604,7 @@ so <span class="math notranslate nohighlight">\(p(x_i) = \sum y_k \delta_{ki} = 
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/5c53cb44290add075b995df35367e8de1089906c1f5d03e9e39c7a56ce23671e.png" src="_images/5c53cb44290add075b995df35367e8de1089906c1f5d03e9e39c7a56ce23671e.png" />
+<img alt="_images/58dd9fcf1ab6de12f3f9fa01c2d78b4363e29c8d2c580bece21ba3f033391ec5.png" src="_images/58dd9fcf1ab6de12f3f9fa01c2d78b4363e29c8d2c580bece21ba3f033391ec5.png" />
 </div>
 </div>
 <p>What?! Interpolation in the monomial basis seems to work just fine beyond <span class="math notranslate nohighlight">\(n = 10\)</span>, and its accuracy quickly reaches <span class="math notranslate nohighlight">\(\mu_M\)</span>.
@@ -632,7 +634,7 @@ Now try some other functions that require higher-order interpolation either beca
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/9cd81926a57c5960ddfcfc65ab325dbb5ad36b6d99ff704d3d8538ddcd0ceb74.png" src="_images/9cd81926a57c5960ddfcfc65ab325dbb5ad36b6d99ff704d3d8538ddcd0ceb74.png" />
+<img alt="_images/6d272c8497e4bdb735c60012425f0f9fffa2200d9e00b10f6aa6cb8f18ddf4de.png" src="_images/6d272c8497e4bdb735c60012425f0f9fffa2200d9e00b10f6aa6cb8f18ddf4de.png" />
 </div>
 </div>
 <p>Here, we observe different (slower) <em>convergence rates</em>, but it’s not clear whether slower convergence is due to the large condition number of <span class="math notranslate nohighlight">\(M\)</span>, or something else. Keeping the same collocation nodes, let us compare interpolation of the above functions using a different basis: the Lagrange basis. Evaluation of the interpolating polynomial <span class="math notranslate nohighlight">\(p\)</span>, unlike in the monomial basis, does not have a large <span class="math notranslate nohighlight">\(\kappa\)</span>. But first, some things to note:</p>
@@ -672,7 +674,7 @@ Now try some other functions that require higher-order interpolation either beca
 <p>Interpolation in the Lagrange basis can be done in a backwards stable way via <strong>barycentric interpolation</strong>. We call a <code class="docutils literal notranslate"><span class="pre">scipy</span></code> routine that performs it:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">scipy.interpolate</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sciint</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">scipy.interpolate</span> <span class="k">as</span> <span class="nn">sciint</span>
 </pre></div>
 </div>
 </div>
@@ -705,7 +707,7 @@ Now try some other functions that require higher-order interpolation either beca
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/57fcad2cb151d92ffa99f9433b71284e79b8f57c0d43cb6385a827edcb2c8523.png" src="_images/57fcad2cb151d92ffa99f9433b71284e79b8f57c0d43cb6385a827edcb2c8523.png" />
+<img alt="_images/a842e7a8f011c7ed6ec986bfffbe1300b0f15f37077c7583202bd9cd0f3d6d56.png" src="_images/a842e7a8f011c7ed6ec986bfffbe1300b0f15f37077c7583202bd9cd0f3d6d56.png" />
 </div>
 </div>
 <div class="admonition-question admonition">
@@ -768,7 +770,7 @@ Therefore,</p>
 <p>Let’s revisit the interpolation examples one more time, this time trying to explain the (lack of) stagnation in the accuracy by checking the backward error <span class="math notranslate nohighlight">\(||\tilde{a}||\mu_M\)</span>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">vdmcoeffs</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">vdmcoeffs</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Given a function f and collocation nodes x, computes\</span>
 <span class="sd">    the 2-norm of the polynomial coefficient vector in the monomial\</span>
 <span class="sd">    basis.</span>
@@ -807,13 +809,13 @@ Therefore,</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/c7fb4cdf29694819c64c6419aff5dcca30d9efba061ba4a02b966276f5d0b8fa.png" src="_images/c7fb4cdf29694819c64c6419aff5dcca30d9efba061ba4a02b966276f5d0b8fa.png" />
+<img alt="_images/68f3f64a46c2ce28e3a4a4c249fdf3b6ac0cee5dbbab8e3bf0a58d3a01323231.png" src="_images/68f3f64a46c2ce28e3a4a4c249fdf3b6ac0cee5dbbab8e3bf0a58d3a01323231.png" />
 </div>
 </div>
 </section>
 </section>
 <section id="barycentric-interpolation">
-<h2>5.3 Barycentric interpolation<a class="headerlink" href="#barycentric-interpolation" title="Link to this heading">#</a></h2>
+<h2>4.3 Barycentric interpolation<a class="headerlink" href="#barycentric-interpolation" title="Link to this heading">#</a></h2>
 <p>For when the monomial basis produces a large backward error, an alternative representation of the interpolating polynomial <span class="math notranslate nohighlight">\(p\)</span> is in the Lagrange basis, with basis functions
 <div class="math notranslate nohighlight">
 \[l_j(x) = \frac{\prod_{k \neq j} (x - x_k)}{\prod_{k \neq j} (x_j - x_k)} \quad \text{for } j = 0, 1, 2, \ldots, n.\]</div>
@@ -917,8 +919,17 @@ Once the weights are known, evaluating <span class="math notranslate nohighlight
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">4. Stability</p>
+        <p class="prev-next-title">3. Stability</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="quadrature.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">5. Smooth quadrature</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -936,12 +947,12 @@ Once the weights are known, evaluating <span class="math notranslate nohighlight
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-vandermonde-trick">5.1. The Vandermonde trick</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choice-of-nodes-and-choice-of-basis">5.2 Choice of nodes and choice of basis</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-vandermonde-trick">4.1. The Vandermonde trick</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#choice-of-nodes-and-choice-of-basis">4.2 Choice of nodes and choice of basis</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#is-the-monomial-basis-a-bad-choice">5.2.1 Is the monomial basis a bad choice?</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barycentric-interpolation">5.3 Barycentric interpolation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#barycentric-interpolation">4.3 Barycentric interpolation</a></li>
 </ul>
   </nav></div>
 

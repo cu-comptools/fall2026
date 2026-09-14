@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>6. Quadrature &#8212; Computational Tools for Multiscale Problems</title>
+    <title>5. Smooth quadrature &#8212; Computational Tools for Multiscale Problems</title>
   
   
   
@@ -28,11 +28,11 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -62,6 +62,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'quadrature';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="4. Interpolation" href="poly_interp.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -124,8 +125,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -181,12 +180,13 @@
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="course_introduction.html">0. Course introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="floatingpoint.html">1. Floating point representation and roundoff error</a></li>
 <li class="toctree-l1"><a class="reference internal" href="conditionnumber.html">2. Conditioning of a problem and the condition number</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stability.html">4. Stability</a></li>
-<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">5. Interpolation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stability.html">3. Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">4. Interpolation</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">5. Smooth quadrature</a></li>
 </ul>
 
     </div>
@@ -403,7 +403,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>6. Quadrature</h1>
+    <h1>5. Smooth quadrature</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -413,9 +413,9 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpolatory-quadrature">4.1 Interpolatory quadrature</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gaussian-quadrature">4.2 Gaussian quadrature</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#periodic-quadrature">4.3 Periodic quadrature</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpolatory-quadrature">5.1 Interpolatory quadrature</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gaussian-quadrature">5.2 Gaussian quadrature</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#periodic-quadrature">5.3 Periodic quadrature</a></li>
 </ul>
             </nav>
         </div>
@@ -427,8 +427,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="quadrature">
-<h1>6. Quadrature<a class="headerlink" href="#quadrature" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="smooth-quadrature">
+<h1>5. Smooth quadrature<a class="headerlink" href="#smooth-quadrature" title="Link to this heading">#</a></h1>
 <p>In quadrature (numerical integration), the goal is to approximate</p>
 <div class="math notranslate nohighlight">
 \[ Q(f) := \int_a^b f(x)\mathrm{d}x \]</div>
@@ -446,13 +446,13 @@ document.write(`
 <p>If you’re given the node locations, what is the most intuitive way to approximate the integrand? What weights does that give you?</p>
 </div>
 <section id="interpolatory-quadrature">
-<h2>4.1 Interpolatory quadrature<a class="headerlink" href="#interpolatory-quadrature" title="Link to this heading">#</a></h2>
+<h2>5.1 Interpolatory quadrature<a class="headerlink" href="#interpolatory-quadrature" title="Link to this heading">#</a></h2>
 <p>Perhaps the most natural way to proceed if given a set of nodes is to fit an interpolating polynomial through them, and replace the exact integrand <span class="math notranslate nohighlight">\(f\)</span> with its interpolated version (say, in the Lagrangian basis) <span class="math notranslate nohighlight">\(Lnf\)</span>, giving</p>
 <div class="math notranslate nohighlight">
 \[\int_a^b f(x)\mathrm{d}x \approx \int_a^b (L_nf)(x)\mathrm{d}x, \]</div>
 <p>where <span class="math notranslate nohighlight">\(L_n: C[a,b] \to P_n\)</span>, the space of degree-<span class="math notranslate nohighlight">\(n\)</span> polynomials. This form of quadrature is <strong>interpolatory quadrature</strong>, and has weights</p>
 <div class="math notranslate nohighlight" id="equation-interp-quad-wk">
-<span class="eqno">()<a class="headerlink" href="#equation-interp-quad-wk" title="Link to this equation">#</a></span>\[ 
+<span class="eqno">(3)<a class="headerlink" href="#equation-interp-quad-wk" title="Link to this equation">#</a></span>\[ 
 w_k = \frac{1}{q'_{n+1}(x_k)} \int_a^b \frac{q_{n+1}(x)}{x - x_k} \mathrm{d} x \quad \text{for }k = 0, 1, \ldots, n.
 \]</div>
 <p>(Recall that <span class="math notranslate nohighlight">\(q_n(x) = \prod_{k=0}^n (x - x_k)\)</span>.)</p>
@@ -482,8 +482,8 @@ w_k = \int_a^b l_k(x)\mathrm{d}x = \int_a^b \prod_{j = 0, j \neq k}^n \frac{x - 
 \[ q_{n+1}(x) = \prod_{j=0}^n (a + hz - a - jz) = h^{n+1}\prod_{j=0}^n (z - j), \]</div>
 <div class="math notranslate nohighlight">
 \[ q'_{n+1}(x_k) = \frac{\mathrm{d}q_{n+1}}{\mathrm{d}z} \frac{\mathrm{d} x}{\mathrm{d}x}\Bigg|_{j = k} = h^{n+1} \frac{1}{h} \prod_{j=0, j\neq k}^n (k - j) = h^n k! (n-k)!(-1)^{n-k}.  \]</div>
-<p>Substituting these into <a class="reference internal" href="#equation-interp-quad-wk">()</a>, we get the expression required. The symmetry of weights can be shown making the substitutions <span class="math notranslate nohighlight">\(k \to n - k\)</span>, <span class="math notranslate nohighlight">\(z \to n - y\)</span> (check this yourself!).</p>
-<p>Setting <span class="math notranslate nohighlight">\(n = 1\)</span>, we get the simplest form of Newton-Cotes, the trapezoidal rule</p>
+<p>Substituting these into <a class="reference internal" href="#equation-interp-quad-wk">(3)</a>, we get the expression required. The symmetry of weights can be shown making the substitutions <span class="math notranslate nohighlight">\(k \to n - k\)</span>, <span class="math notranslate nohighlight">\(z \to n - y\)</span> (check this yourself!).</p>
+<p>Setting <span class="math notranslate nohighlight">\(n = 1\)</span> (two nodes), we get the simplest form of Newton-Cotes, the trapezoidal rule</p>
 <div class="math notranslate nohighlight">
 \[ \int_a^b f(x) \mathrm{d}x \approx \frac{b-a}{2} \left[ f(a) + f(b)\right] \]</div>
 <div class="admonition-question admonition">
@@ -566,7 +566,7 @@ and then we can set <span class="math notranslate nohighlight">\(c = b-a\)</span
 <p>It is: it’s convergent for all polynomials since its error, <span class="math notranslate nohighlight">\(\propto ||p''||_{L_\infty}\)</span> for polynomials <span class="math notranslate nohighlight">\(p\)</span>, is bounded, and its weights are non-negative. However, it is only slowly convergent. A better approach may be Gaussian quadrature.</p>
 </section>
 <section id="gaussian-quadrature">
-<h2>4.2 Gaussian quadrature<a class="headerlink" href="#gaussian-quadrature" title="Link to this heading">#</a></h2>
+<h2>5.2 Gaussian quadrature<a class="headerlink" href="#gaussian-quadrature" title="Link to this heading">#</a></h2>
 <div class="warning admonition">
 <p class="admonition-title">Additional resource</p>
 <p>Abramowitz &amp; Stegun: Handbook of Mathematial Functions with Formulas, Graphs, and Mathematical Tables</p>
@@ -588,9 +588,14 @@ and then we can set <span class="math notranslate nohighlight">\(c = b-a\)</span
 <li><p>by subdividing the integration interval,</p></li>
 </ul>
 <p>and comparing answers.</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>Why does Gaussian quadrature generally achieve better accuracy than interpolatory quadrature, for the same number of nodes?</p>
+</div>
+<p>Gaussian quadrature is the optimal choice for integrating smooth functions. The reason why it generally outperforms interpolatory quadrature lies in how it is constructed: while interpolatory quadrature tries to approximate the integrand accurately (which yields constraints like the interpolant matching the integrand at the nodes), Gaussian quadrature only aims to get its integral (a scalar) correct. Gaussian quadrature gives up accuracy in getting the integrand right and trades it for accuracy of getting the integral itself right.</p>
 </section>
 <section id="periodic-quadrature">
-<h2>4.3 Periodic quadrature<a class="headerlink" href="#periodic-quadrature" title="Link to this heading">#</a></h2>
+<h2>5.3 Periodic quadrature<a class="headerlink" href="#periodic-quadrature" title="Link to this heading">#</a></h2>
 <div class="warning admonition">
 <p class="admonition-title">Additional resource</p>
 <p>Trefethen, L. N. &amp; Weideman, J. A. C. (2014). <a class="reference external" href="https://epubs.siam.org/doi/pdf/10.1137/130932132">The exponentially convergent trapezoidal rule</a></p>
@@ -632,8 +637,8 @@ and then we can set <span class="math notranslate nohighlight">\(c = b-a\)</span
 <div class="math notranslate nohighlight">
 \[ I_n = \int_{|z| = r'} m(z) u(z)\mathrm{d}z. \]</div>
 <p>The construction of <span class="math notranslate nohighlight">\(m(z)\)</span> ensures that when we apply Cauchy’s theorem to the above integral, we pick up the evaluations of <span class="math notranslate nohighlight">\(u(z)\)</span> with the right quadrature weights as the residues of the integrand at the poles, and that the poles are the quadrature nodes <span class="math notranslate nohighlight">\(z_k\)</span>. Then we may write</p>
-<div class="amsmath math notranslate nohighlight" id="equation-89098b14-3cd2-4813-9562-682c2bd61c23">
-<span class="eqno">()<a class="headerlink" href="#equation-89098b14-3cd2-4813-9562-682c2bd61c23" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-63da1731-c9dc-430d-81eb-f9406a288c4d">
+<span class="eqno">(4)<a class="headerlink" href="#equation-63da1731-c9dc-430d-81eb-f9406a288c4d" title="Permalink to this equation">#</a></span>\[\begin{align}
 I_n - I &amp;= \int_{|z| = r'} \left[ m(z) + iz^{-1} \right] u(z)\mathrm{d}z  \\ 
 &amp;= \int_{|z| = r'} \frac{iz^{-1} u(z)}{-z^N + 1}\mathrm{d}z \\
 &amp;\leq M \int_{|z| = r'} \left| \frac{iz^{-1}}{-z^N + 1}\right| \mathrm{d}z \\
@@ -644,7 +649,7 @@ I_n - I &amp;= \int_{|z| = r'} \left[ m(z) + iz^{-1} \right] u(z)\mathrm{d}z  \\
 <div class="danger admonition">
 <p class="admonition-title">Exercises</p>
 <ol class="arabic simple">
-<li><p>(Quiz 2) This question takes you through deriving the weights of simple Gaussian quadrature.</p></li>
+<li><p>This question takes you through deriving the weights of simple Gaussian quadrature.</p></li>
 </ol>
 <p>Consider integration on <span class="math notranslate nohighlight">\([-1, 1]\)</span>. We fix <span class="math notranslate nohighlight">\(n = 2\)</span>, i.e. 3 nodes. Choosing nodes <span class="math notranslate nohighlight">\(x_0 = -1\)</span>, <span class="math notranslate nohighlight">\(x_1 = 0\)</span>, <span class="math notranslate nohighlight">\(x_2 = 1\)</span>, we have the Newton–Cotes quadrature
 <div class="math notranslate nohighlight">
@@ -692,6 +697,15 @@ This integrates degree-2 polynomials exactly.</p>
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="poly_interp.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">4. Interpolation</p>
+      </div>
+    </a>
 </div>
                 </footer>
               
@@ -708,9 +722,9 @@ This integrates degree-2 polynomials exactly.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpolatory-quadrature">4.1 Interpolatory quadrature</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gaussian-quadrature">4.2 Gaussian quadrature</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#periodic-quadrature">4.3 Periodic quadrature</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpolatory-quadrature">5.1 Interpolatory quadrature</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gaussian-quadrature">5.2 Gaussian quadrature</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#periodic-quadrature">5.3 Periodic quadrature</a></li>
 </ul>
   </nav></div>
 

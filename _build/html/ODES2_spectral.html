@@ -28,11 +28,11 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -185,8 +185,9 @@
 <li class="toctree-l1"><a class="reference internal" href="course_introduction.html">0. Course introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="floatingpoint.html">1. Floating point representation and roundoff error</a></li>
 <li class="toctree-l1"><a class="reference internal" href="conditionnumber.html">2. Conditioning of a problem and the condition number</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stability.html">4. Stability</a></li>
-<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">5. Interpolation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stability.html">3. Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">4. Interpolation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quadrature.html">5. Smooth quadrature</a></li>
 </ul>
 
     </div>
@@ -437,8 +438,8 @@ document.write(`
 <h2>7.1 Some basics<a class="headerlink" href="#some-basics" title="Link to this heading">#</a></h2>
 <p>Most numerical libraries will let you call well-established methods to solve <em>initial value problems</em>. These are (ordinary) differential equations with <em>complementary conditions</em> that are posed at the start of the solution range. <em>Boundary value problems</em> impose conditions at either end of this interval.</p>
 <p>Any higher-order IVP may be written in the form</p>
-<div class="amsmath math notranslate nohighlight" id="equation-79f3fc79-fe3d-45a9-afff-51b516a8a025">
-<span class="eqno">()<a class="headerlink" href="#equation-79f3fc79-fe3d-45a9-afff-51b516a8a025" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-2514f6d5-56fc-4f86-91a9-62ab0df3ceb4">
+<span class="eqno">()<a class="headerlink" href="#equation-2514f6d5-56fc-4f86-91a9-62ab0df3ceb4" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathbf{u}'(t) &amp;= f(\mathbf{u}(t)), \quad t \in [a, b], \\
 \mathbf{u}(a) &amp;= \mathbf{u}_0. 
 \end{align}\]</div>
@@ -487,8 +488,8 @@ document.write(`
 </table>
 </div>
 <p>The basic idea is to turn our ODE and supplementary information (boundary, initial, or mixed) into a (sequence of) linear system(s) to solve. Starting from the simplest example,</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0170ea28-f7e7-45eb-8774-01738318e65b">
-<span class="eqno">()<a class="headerlink" href="#equation-0170ea28-f7e7-45eb-8774-01738318e65b" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-987272ef-ee73-4272-8069-c9d89f99d96d">
+<span class="eqno">()<a class="headerlink" href="#equation-987272ef-ee73-4272-8069-c9d89f99d96d" title="Permalink to this equation">#</a></span>\[\begin{align}
 u' &amp;= f(t), \quad t \in [a, b], \\
 u(a) &amp;= u_0,
 \end{align}\]</div>
@@ -529,11 +530,11 @@ D^{(n)}\begin{bmatrix} u_0 \\ u_1 \\ \vdots \\ u_n \end{bmatrix} =
 <p>Let’s see spectral differentiation in action!</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">si</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.integrate</span> <span class="k">as</span> <span class="nn">si</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">chebD</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">chebD</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Computes the (n+1)x(n+1) spectral differentiation matrix\</span>
 <span class="sd">    using Chebyshev roots according to Ch 6 of Trefethen&#39;s\</span>
@@ -595,13 +596,7 @@ D^{(n)}\begin{bmatrix} u_0 \\ u_1 \\ \vdots \\ u_n \end{bmatrix} =
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:16: SyntaxWarning: invalid escape sequence &#39;\c&#39;
-&lt;&gt;:16: SyntaxWarning: invalid escape sequence &#39;\c&#39;
-/tmp/ipykernel_75203/3742093910.py:16: SyntaxWarning: invalid escape sequence &#39;\c&#39;
-  plt.semilogy(ns, errs2, &#39;--&#39;, label = &quot;$f(x) = \cos(5x)$&quot;)
-</pre></div>
-</div>
-<img alt="_images/1f331b66c043bd6c73cb67a70cb2d8e32e0b0a27d816525de0c32daf0edf4a5f.png" src="_images/1f331b66c043bd6c73cb67a70cb2d8e32e0b0a27d816525de0c32daf0edf4a5f.png" />
+<img alt="_images/d2cfac5229be339142a5463882770359db05484fa1a69e69f376f5b0090a5eb6.png" src="_images/d2cfac5229be339142a5463882770359db05484fa1a69e69f376f5b0090a5eb6.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -628,13 +623,7 @@ D^{(n)}\begin{bmatrix} u_0 \\ u_1 \\ \vdots \\ u_n \end{bmatrix} =
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:15: SyntaxWarning: invalid escape sequence &#39;\p&#39;
-&lt;&gt;:15: SyntaxWarning: invalid escape sequence &#39;\p&#39;
-/tmp/ipykernel_75203/3577818505.py:15: SyntaxWarning: invalid escape sequence &#39;\p&#39;
-  plt.loglog(hs, hs**(n-1)*errs[0]/hs[0]**(n-1), &#39;--&#39;, label = &quot;$\propto h^{n-1}$&quot;)
-</pre></div>
-</div>
-<img alt="_images/8422ad24c8c4a1baba354263ce6891248fc32607b4ca8a79740cdc1bd2a5ccca.png" src="_images/8422ad24c8c4a1baba354263ce6891248fc32607b4ca8a79740cdc1bd2a5ccca.png" />
+<img alt="_images/99219c1be9dc55ca22f77e1fd98fc933063a2965488956bde65ac07421b20a89.png" src="_images/99219c1be9dc55ca22f77e1fd98fc933063a2965488956bde65ac07421b20a89.png" />
 </div>
 </div>
 <div class="admonition-question admonition">
@@ -694,8 +683,8 @@ u_0 \\ f_1 \\ \vdots \\ f_n
 </div>
 <p>Repeated differentiation can be done by the repeated application of <span class="math notranslate nohighlight">\(D\)</span>, e.g. <span class="math notranslate nohighlight">\(u'' = D^2 u\)</span>.</p>
 <p>Neumann conditions are most easily added by appending the relevant row of <span class="math notranslate nohighlight">\(D\)</span> to the left-hand-side, e.g. <span class="math notranslate nohighlight">\(u'(-1) = u'_0\)</span> may be written as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-429cc3a0-cf1c-4c70-b926-453f89b96ec8">
-<span class="eqno">()<a class="headerlink" href="#equation-429cc3a0-cf1c-4c70-b926-453f89b96ec8" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-4f154e6c-31b9-429c-9c5f-4fc34d41c68f">
+<span class="eqno">()<a class="headerlink" href="#equation-4f154e6c-31b9-429c-9c5f-4fc34d41c68f" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \begin{bmatrix} D_{00} &amp; D_{01} &amp; \ldots  &amp; D_{0n} \end{bmatrix}
 \begin{bmatrix} u_0 \\ u_1 \\ \vdots \\ u_n \end{bmatrix}
 = u'_0.

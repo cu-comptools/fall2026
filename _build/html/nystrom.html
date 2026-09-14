@@ -28,11 +28,11 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -185,8 +185,9 @@
 <li class="toctree-l1"><a class="reference internal" href="course_introduction.html">0. Course introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="floatingpoint.html">1. Floating point representation and roundoff error</a></li>
 <li class="toctree-l1"><a class="reference internal" href="conditionnumber.html">2. Conditioning of a problem and the condition number</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stability.html">4. Stability</a></li>
-<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">5. Interpolation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stability.html">3. Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">4. Interpolation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quadrature.html">5. Smooth quadrature</a></li>
 </ul>
 
     </div>
@@ -448,16 +449,16 @@ document.write(`
 \[ p(x) = \sum_{k = 0}^{n}a_k x^k, \]</div>
 
 so that the function evaluations become constraints</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e97bf6b8-79b1-44f0-b825-0df412c16a75">
-<span class="eqno">()<a class="headerlink" href="#equation-e97bf6b8-79b1-44f0-b825-0df412c16a75" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-20d5e371-034c-4c0a-8174-dbbfa19cf0b8">
+<span class="eqno">()<a class="headerlink" href="#equation-20d5e371-034c-4c0a-8174-dbbfa19cf0b8" title="Permalink to this equation">#</a></span>\[\begin{align}
 p(x_0) &amp;= a_0 + a_1 x_0 + a_2 x_0^2 + \ldots + a_n x_0^n = y_0,\\
 p(x_1) &amp;= a_0 + a_1 x_1 + a_2 x_1^2 + \ldots + a_n x_1^n = y_1,\\
 \vdots &amp;\vphantom{=}\\
 p(x_n) &amp;= a_0 + a_1 x_n + a_2 x_n^2 + \ldots + a_n x_n^n = y_n.
 \end{align}\]</div>
 <p>This can be rewritten rather compactly as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-d54d3634-0592-47e4-9640-355dfe54130a">
-<span class="eqno">()<a class="headerlink" href="#equation-d54d3634-0592-47e4-9640-355dfe54130a" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-a04b0921-6192-4a68-98d2-62c916c39adc">
+<span class="eqno">()<a class="headerlink" href="#equation-a04b0921-6192-4a68-98d2-62c916c39adc" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \begin{bmatrix}
 1 &amp; x_0 &amp; x_0^2 &amp; \ldots &amp; x_0^n \\
 1 &amp; x_1 &amp; x_1^2 &amp; \ldots &amp; x_1^n \\
@@ -538,8 +539,8 @@ so <span class="math notranslate nohighlight">\(p(x_i) = \sum y_k \delta_{ki} = 
 <p>It is <a class="reference external" href="https://link.springer.com/article/10.1007/PL00005392">true</a> that the condition number of the Vandermonde matrix <span class="math notranslate nohighlight">\(M\)</span> gets exponentially large with <span class="math notranslate nohighlight">\(n\)</span> for any set of real collocation nodes <span class="math notranslate nohighlight">\(\{x_i\}_{i=0}^n\)</span>. We can check that with a little script:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
 </pre></div>
 </div>
@@ -547,7 +548,7 @@ so <span class="math notranslate nohighlight">\(p(x_i) = \sum y_k \delta_{ki} = 
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">vdm</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">vdm</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
 <span class="sd">    Computes the Vandermonde matrix from the input collocation nodes x.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -572,13 +573,13 @@ so <span class="math notranslate nohighlight">\(p(x_i) = \sum y_k \delta_{ki} = 
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/7c2bafac4f4a0597832dcccf381c0e917237423a5fb9ee26b26fde2c7ce7e0cf.png" src="_images/7c2bafac4f4a0597832dcccf381c0e917237423a5fb9ee26b26fde2c7ce7e0cf.png" />
+<img alt="_images/a20433a97f2b75b084d1c295c7f4805a9a3f0db8ffd4669365176bf60c5d8006.png" src="_images/a20433a97f2b75b084d1c295c7f4805a9a3f0db8ffd4669365176bf60c5d8006.png" />
 </div>
 </div>
 <p>This suggests that even at the modest <span class="math notranslate nohighlight">\(n = 10\)</span>, <span class="math notranslate nohighlight">\(\kappa \approx 10^3\)</span>. But let’s see if we lose accuracy already at that point:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">interpvdm</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">x_star</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">interpvdm</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">x_star</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Given a function f, collocation nodes x, and target nodes x_star,\</span>
 <span class="sd">    computes interpolation matrix using the monomial basis and returns\</span>
 <span class="sd">    f interpolated at x_star.</span>
@@ -606,7 +607,7 @@ so <span class="math notranslate nohighlight">\(p(x_i) = \sum y_k \delta_{ki} = 
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/5c53cb44290add075b995df35367e8de1089906c1f5d03e9e39c7a56ce23671e.png" src="_images/5c53cb44290add075b995df35367e8de1089906c1f5d03e9e39c7a56ce23671e.png" />
+<img alt="_images/58dd9fcf1ab6de12f3f9fa01c2d78b4363e29c8d2c580bece21ba3f033391ec5.png" src="_images/58dd9fcf1ab6de12f3f9fa01c2d78b4363e29c8d2c580bece21ba3f033391ec5.png" />
 </div>
 </div>
 <p>What?! Interpolation in the monomial basis seems to work just fine beyond <span class="math notranslate nohighlight">\(n = 10\)</span>, and its accuracy quickly reaches <span class="math notranslate nohighlight">\(\mu_M\)</span>.
@@ -636,7 +637,7 @@ Now try some other functions that require higher-order interpolation either beca
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/9cd81926a57c5960ddfcfc65ab325dbb5ad36b6d99ff704d3d8538ddcd0ceb74.png" src="_images/9cd81926a57c5960ddfcfc65ab325dbb5ad36b6d99ff704d3d8538ddcd0ceb74.png" />
+<img alt="_images/6d272c8497e4bdb735c60012425f0f9fffa2200d9e00b10f6aa6cb8f18ddf4de.png" src="_images/6d272c8497e4bdb735c60012425f0f9fffa2200d9e00b10f6aa6cb8f18ddf4de.png" />
 </div>
 </div>
 <p>Here, we observe different (slower) <em>convergence rates</em>, but it’s not clear whether slower convergence is due to the large condition number of <span class="math notranslate nohighlight">\(M\)</span>, or something else. Keeping the same collocation nodes, let us compare interpolation of the above functions using a different basis: the Lagrange basis. Evaluation of the interpolating polynomial <span class="math notranslate nohighlight">\(p\)</span>, unlike in the monomial basis, does not have a large <span class="math notranslate nohighlight">\(\kappa\)</span>. But first, some things to note:</p>
@@ -676,7 +677,7 @@ Now try some other functions that require higher-order interpolation either beca
 <p>Interpolation in the Lagrange basis can be done in a backwards stable way via <strong>barycentric interpolation</strong>. We call a <code class="docutils literal notranslate"><span class="pre">scipy</span></code> routine that performs it:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">scipy.interpolate</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sciint</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">scipy.interpolate</span> <span class="k">as</span> <span class="nn">sciint</span>
 </pre></div>
 </div>
 </div>
@@ -709,7 +710,7 @@ Now try some other functions that require higher-order interpolation either beca
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/89c485a97ccd40d01e03e53a86f2df9b95125febb3b11697802a0dbc94b52225.png" src="_images/89c485a97ccd40d01e03e53a86f2df9b95125febb3b11697802a0dbc94b52225.png" />
+<img alt="_images/c99544a7e8837e5dddb716eb21a49012344df2f12679b670e8ef6a72547cba84.png" src="_images/c99544a7e8837e5dddb716eb21a49012344df2f12679b670e8ef6a72547cba84.png" />
 </div>
 </div>
 <div class="admonition-question admonition">
@@ -772,7 +773,7 @@ Therefore,</p>
 <p>Let’s revisit the interpolation examples one more time, this time trying to explain the (lack of) stagnation in the accuracy by checking the backward error <span class="math notranslate nohighlight">\(||\tilde{a}||\mu_M\)</span>:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">vdmcoeffs</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">vdmcoeffs</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Given a function f and collocation nodes x, computes\</span>
 <span class="sd">    the 2-norm of the polynomial coefficient vector in the monomial\</span>
 <span class="sd">    basis.</span>
@@ -811,7 +812,7 @@ Therefore,</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/e9dcbfa38bec61a7979ca845857052507edc96cabcae4b6bb6c77d29f94a93a0.png" src="_images/e9dcbfa38bec61a7979ca845857052507edc96cabcae4b6bb6c77d29f94a93a0.png" />
+<img alt="_images/5ab9f93930bad2c6349a569fdca68e8b2a638152930311d39befb4e9fc16d563.png" src="_images/5ab9f93930bad2c6349a569fdca68e8b2a638152930311d39befb4e9fc16d563.png" />
 </div>
 </div>
 </section>

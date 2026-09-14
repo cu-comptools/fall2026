@@ -28,11 +28,11 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -185,8 +185,9 @@
 <li class="toctree-l1"><a class="reference internal" href="course_introduction.html">0. Course introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="floatingpoint.html">1. Floating point representation and roundoff error</a></li>
 <li class="toctree-l1"><a class="reference internal" href="conditionnumber.html">2. Conditioning of a problem and the condition number</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stability.html">4. Stability</a></li>
-<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">5. Interpolation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stability.html">3. Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">4. Interpolation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quadrature.html">5. Smooth quadrature</a></li>
 </ul>
 
     </div>
@@ -434,8 +435,8 @@ document.write(`
 <section id="recap">
 <h2>8.1 Recap<a class="headerlink" href="#recap" title="Link to this heading">#</a></h2>
 <p>Numerical libraries have plenty of methods for solving initial value problems, which they usually ask for in the standard form</p>
-<div class="amsmath math notranslate nohighlight" id="equation-8880f052-242f-41d5-a865-10f758e32dd2">
-<span class="eqno">()<a class="headerlink" href="#equation-8880f052-242f-41d5-a865-10f758e32dd2" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-739ec60a-b370-4baf-a497-dfea68b24e3b">
+<span class="eqno">()<a class="headerlink" href="#equation-739ec60a-b370-4baf-a497-dfea68b24e3b" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathbf{u}'(t) &amp;= f(\mathbf{u}(t)), \quad t \in [a, b], \\
 \mathbf{u}(a) &amp;= \mathbf{u}_0,
 \end{align}\]</div>
@@ -567,8 +568,8 @@ We see that as we try to match more and more terms in the Taylor expansion, more
 
 (Check this yourself!)</p>
 <p>More generally, we can match even more terms in <span class="math notranslate nohighlight">\(u\)</span>’s Taylor expansion by making several intermediate <span class="math notranslate nohighlight">\(f\)</span>-evaluations. These intermediate evaluations constitute <strong>stages</strong> of a Runge–Kutta method. For <span class="math notranslate nohighlight">\(s\)</span> stages, the forecasting step can be summarized as (note that I’ll write <span class="math notranslate nohighlight">\(u_i := u(t_i)\)</span>)</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3d37cd13-4213-45c7-936a-4707d12a93ad">
-<span class="eqno">()<a class="headerlink" href="#equation-3d37cd13-4213-45c7-936a-4707d12a93ad" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-eb936177-143b-4fde-a504-9adc7a25b0bd">
+<span class="eqno">()<a class="headerlink" href="#equation-eb936177-143b-4fde-a504-9adc7a25b0bd" title="Permalink to this equation">#</a></span>\[\begin{align}
 &amp;k_1 = hf(t_i, u_i),\\
 &amp;k_2 = hf(t_i + c_1h, u_i + a_{11}k_1 + a_{12}k_2 + \ldots + a_{1s}k_s),\\
 &amp;\vdots \\
@@ -718,8 +719,8 @@ whereas the backwards Euler has
 Let’s plot their stability regions.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="c1"># Setting up a grid in the complex plane</span>
 <span class="n">z_re</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
@@ -733,7 +734,7 @@ Let’s plot their stability regions.</p>
 <span class="n">R_backward_euler</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">z</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">z</span><span class="p">))</span>
 
 <span class="c1"># A handy utility function for plotting contours of R(z)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
     <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
@@ -750,8 +751,8 @@ Let’s plot their stability regions.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/93b4b261aaa670ba7f0a33e4f3c82c83e1862624fba54d2962e6ceea63324b6d.png" src="_images/93b4b261aaa670ba7f0a33e4f3c82c83e1862624fba54d2962e6ceea63324b6d.png" />
-<img alt="_images/19db813589c7333b11fb886c4d06a7d5d801013f6b497099cb93b890ea2e2e95.png" src="_images/19db813589c7333b11fb886c4d06a7d5d801013f6b497099cb93b890ea2e2e95.png" />
+<img alt="_images/7ef190f0289b1235c4dae555e6d105f5c55d67416f6f477f48f5bfb2025768ce.png" src="_images/7ef190f0289b1235c4dae555e6d105f5c55d67416f6f477f48f5bfb2025768ce.png" />
+<img alt="_images/4e88fad58cf4284ab6814add14f901aa347e6e44d45c1f19641f5fbff6e81c48.png" src="_images/4e88fad58cf4284ab6814add14f901aa347e6e44d45c1f19641f5fbff6e81c48.png" />
 </div>
 </div>
 <p>We see from these plots that the forward Euler method is not A-stable: it is not stable for <span class="math notranslate nohighlight">\(\lambda h &lt; -2\)</span> for negative, real <span class="math notranslate nohighlight">\(\lambda\)</span>. The backwards Euler method, however, is A-stable.</p>
