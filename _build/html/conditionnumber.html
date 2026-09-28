@@ -28,11 +28,11 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -62,7 +62,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'conditionnumber';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="4. Stability" href="stability.html" />
+    <link rel="next" title="3. Stability" href="stability.html" />
     <link rel="prev" title="1. Floating point representation and roundoff error" href="floatingpoint.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -185,8 +185,9 @@
 <li class="toctree-l1"><a class="reference internal" href="course_introduction.html">0. Course introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="floatingpoint.html">1. Floating point representation and roundoff error</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">2. Conditioning of a problem and the condition number</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stability.html">4. Stability</a></li>
-<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">5. Interpolation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stability.html">3. Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">4. Interpolation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quadrature.html">5. Smooth quadrature</a></li>
 </ul>
 
     </div>
@@ -554,8 +555,8 @@ If I were to evaluate <span class="math notranslate nohighlight">\(p\)</span> at
 <p>Let’s check this:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
 </pre></div>
 </div>
@@ -585,7 +586,7 @@ If I were to evaluate <span class="math notranslate nohighlight">\(p\)</span> at
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/c3866c7be01d93e08d1e6a6aaf596eb91744e63db7b24619020375b58d5f5afb.png" src="_images/c3866c7be01d93e08d1e6a6aaf596eb91744e63db7b24619020375b58d5f5afb.png" />
+<img alt="_images/480a6d1acfcc9ae0ea30ef9701eeda294f0bf33c6f5d466517184b6b83eb74ac.png" src="_images/480a6d1acfcc9ae0ea30ef9701eeda294f0bf33c6f5d466517184b6b83eb74ac.png" />
 </div>
 </div>
 <p>What’s going on? We are very close to the roots of the poynomial, so the scale of the <span class="math notranslate nohighlight">\(y\)</span>-axis is <span class="math notranslate nohighlight">\(10^{-10}\)</span>, and we observe differences between the two evaluation methods of order <span class="math notranslate nohighlight">\(10^{-11}\)</span>, with the factorized evaluation giving a visibly smoother curve.</p>
@@ -648,7 +649,7 @@ If I were to evaluate <span class="math notranslate nohighlight">\(p\)</span> at
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">4. Stability</p>
+        <p class="prev-next-title">3. Stability</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

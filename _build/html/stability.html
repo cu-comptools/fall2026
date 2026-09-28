@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>4. Stability &#8212; Computational Tools for Multiscale Problems</title>
+    <title>3. Stability &#8212; Computational Tools for Multiscale Problems</title>
   
   
   
@@ -28,11 +28,11 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -62,7 +62,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'stability';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="5. Interpolation" href="poly_interp.html" />
+    <link rel="next" title="4. Interpolation" href="poly_interp.html" />
     <link rel="prev" title="2. Conditioning of a problem and the condition number" href="conditionnumber.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -185,8 +185,9 @@
 <li class="toctree-l1"><a class="reference internal" href="course_introduction.html">0. Course introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="floatingpoint.html">1. Floating point representation and roundoff error</a></li>
 <li class="toctree-l1"><a class="reference internal" href="conditionnumber.html">2. Conditioning of a problem and the condition number</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">4. Stability</a></li>
-<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">5. Interpolation</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">3. Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">4. Interpolation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quadrature.html">5. Smooth quadrature</a></li>
 </ul>
 
     </div>
@@ -403,7 +404,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>4. Stability</h1>
+    <h1>3. Stability</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -413,13 +414,13 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithms-and-an-intuitive-definition-of-stability">4.1 Algorithms and an intuitive definition of stability</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-error">4.2 Types of error</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-stability">4.3 Types of stability</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-stability">4.3.1 Forward stability</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-stability">4.3.2 Backward stability</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mixed-forward-backward-stability">4.3.3 Mixed forward-backward stability</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison">4.3.4 Comparison</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithms-and-an-intuitive-definition-of-stability">3.1 Algorithms and an intuitive definition of stability</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-error">3.2 Types of error</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-stability">3.3 Types of stability</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-stability">3.3.1 Forward stability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-stability">3.3.2 Backward stability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mixed-forward-backward-stability">3.3.3 Mixed forward-backward stability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison">3.3.4 Comparison</a></li>
 </ul>
 </li>
 </ul>
@@ -434,7 +435,7 @@ document.write(`
                 <article class="bd-article">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="stability">
-<h1>4. Stability<a class="headerlink" href="#stability" title="Link to this heading">#</a></h1>
+<h1>3. Stability<a class="headerlink" href="#stability" title="Link to this heading">#</a></h1>
 <p>Having looked at the source of numerical error being:</p>
 <ul class="simple">
 <li><p>the finite-precision representation computers use for real numbers,</p></li>
@@ -446,7 +447,7 @@ we now turn our attention to the one thing we do have control over: what algorit
 <p>Corless &amp; Fillion: A graduate introduction to numerical methods, Ch. 1.4</p>
 </div>
 <section id="algorithms-and-an-intuitive-definition-of-stability">
-<h2>4.1 Algorithms and an intuitive definition of stability<a class="headerlink" href="#algorithms-and-an-intuitive-definition-of-stability" title="Link to this heading">#</a></h2>
+<h2>3.1 Algorithms and an intuitive definition of stability<a class="headerlink" href="#algorithms-and-an-intuitive-definition-of-stability" title="Link to this heading">#</a></h2>
 <p>Using notation from our definition of the condition number, there is no perfect implementation of a problem <span class="math notranslate nohighlight">\(f\)</span>. We replace it with a <strong>realistic algorithm</strong> <span class="math notranslate nohighlight">\(\tilde f\)</span>, that maps inputs to outputs just like <span class="math notranslate nohighlight">\(f\)</span>.</p>
 <p>An <strong>algorithm</strong></p>
 <ul class="simple">
@@ -458,7 +459,7 @@ we now turn our attention to the one thing we do have control over: what algorit
 <p>We, however, distinguish between different types of stability, and therefore different types of error.</p>
 </section>
 <section id="types-of-error">
-<h2>4.2 Types of error<a class="headerlink" href="#types-of-error" title="Link to this heading">#</a></h2>
+<h2>3.2 Types of error<a class="headerlink" href="#types-of-error" title="Link to this heading">#</a></h2>
 <p>It is useful to think of error on the input side as error at the “back” (this will be called <strong>backward error</strong>), and error on the output side as error at the “front” (<strong>forward error</strong>).</p>
 <p>In an ideal world, an unperturbed real input <span class="math notranslate nohighlight">\(x\in\mathbb R\)</span> would be mapped by the exact problem to the exact answer
 <div class="math notranslate nohighlight">
@@ -484,13 +485,12 @@ then the conditioning of the problem can amplify that perturbation to produce a 
 \left|\frac{\Delta y}{y}\right| \lesssim \kappa_{\mathrm{rel}}\varepsilon_M.
 \]</div>
 </p>
-<a class="reference internal image-reference" href="_images/conditioning_errors.png" id="conditioning-errors-fig"><img alt="_images/conditioning_errors.png" class="align-center" id="conditioning-errors-fig" src="_images/conditioning_errors.png" style="width: 85%;" />
-</a>
+<a class="reference internal image-reference" href="_images/conditioning_errors.png" id="conditioning-errors-fig"><img alt="_images/conditioning_errors.png" class="align-center" id="conditioning-errors-fig" src="_images/conditioning_errors.png" style="width: 85%;" /></a>
 </section>
 <section id="types-of-stability">
-<h2>4.3 Types of stability<a class="headerlink" href="#types-of-stability" title="Link to this heading">#</a></h2>
+<h2>3.3 Types of stability<a class="headerlink" href="#types-of-stability" title="Link to this heading">#</a></h2>
 <section id="forward-stability">
-<h3>4.3.1 Forward stability<a class="headerlink" href="#forward-stability" title="Link to this heading">#</a></h3>
+<h3>3.3.1 Forward stability<a class="headerlink" href="#forward-stability" title="Link to this heading">#</a></h3>
 <p>Now add the final complication: replace the perfect evaluation of <span class="math notranslate nohighlight">\(f\)</span> by the realistic algorithm <span class="math notranslate nohighlight">\(\tilde f\)</span>. Even when the algorithm is given the unperturbed input <span class="math notranslate nohighlight">\(x\)</span>, its answer may differ from the exact answer by <span class="math notranslate nohighlight">\(\Delta\tilde y\)</span>:
 <div class="math notranslate nohighlight">
 \[
@@ -510,8 +510,7 @@ with small relative forward error,
 \left|\frac{\Delta\tilde y}{y}\right|=\mathcal O(\varepsilon_M).
 \]</div>
 </p>
-<a class="reference internal image-reference" href="_images/forward_stability.png" id="forward-stability-fig"><img alt="_images/forward_stability.png" class="align-center" id="forward-stability-fig" src="_images/forward_stability.png" style="width: 70%;" />
-</a>
+<a class="reference internal image-reference" href="_images/forward_stability.png" id="forward-stability-fig"><img alt="_images/forward_stability.png" class="align-center" id="forward-stability-fig" src="_images/forward_stability.png" style="width: 70%;" /></a>
 <div class="admonition-question admonition">
 <p class="admonition-title">Question</p>
 <p>In light of what we know about conditioning, is forward stability reasonable to expect or demand?</p>
@@ -531,7 +530,7 @@ into a much larger relative output perturbation, of order
 <p>So, if a small forward error cannot reasonably be demanded, we can instead ask for a small <strong>backward</strong> error.</p>
 </section>
 <section id="backward-stability">
-<h3>4.3.2 Backward stability<a class="headerlink" href="#backward-stability" title="Link to this heading">#</a></h3>
+<h3>3.3.2 Backward stability<a class="headerlink" href="#backward-stability" title="Link to this heading">#</a></h3>
 <p>The question now is: <strong>is there a nearby input <span class="math notranslate nohighlight">\(x+\Delta x\)</span>, close to the unperturbed input <span class="math notranslate nohighlight">\(x\)</span>, for which the exact problem produces the same answer as the algorithm?</strong></p>
 <p>An algorithm <span class="math notranslate nohighlight">\(\tilde f\)</span> is <strong>backward stable</strong> if, for every <span class="math notranslate nohighlight">\(x\)</span>,
 <div class="math notranslate nohighlight">
@@ -545,8 +544,7 @@ for some small perturbation <span class="math notranslate nohighlight">\(\Delta 
 \left|\frac{\Delta x}{x}\right|=\mathcal O(\varepsilon_M).
 \]</div>
 </p>
-<a class="reference internal image-reference" href="_images/backward_stability.png" id="backward-stability-fig"><img alt="_images/backward_stability.png" class="align-center" id="backward-stability-fig" src="_images/backward_stability.png" style="width: 70%;" />
-</a>
+<a class="reference internal image-reference" href="_images/backward_stability.png" id="backward-stability-fig"><img alt="_images/backward_stability.png" class="align-center" id="backward-stability-fig" src="_images/backward_stability.png" style="width: 70%;" /></a>
 <p>Think of a <strong>backward stable</strong> algorithm as one producing the right answer to nearly the right problem, and a <strong>forward stable</strong> algorithm as one that produces nearly the right answer to the right problem.</p>
 <p>Backward stability is a strict requirement, but it is often a reasonable one to expect (and sometimes the best we can hope for).</p>
 <div class="admonition-example admonition">
@@ -636,7 +634,7 @@ with small relative perturbations in both inputs. Thus <strong>floating-point ad
 <p>The same logic applies to floating-point subtraction and to most other elementary operations - but not all of them.</p>
 </section>
 <section id="mixed-forward-backward-stability">
-<h3>4.3.3 Mixed forward-backward stability<a class="headerlink" href="#mixed-forward-backward-stability" title="Link to this heading">#</a></h3>
+<h3>3.3.3 Mixed forward-backward stability<a class="headerlink" href="#mixed-forward-backward-stability" title="Link to this heading">#</a></h3>
 <p>Finally, consider a third and more lenient notion of stability. This is often what people have in mind when they say that an algorithm is simply <strong>numerically stable</strong>.</p>
 <p>An algorithm <span class="math notranslate nohighlight">\(\tilde f\)</span> is stable in the <strong>mixed forward-backward sense</strong> if, for every <span class="math notranslate nohighlight">\(x\)</span>, there exists a nearby input <span class="math notranslate nohighlight">\(x+\Delta x\)</span> such that
 <div class="math notranslate nohighlight">
@@ -651,15 +649,13 @@ while simultaneously
 \left\|\frac{\Delta x}{x}\right\|=\mathcal O(\varepsilon_M).
 \]</div>
 </p>
-<a class="reference internal image-reference" href="_images/mixed_stability.png" id="mixed-stability-fig"><img alt="_images/mixed_stability.png" class="align-center" id="mixed-stability-fig" src="_images/mixed_stability.png" style="width: 75%;" />
-</a>
+<a class="reference internal image-reference" href="_images/mixed_stability.png" id="mixed-stability-fig"><img alt="_images/mixed_stability.png" class="align-center" id="mixed-stability-fig" src="_images/mixed_stability.png" style="width: 75%;" /></a>
 <p>We can interpret a mixed forward-backward stable algorithm as one that produces <strong>nearly the right answer to nearly the right question</strong>. Sometimes - often - this is the best we can hope for.</p>
 </section>
 <section id="comparison">
-<h3>4.3.4 Comparison<a class="headerlink" href="#comparison" title="Link to this heading">#</a></h3>
+<h3>3.3.4 Comparison<a class="headerlink" href="#comparison" title="Link to this heading">#</a></h3>
 <p>Let’s compare these three types of stability, growing more less strict from left to right.</p>
-<a class="reference internal image-reference" href="_images/stability_comparison.png" id="stability-comparison-fig"><img alt="_images/stability_comparison.png" class="align-center" id="stability-comparison-fig" src="_images/stability_comparison.png" style="width: 100%;" />
-</a>
+<a class="reference internal image-reference" href="_images/stability_comparison.png" id="stability-comparison-fig"><img alt="_images/stability_comparison.png" class="align-center" id="stability-comparison-fig" src="_images/stability_comparison.png" style="width: 100%;" /></a>
 <p>In summary, if the algorithm<strong>forward stable:</strong> it produces nearly the right answer for the (exact same) question. This can be an unreasonable demand for an ill-conditioned problem.
 If it is <strong>backward stable</strong>, the algorithm produces the right answer to a nearby question. This is a strong and very useful requirement, but it is not always possible.
 Finally, a <strong>mixed forward-backward stable</strong> algorithm produces a close answer to a close problem. This is the most lenient of the three and is often attainable.</p>
@@ -744,7 +740,7 @@ Fill an array with the relative error values of these numerically acquired roots
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">5. Interpolation</p>
+        <p class="prev-next-title">4. Interpolation</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -764,13 +760,13 @@ Fill an array with the relative error values of these numerically acquired roots
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithms-and-an-intuitive-definition-of-stability">4.1 Algorithms and an intuitive definition of stability</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-error">4.2 Types of error</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-stability">4.3 Types of stability</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-stability">4.3.1 Forward stability</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-stability">4.3.2 Backward stability</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mixed-forward-backward-stability">4.3.3 Mixed forward-backward stability</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison">4.3.4 Comparison</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#algorithms-and-an-intuitive-definition-of-stability">3.1 Algorithms and an intuitive definition of stability</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-error">3.2 Types of error</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#types-of-stability">3.3 Types of stability</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-stability">3.3.1 Forward stability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-stability">3.3.2 Backward stability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mixed-forward-backward-stability">3.3.3 Mixed forward-backward stability</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison">3.3.4 Comparison</a></li>
 </ul>
 </li>
 </ul>

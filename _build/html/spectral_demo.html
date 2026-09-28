@@ -28,11 +28,11 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -183,8 +183,9 @@
 <li class="toctree-l1"><a class="reference internal" href="course_introduction.html">0. Course introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="floatingpoint.html">1. Floating point representation and roundoff error</a></li>
 <li class="toctree-l1"><a class="reference internal" href="conditionnumber.html">2. Conditioning of a problem and the condition number</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stability.html">4. Stability</a></li>
-<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">5. Interpolation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stability.html">3. Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">4. Interpolation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quadrature.html">5. Smooth quadrature</a></li>
 </ul>
 
     </div>
@@ -425,11 +426,11 @@ document.write(`
                   
   <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">si</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.integrate</span> <span class="k">as</span> <span class="nn">si</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">chebD</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">chebD</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Computes the (n+1)x(n+1) spectral differentiation matrix\</span>
 <span class="sd">    using Chebyshev roots according to Ch 6 of Trefethen&#39;s\</span>
@@ -456,7 +457,7 @@ document.write(`
 
 <span class="n">om</span> <span class="o">=</span> <span class="mi">100</span> <span class="c1"># frequency parameter</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">solve</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Encodes the ODE and initial conditions with (n+1)-node collocation, and solves the\</span>
 <span class="sd">    rectangular system with numpy&#39;s least squares method.</span>
@@ -472,7 +473,7 @@ document.write(`
     <span class="n">u</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="n">sing</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">lstsq</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">u</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">solve_spectral</span><span class="p">():</span>
+<span class="k">def</span> <span class="nf">solve_spectral</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Repeatedly calls the spectral solver with double the nodes, comparing the answer at the end of\</span>
 <span class="sd">    the solution interval until the tolerance is reached, or a certain n is exceeded.</span>
@@ -492,7 +493,7 @@ document.write(`
 
 <span class="c1"># Scipy&#39;s default Runge-Kutta solver</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">f_ivp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">f_ivp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; The right-hand-side in u&#39; = f(t, u). &quot;&quot;&quot;</span>
     <span class="n">du</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">du</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -509,15 +510,15 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 3.8 s, sys: 27.2 ms, total: 3.83 s
-Wall time: 168 ms
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 130 ms, sys: 131 ms, total: 260 ms
+Wall time: 83.6 ms
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 2.09 s, sys: 6.07 ms, total: 2.1 s
-Wall time: 769 ms
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 653 ms, sys: 37.6 ms, total: 690 ms
+Wall time: 658 ms
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(np.float64(1.0), np.float64(0.4871876749855047))
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(np.float64(1.0), np.float64(0.4871876749854982))
 </pre></div>
 </div>
 </div>

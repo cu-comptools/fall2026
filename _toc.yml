@@ -13,10 +13,10 @@ chapters:
 - file: conditionnumber
 - file: stability
 - file: poly_interp
+- file: quadrature
 # - file: github
 # - file: poly_interp
 # - file: poly_interp2
-# - file: quadrature
 # - file: ODES2_spectral
 # - file: ODEs_1_RK
 # - file: ODEs_3_asymptotic
