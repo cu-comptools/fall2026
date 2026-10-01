@@ -28,11 +28,11 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -188,6 +188,7 @@
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">3. Stability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="poly_interp.html">4. Interpolation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quadrature.html">5. Smooth quadrature</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">7. Ordinary differential equations I</a></li>
 </ul>
 
     </div>
@@ -485,7 +486,8 @@ then the conditioning of the problem can amplify that perturbation to produce a 
 \left|\frac{\Delta y}{y}\right| \lesssim \kappa_{\mathrm{rel}}\varepsilon_M.
 \]</div>
 </p>
-<a class="reference internal image-reference" href="_images/conditioning_errors.png" id="conditioning-errors-fig"><img alt="_images/conditioning_errors.png" class="align-center" id="conditioning-errors-fig" src="_images/conditioning_errors.png" style="width: 85%;" /></a>
+<a class="reference internal image-reference" href="_images/conditioning_errors.png" id="conditioning-errors-fig"><img alt="_images/conditioning_errors.png" class="align-center" id="conditioning-errors-fig" src="_images/conditioning_errors.png" style="width: 85%;" />
+</a>
 </section>
 <section id="types-of-stability">
 <h2>3.3 Types of stability<a class="headerlink" href="#types-of-stability" title="Link to this heading">#</a></h2>
@@ -510,7 +512,8 @@ with small relative forward error,
 \left|\frac{\Delta\tilde y}{y}\right|=\mathcal O(\varepsilon_M).
 \]</div>
 </p>
-<a class="reference internal image-reference" href="_images/forward_stability.png" id="forward-stability-fig"><img alt="_images/forward_stability.png" class="align-center" id="forward-stability-fig" src="_images/forward_stability.png" style="width: 70%;" /></a>
+<a class="reference internal image-reference" href="_images/forward_stability.png" id="forward-stability-fig"><img alt="_images/forward_stability.png" class="align-center" id="forward-stability-fig" src="_images/forward_stability.png" style="width: 70%;" />
+</a>
 <div class="admonition-question admonition">
 <p class="admonition-title">Question</p>
 <p>In light of what we know about conditioning, is forward stability reasonable to expect or demand?</p>
@@ -544,7 +547,8 @@ for some small perturbation <span class="math notranslate nohighlight">\(\Delta 
 \left|\frac{\Delta x}{x}\right|=\mathcal O(\varepsilon_M).
 \]</div>
 </p>
-<a class="reference internal image-reference" href="_images/backward_stability.png" id="backward-stability-fig"><img alt="_images/backward_stability.png" class="align-center" id="backward-stability-fig" src="_images/backward_stability.png" style="width: 70%;" /></a>
+<a class="reference internal image-reference" href="_images/backward_stability.png" id="backward-stability-fig"><img alt="_images/backward_stability.png" class="align-center" id="backward-stability-fig" src="_images/backward_stability.png" style="width: 70%;" />
+</a>
 <p>Think of a <strong>backward stable</strong> algorithm as one producing the right answer to nearly the right problem, and a <strong>forward stable</strong> algorithm as one that produces nearly the right answer to the right problem.</p>
 <p>Backward stability is a strict requirement, but it is often a reasonable one to expect (and sometimes the best we can hope for).</p>
 <div class="admonition-example admonition">
@@ -649,13 +653,15 @@ while simultaneously
 \left\|\frac{\Delta x}{x}\right\|=\mathcal O(\varepsilon_M).
 \]</div>
 </p>
-<a class="reference internal image-reference" href="_images/mixed_stability.png" id="mixed-stability-fig"><img alt="_images/mixed_stability.png" class="align-center" id="mixed-stability-fig" src="_images/mixed_stability.png" style="width: 75%;" /></a>
+<a class="reference internal image-reference" href="_images/mixed_stability.png" id="mixed-stability-fig"><img alt="_images/mixed_stability.png" class="align-center" id="mixed-stability-fig" src="_images/mixed_stability.png" style="width: 75%;" />
+</a>
 <p>We can interpret a mixed forward-backward stable algorithm as one that produces <strong>nearly the right answer to nearly the right question</strong>. Sometimes - often - this is the best we can hope for.</p>
 </section>
 <section id="comparison">
 <h3>3.3.4 Comparison<a class="headerlink" href="#comparison" title="Link to this heading">#</a></h3>
 <p>Let’s compare these three types of stability, growing more less strict from left to right.</p>
-<a class="reference internal image-reference" href="_images/stability_comparison.png" id="stability-comparison-fig"><img alt="_images/stability_comparison.png" class="align-center" id="stability-comparison-fig" src="_images/stability_comparison.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="_images/stability_comparison.png" id="stability-comparison-fig"><img alt="_images/stability_comparison.png" class="align-center" id="stability-comparison-fig" src="_images/stability_comparison.png" style="width: 100%;" />
+</a>
 <p>In summary, if the algorithm<strong>forward stable:</strong> it produces nearly the right answer for the (exact same) question. This can be an unreasonable demand for an ill-conditioned problem.
 If it is <strong>backward stable</strong>, the algorithm produces the right answer to a nearby question. This is a strong and very useful requirement, but it is not always possible.
 Finally, a <strong>mixed forward-backward stable</strong> algorithm produces a close answer to a close problem. This is the most lenient of the three and is often attainable.</p>
