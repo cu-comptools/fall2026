@@ -28,11 +28,11 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -62,6 +62,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'ODEs_1_RK';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="7. Ordinary differential equations I" href="ODES2_spectral.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -124,8 +125,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -181,7 +180,7 @@
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="course_introduction.html">0. Course introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="floatingpoint.html">1. Floating point representation and roundoff error</a></li>
 <li class="toctree-l1"><a class="reference internal" href="conditionnumber.html">2. Conditioning of a problem and the condition number</a></li>
@@ -189,6 +188,7 @@
 <li class="toctree-l1"><a class="reference internal" href="poly_interp.html">4. Interpolation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quadrature.html">5. Smooth quadrature</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">7. Ordinary differential equations I</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">8. Ordinary differential equations II</a></li>
 </ul>
 
     </div>
@@ -436,8 +436,8 @@ document.write(`
 <section id="recap">
 <h2>8.1 Recap<a class="headerlink" href="#recap" title="Link to this heading">#</a></h2>
 <p>Numerical libraries have plenty of methods for solving initial value problems, which they usually ask for in the standard form</p>
-<div class="amsmath math notranslate nohighlight" id="equation-86346539-e055-4eef-b334-6dafcb398d3c">
-<span class="eqno">()<a class="headerlink" href="#equation-86346539-e055-4eef-b334-6dafcb398d3c" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-44270775-d76e-4288-9155-990210d17453">
+<span class="eqno">(8)<a class="headerlink" href="#equation-44270775-d76e-4288-9155-990210d17453" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathbf{u}'(t) &amp;= f(\mathbf{u}(t)), \quad t \in [a, b], \\
 \mathbf{u}(a) &amp;= \mathbf{u}_0,
 \end{align}\]</div>
@@ -569,8 +569,8 @@ We see that as we try to match more and more terms in the Taylor expansion, more
 
 (Check this yourself!)</p>
 <p>More generally, we can match even more terms in <span class="math notranslate nohighlight">\(u\)</span>’s Taylor expansion by making several intermediate <span class="math notranslate nohighlight">\(f\)</span>-evaluations. These intermediate evaluations constitute <strong>stages</strong> of a Runge–Kutta method. For <span class="math notranslate nohighlight">\(s\)</span> stages, the forecasting step can be summarized as (note that I’ll write <span class="math notranslate nohighlight">\(u_i := u(t_i)\)</span>)</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5cc0e0d7-d204-49fa-b403-b92d756e0f7a">
-<span class="eqno">()<a class="headerlink" href="#equation-5cc0e0d7-d204-49fa-b403-b92d756e0f7a" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-eec6a94b-b769-4543-8439-4f0ec486653d">
+<span class="eqno">(9)<a class="headerlink" href="#equation-eec6a94b-b769-4543-8439-4f0ec486653d" title="Permalink to this equation">#</a></span>\[\begin{align}
 &amp;k_1 = hf(t_i, u_i),\\
 &amp;k_2 = hf(t_i + c_1h, u_i + a_{11}k_1 + a_{12}k_2 + \ldots + a_{1s}k_s),\\
 &amp;\vdots \\
@@ -720,8 +720,8 @@ whereas the backwards Euler has
 Let’s plot their stability regions.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="c1"># Setting up a grid in the complex plane</span>
 <span class="n">z_re</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
@@ -735,7 +735,7 @@ Let’s plot their stability regions.</p>
 <span class="n">R_backward_euler</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">z</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">z</span><span class="p">))</span>
 
 <span class="c1"># A handy utility function for plotting contours of R(z)</span>
-<span class="k">def</span><span class="w"> </span><span class="nf">plot</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
     <span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
     <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">&quot;equal&quot;</span><span class="p">)</span>
@@ -752,8 +752,8 @@ Let’s plot their stability regions.</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/93b4b261aaa670ba7f0a33e4f3c82c83e1862624fba54d2962e6ceea63324b6d.png" src="_images/93b4b261aaa670ba7f0a33e4f3c82c83e1862624fba54d2962e6ceea63324b6d.png" />
-<img alt="_images/19db813589c7333b11fb886c4d06a7d5d801013f6b497099cb93b890ea2e2e95.png" src="_images/19db813589c7333b11fb886c4d06a7d5d801013f6b497099cb93b890ea2e2e95.png" />
+<img alt="_images/7ef190f0289b1235c4dae555e6d105f5c55d67416f6f477f48f5bfb2025768ce.png" src="_images/7ef190f0289b1235c4dae555e6d105f5c55d67416f6f477f48f5bfb2025768ce.png" />
+<img alt="_images/4e88fad58cf4284ab6814add14f901aa347e6e44d45c1f19641f5fbff6e81c48.png" src="_images/4e88fad58cf4284ab6814add14f901aa347e6e44d45c1f19641f5fbff6e81c48.png" />
 </div>
 </div>
 <p>We see from these plots that the forward Euler method is not A-stable: it is not stable for <span class="math notranslate nohighlight">\(\lambda h &lt; -2\)</span> for negative, real <span class="math notranslate nohighlight">\(\lambda\)</span>. The backwards Euler method, however, is A-stable.</p>
@@ -761,35 +761,18 @@ Let’s plot their stability regions.</p>
 <div class="danger admonition">
 <p class="admonition-title">Exercises</p>
 <ol class="arabic simple">
-<li><p>(Quiz 3)</p></li>
+<li></li>
 </ol>
 <p>Read the question before starting. You may wish to do part c) first if your answer to b) doesn’t look right.</p>
 <p>The Butcher tableau below this exercise block describes an embedded Runge–Kutta pair.</p>
 <ul class="simple">
-<li><p>a) Implement a function, <code class="docutils literal notranslate"><span class="pre">step(...)</span></code>, that takes parameters <code class="docutils literal notranslate"><span class="pre">f</span></code> (callable), <code class="docutils literal notranslate"><span class="pre">u0</span></code> (vector), and <code class="docutils literal notranslate"><span class="pre">h</span></code> (float), where <code class="docutils literal notranslate"><span class="pre">f</span></code> is the function <span class="math notranslate nohighlight">\(f(t, u)\)</span> that encodes the right-hand-side of a linear ODE system, <code class="docutils literal notranslate"><span class="pre">u0</span></code> is <span class="math notranslate nohighlight">\(u_0\)</span>, the solution vector at the start of the timestep (say, <span class="math notranslate nohighlight">\(t = t_0\)</span>), and <code class="docutils literal notranslate"><span class="pre">h</span></code> is <span class="math notranslate nohighlight">\(h\)</span>, the timestep. The function should return <span class="math notranslate nohighlight">\(u\)</span>, the solution at <span class="math notranslate nohighlight">\(t_0 + h\)</span> computed via the <span class="math notranslate nohighlight">\(b\)</span> coefficients, and <span class="math notranslate nohighlight">\(u^{\ast}\)</span>, another estimate but evaluated using the <span class="math notranslate nohighlight">\(b^{\ast}\)</span> coefficients.</p></li>
+<li><p>a) Implement a function, <code class="docutils literal notranslate"><span class="pre">step(...)</span></code>, that takes parameters <code class="docutils literal notranslate"><span class="pre">f</span></code> (callable), <code class="docutils literal notranslate"><span class="pre">u0</span></code> (vector), and <code class="docutils literal notranslate"><span class="pre">h</span></code> (float), where <code class="docutils literal notranslate"><span class="pre">f</span></code> is the function <span class="math notranslate nohighlight">\(f(t, u)\)</span> that encodes the right-hand-side of a linear ODE system, <code class="docutils literal notranslate"><span class="pre">u0</span></code> is <span class="math notranslate nohighlight">\(u_0\)</span>, the solution vector at the start of the timestep (say, <span class="math notranslate nohighlight">\(t = t_0\)</span>), and <code class="docutils literal notranslate"><span class="pre">h</span></code> is <span class="math notranslate nohighlight">\(h\)</span>, the timestep. The function should return <span class="math notranslate nohighlight">\(u\)</span>, the solution at <span class="math notranslate nohighlight">\(t_0 + h\)</span> computed via the <span class="math notranslate nohighlight">\(b\)</span> coefficients, and <span class="math notranslate nohighlight">\(u^{\ast}\)</span>, another estimate but evaluated using the <span class="math notranslate nohighlight">\(b^{\ast}\)</span> coefficients. Write a nice docstring for the <code class="docutils literal notranslate"><span class="pre">step(...)</span></code> function.</p></li>
 <li><p>b) Create a convergence plot (with log-log axes) of <span class="math notranslate nohighlight">\(u\)</span> and <span class="math notranslate nohighlight">\(u^{\ast}\)</span> as a function of <span class="math notranslate nohighlight">\(h\)</span>, referenced against a known solution of a simple ODE. The x-axis should span a few orders of magnitude of <span class="math notranslate nohighlight">\(h\)</span> so that you can read off the convergence rate. What is it for these two estimates? Deduce the order of this embedded Runge–Kutta method (you should get two orders).</p></li>
-<li><p>c) Write a unit test for the <code class="docutils literal notranslate"><span class="pre">step(...)</span></code> function that checks whether a simple ODE is solved <em>exactly</em>. Explain why the ODE you came up with should be solved exactly by this Runge–Kutta method.</p></li>
-<li><p>d) Write a nice docstring for the <code class="docutils literal notranslate"><span class="pre">step(...)</span></code> function.</p></li>
+<li><p>c) Write a “unit test” for the <code class="docutils literal notranslate"><span class="pre">step(...)</span></code> function that checks whether a simple ODE is solved <em>exactly</em>. Explain why the ODE you came up with should be solved exactly by this Runge–Kutta method.</p></li>
+<li><p>d) Write a function, <code class="docutils literal notranslate"><span class="pre">stepsize(...)</span></code> that takes parameters <code class="docutils literal notranslate"><span class="pre">err</span></code> (float), and <code class="docutils literal notranslate"><span class="pre">atol</span></code> (float). <code class="docutils literal notranslate"><span class="pre">err</span></code> will mean a worst-offender error, the maximum of the LTE of <code class="docutils literal notranslate"><span class="pre">u</span></code>. <code class="docutils literal notranslate"><span class="pre">atol</span></code> is an absolute tolerance. This function should return <code class="docutils literal notranslate"><span class="pre">accept</span></code> (boolean), and <code class="docutils literal notranslate"><span class="pre">h</span></code> (float), which are a boolean variable indicating whether the current step is accepted or not, and <code class="docutils literal notranslate"><span class="pre">h</span></code> is the suggested next stepsize. The function should implement the basic stepsize-updater formula described in section 8.4 above. Add a simple maximum stepsize (say, <code class="docutils literal notranslate"><span class="pre">h</span> <span class="pre">=</span> <span class="pre">100</span></code>), to prevent the function from returning <code class="docutils literal notranslate"><span class="pre">h</span> <span class="pre">=</span> <span class="pre">inf</span></code> (this can happen when an ODE is solved exactly). Write a nice docstring for the <code class="docutils literal notranslate"><span class="pre">stepsize(...)</span></code> function.</p></li>
+<li><p>e) Write a function, <code class="docutils literal notranslate"><span class="pre">solve(...)</span></code> that takes parameters <code class="docutils literal notranslate"><span class="pre">f</span></code>, <code class="docutils literal notranslate"><span class="pre">u0</span></code>, <code class="docutils literal notranslate"><span class="pre">t0</span></code> (float), <code class="docutils literal notranslate"><span class="pre">t1</span></code> (float), and <code class="docutils literal notranslate"><span class="pre">atol</span></code> (float). The first two parameters are as above, <code class="docutils literal notranslate"><span class="pre">t0</span></code> and <code class="docutils literal notranslate"><span class="pre">t1</span></code> define the ODE’s solution range, and <code class="docutils literal notranslate"><span class="pre">atol</span></code> is an absolute tolerance. This function should call <code class="docutils literal notranslate"><span class="pre">step()</span></code> repeatedly and update <span class="math notranslate nohighlight">\(t \to t+h\)</span>, until <code class="docutils literal notranslate"><span class="pre">t1</span></code> is reached. Each next guess for <span class="math notranslate nohighlight">\(h\)</span> should be obtained from <code class="docutils literal notranslate"><span class="pre">stepsize(...)</span></code>, and a step should only be accepted if its LTE is below the tolerance <code class="docutils literal notranslate"><span class="pre">atol</span></code>. Write a nice dosctring for <code class="docutils literal notranslate"><span class="pre">solve(...)</span></code>.</p></li>
+<li><p>f) [BONUS] Write a function that plots the stability region of this Runge–Kutta method, and explain your work. Comment on the plot. What is the maximum negative <span class="math notranslate nohighlight">\(\lambda\)</span> for which the solution of <span class="math notranslate nohighlight">\(u' = \lambda u\)</span> is stable with this method, assuming a constant stepsize of <span class="math notranslate nohighlight">\(h = 0.01\)</span>?</p></li>
 </ul>
-<ol class="arabic simple" start="2">
-<li><p>(Quiz 3)</p></li>
-</ol>
-<ul class="simple">
-<li><p>a) Write a function, <code class="docutils literal notranslate"><span class="pre">stepsize(...)</span></code> that takes parameters <code class="docutils literal notranslate"><span class="pre">err</span></code> (float), and <code class="docutils literal notranslate"><span class="pre">atol</span></code> (float). <code class="docutils literal notranslate"><span class="pre">err</span></code> will mean a worst-offender error, the maximum of the LTE of <code class="docutils literal notranslate"><span class="pre">u</span></code>. <code class="docutils literal notranslate"><span class="pre">atol</span></code> is an absolute tolerance. This function should return <code class="docutils literal notranslate"><span class="pre">accept</span></code> (boolean), and <code class="docutils literal notranslate"><span class="pre">h</span></code> (float), which are a boolean variable indicating whether the current step is accepted or not, and <code class="docutils literal notranslate"><span class="pre">h</span></code> is the suggested next stepsize. The function should implement the basic stepsize-updater formula described in section 7.4 above. Add a simple maximum stepsize (say, <code class="docutils literal notranslate"><span class="pre">h</span> <span class="pre">=</span> <span class="pre">100</span></code>), to prevent the function from returning <code class="docutils literal notranslate"><span class="pre">h</span> <span class="pre">=</span> <span class="pre">inf</span></code> (this can happen when an ODE is solved exactly).</p></li>
-<li><p>b) Write a nice docstring for the <code class="docutils literal notranslate"><span class="pre">stepsize(...)</span></code> function.</p></li>
-</ul>
-<ol class="arabic simple" start="3">
-<li><p>(Quiz 3)</p></li>
-</ol>
-<ul class="simple">
-<li><p>a) Write a function, <code class="docutils literal notranslate"><span class="pre">solve(...)</span></code> that takes parameters <code class="docutils literal notranslate"><span class="pre">f</span></code>, <code class="docutils literal notranslate"><span class="pre">u0</span></code>, <code class="docutils literal notranslate"><span class="pre">t0</span></code> (float), <code class="docutils literal notranslate"><span class="pre">t1</span></code> (float), and <code class="docutils literal notranslate"><span class="pre">atol</span></code> (float). The first two parameters are as above, <code class="docutils literal notranslate"><span class="pre">t0</span></code> and <code class="docutils literal notranslate"><span class="pre">t1</span></code> define the ODE’s solution range, and <code class="docutils literal notranslate"><span class="pre">atol</span></code> is an absolute tolerance. This function should call <code class="docutils literal notranslate"><span class="pre">step()</span></code> repeatedly and update <span class="math notranslate nohighlight">\(t \to t+h\)</span>, until <code class="docutils literal notranslate"><span class="pre">t1</span></code> is reached. Each next guess for <span class="math notranslate nohighlight">\(h\)</span> should be obtained from <code class="docutils literal notranslate"><span class="pre">stepsize(...)</span></code>, and a step should only be accepted if its LTE is below the tolerance <code class="docutils literal notranslate"><span class="pre">atol</span></code>.</p></li>
-<li><p>b) Write a “unit test” (at this point, it’s more of an integration test) for this function. It should be similar to the one you wrote in 1.c.</p></li>
-<li><p>c) Write a nice dosctring for <code class="docutils literal notranslate"><span class="pre">solve(...)</span></code>.</p></li>
-</ul>
-<ol class="arabic simple" start="4">
-<li><p>(Quiz 3)</p></li>
-</ol>
-<p>Write a function that plots the stability region of this Runge–Kutta method, and explain your work. Comment on the plot. What is the maximum negative <span class="math notranslate nohighlight">\(\lambda\)</span> for which the solution of <span class="math notranslate nohighlight">\(u' = \lambda u\)</span> is stable with this method, assuming a constant stepsize of <span class="math notranslate nohighlight">\(h = 0.01\)</span>?</p>
 </div>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
@@ -867,6 +850,15 @@ Let’s plot their stability regions.</p>
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="ODES2_spectral.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">7. Ordinary differential equations I</p>
+      </div>
+    </a>
 </div>
                 </footer>
               
