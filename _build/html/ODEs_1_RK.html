@@ -62,6 +62,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'ODEs_1_RK';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="9. Ordinary differential equations III" href="ODEs_3_asymptotic.html" />
     <link rel="prev" title="7. Ordinary differential equations I" href="ODES2_spectral.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -189,6 +190,7 @@
 <li class="toctree-l1"><a class="reference internal" href="quadrature.html">5. Smooth quadrature</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">7. Ordinary differential equations I</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">8. Ordinary differential equations II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">9. Ordinary differential equations III</a></li>
 </ul>
 
     </div>
@@ -436,8 +438,8 @@ document.write(`
 <section id="recap">
 <h2>8.1 Recap<a class="headerlink" href="#recap" title="Link to this heading">#</a></h2>
 <p>Numerical libraries have plenty of methods for solving initial value problems, which they usually ask for in the standard form</p>
-<div class="amsmath math notranslate nohighlight" id="equation-44270775-d76e-4288-9155-990210d17453">
-<span class="eqno">(8)<a class="headerlink" href="#equation-44270775-d76e-4288-9155-990210d17453" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-adadd812-d1f0-4dcd-8032-954ec3908118">
+<span class="eqno">(8)<a class="headerlink" href="#equation-adadd812-d1f0-4dcd-8032-954ec3908118" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathbf{u}'(t) &amp;= f(\mathbf{u}(t)), \quad t \in [a, b], \\
 \mathbf{u}(a) &amp;= \mathbf{u}_0,
 \end{align}\]</div>
@@ -569,8 +571,8 @@ We see that as we try to match more and more terms in the Taylor expansion, more
 
 (Check this yourself!)</p>
 <p>More generally, we can match even more terms in <span class="math notranslate nohighlight">\(u\)</span>’s Taylor expansion by making several intermediate <span class="math notranslate nohighlight">\(f\)</span>-evaluations. These intermediate evaluations constitute <strong>stages</strong> of a Runge–Kutta method. For <span class="math notranslate nohighlight">\(s\)</span> stages, the forecasting step can be summarized as (note that I’ll write <span class="math notranslate nohighlight">\(u_i := u(t_i)\)</span>)</p>
-<div class="amsmath math notranslate nohighlight" id="equation-eec6a94b-b769-4543-8439-4f0ec486653d">
-<span class="eqno">(9)<a class="headerlink" href="#equation-eec6a94b-b769-4543-8439-4f0ec486653d" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-10be625e-495f-4d9e-a290-c82b132b8e7e">
+<span class="eqno">(9)<a class="headerlink" href="#equation-10be625e-495f-4d9e-a290-c82b132b8e7e" title="Permalink to this equation">#</a></span>\[\begin{align}
 &amp;k_1 = hf(t_i, u_i),\\
 &amp;k_2 = hf(t_i + c_1h, u_i + a_{11}k_1 + a_{12}k_2 + \ldots + a_{1s}k_s),\\
 &amp;\vdots \\
@@ -858,6 +860,15 @@ Let’s plot their stability regions.</p>
         <p class="prev-next-subtitle">previous</p>
         <p class="prev-next-title">7. Ordinary differential equations I</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="ODEs_3_asymptotic.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">9. Ordinary differential equations III</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>

@@ -190,6 +190,7 @@
 <li class="toctree-l1"><a class="reference internal" href="quadrature.html">5. Smooth quadrature</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">7. Ordinary differential equations I</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ODEs_1_RK.html">8. Ordinary differential equations II</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">9. Ordinary differential equations III</a></li>
 </ul>
 
     </div>
@@ -440,8 +441,8 @@ document.write(`
 <h2>7.1 Some basics<a class="headerlink" href="#some-basics" title="Link to this heading">#</a></h2>
 <p>Most numerical libraries will let you call well-established methods to solve <em>initial value problems</em>. These are (ordinary) differential equations with <em>complementary conditions</em> that are posed at the start of the solution range. <em>Boundary value problems</em> impose conditions at either end of this interval.</p>
 <p>Any higher-order IVP may be written in the form</p>
-<div class="amsmath math notranslate nohighlight" id="equation-df1902fb-3a44-485d-b634-f11d14d2360d">
-<span class="eqno">(5)<a class="headerlink" href="#equation-df1902fb-3a44-485d-b634-f11d14d2360d" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-395cd756-ded9-4d02-a674-3f606beef19e">
+<span class="eqno">(5)<a class="headerlink" href="#equation-395cd756-ded9-4d02-a674-3f606beef19e" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathbf{u}'(t) &amp;= f(\mathbf{u}(t)), \quad t \in [a, b], \\
 \mathbf{u}(a) &amp;= \mathbf{u}_0. 
 \end{align}\]</div>
@@ -490,8 +491,8 @@ document.write(`
 </table>
 </div>
 <p>The basic idea is to turn our ODE and supplementary information (boundary, initial, or mixed) into a (sequence of) linear system(s) to solve. Starting from the simplest example,</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0de0a1a8-2371-43b2-b7de-bab430e1b1a0">
-<span class="eqno">(6)<a class="headerlink" href="#equation-0de0a1a8-2371-43b2-b7de-bab430e1b1a0" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-57acc56f-d711-4829-8d80-0b0c0236b616">
+<span class="eqno">(6)<a class="headerlink" href="#equation-57acc56f-d711-4829-8d80-0b0c0236b616" title="Permalink to this equation">#</a></span>\[\begin{align}
 u' &amp;= f(t), \quad t \in [a, b], \\
 u(a) &amp;= u_0,
 \end{align}\]</div>
@@ -685,8 +686,8 @@ u_0 \\ f_1 \\ \vdots \\ f_n
 </div>
 <p>Repeated differentiation can be done by the repeated application of <span class="math notranslate nohighlight">\(D\)</span>, e.g. <span class="math notranslate nohighlight">\(u'' = D^2 u\)</span>.</p>
 <p>Neumann conditions are most easily added by appending the relevant row of <span class="math notranslate nohighlight">\(D\)</span> to the left-hand-side, e.g. <span class="math notranslate nohighlight">\(u'(-1) = u'_0\)</span> may be written as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3f880b62-dc36-4db6-9ed1-890ffa2c543b">
-<span class="eqno">(7)<a class="headerlink" href="#equation-3f880b62-dc36-4db6-9ed1-890ffa2c543b" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-cffb7840-32e1-47e6-b298-caaa1e2598ba">
+<span class="eqno">(7)<a class="headerlink" href="#equation-cffb7840-32e1-47e6-b298-caaa1e2598ba" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \begin{bmatrix} D_{00} &amp; D_{01} &amp; \ldots  &amp; D_{0n} \end{bmatrix}
 \begin{bmatrix} u_0 \\ u_1 \\ \vdots \\ u_n \end{bmatrix}
 = u'_0.
