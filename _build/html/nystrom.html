@@ -191,6 +191,7 @@
 <li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">7. Ordinary differential equations I</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ODEs_1_RK.html">8. Ordinary differential equations II</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">9. Ordinary differential equations III</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stiffness_implicit.html">10. Stiffness and stability</a></li>
 </ul>
 
     </div>
@@ -452,16 +453,16 @@ document.write(`
 \[ p(x) = \sum_{k = 0}^{n}a_k x^k, \]</div>
 
 so that the function evaluations become constraints</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ee21c4dd-faef-4979-ba7a-2b94241b7cfc">
-<span class="eqno">()<a class="headerlink" href="#equation-ee21c4dd-faef-4979-ba7a-2b94241b7cfc" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-87097dd2-a95d-4412-b7d8-2d255d80e20c">
+<span class="eqno">()<a class="headerlink" href="#equation-87097dd2-a95d-4412-b7d8-2d255d80e20c" title="Permalink to this equation">#</a></span>\[\begin{align}
 p(x_0) &amp;= a_0 + a_1 x_0 + a_2 x_0^2 + \ldots + a_n x_0^n = y_0,\\
 p(x_1) &amp;= a_0 + a_1 x_1 + a_2 x_1^2 + \ldots + a_n x_1^n = y_1,\\
 \vdots &amp;\vphantom{=}\\
 p(x_n) &amp;= a_0 + a_1 x_n + a_2 x_n^2 + \ldots + a_n x_n^n = y_n.
 \end{align}\]</div>
 <p>This can be rewritten rather compactly as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-322a4c5a-d24c-499a-9716-a7eb21889152">
-<span class="eqno">()<a class="headerlink" href="#equation-322a4c5a-d24c-499a-9716-a7eb21889152" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-23352409-db32-4ecc-b0da-969bc8b9ac14">
+<span class="eqno">()<a class="headerlink" href="#equation-23352409-db32-4ecc-b0da-969bc8b9ac14" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \begin{bmatrix}
 1 &amp; x_0 &amp; x_0^2 &amp; \ldots &amp; x_0^n \\
 1 &amp; x_1 &amp; x_1^2 &amp; \ldots &amp; x_1^n \\
@@ -713,7 +714,7 @@ Now try some other functions that require higher-order interpolation either beca
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/6238e46f33ad9e179252189ee0880e04c9af07dafb97c8508bfcac1737623038.png" src="_images/6238e46f33ad9e179252189ee0880e04c9af07dafb97c8508bfcac1737623038.png" />
+<img alt="_images/90443f261100928cc16190fc2e0dc5fe4429c030684b359c59446dc2471650d3.png" src="_images/90443f261100928cc16190fc2e0dc5fe4429c030684b359c59446dc2471650d3.png" />
 </div>
 </div>
 <div class="admonition-question admonition">
@@ -815,7 +816,7 @@ Therefore,</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/40d5e5324525242972b863bec73756a6e68bb48ffbf966b8fea1ba7460d072e4.png" src="_images/40d5e5324525242972b863bec73756a6e68bb48ffbf966b8fea1ba7460d072e4.png" />
+<img alt="_images/d3076f9833eff825dd4026fcf5db4b983599aabec4445ef5242f2e8b0760a2eb.png" src="_images/d3076f9833eff825dd4026fcf5db4b983599aabec4445ef5242f2e8b0760a2eb.png" />
 </div>
 </div>
 </section>

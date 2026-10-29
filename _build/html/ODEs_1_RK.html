@@ -191,6 +191,7 @@
 <li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">7. Ordinary differential equations I</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">8. Ordinary differential equations II</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">9. Ordinary differential equations III</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stiffness_implicit.html">10. Stiffness and stability</a></li>
 </ul>
 
     </div>
@@ -438,8 +439,8 @@ document.write(`
 <section id="recap">
 <h2>8.1 Recap<a class="headerlink" href="#recap" title="Link to this heading">#</a></h2>
 <p>Numerical libraries have plenty of methods for solving initial value problems, which they usually ask for in the standard form</p>
-<div class="amsmath math notranslate nohighlight" id="equation-adadd812-d1f0-4dcd-8032-954ec3908118">
-<span class="eqno">(8)<a class="headerlink" href="#equation-adadd812-d1f0-4dcd-8032-954ec3908118" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e55e4de0-78a0-4028-8151-d0bdbcbbec9c">
+<span class="eqno">(8)<a class="headerlink" href="#equation-e55e4de0-78a0-4028-8151-d0bdbcbbec9c" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathbf{u}'(t) &amp;= f(\mathbf{u}(t)), \quad t \in [a, b], \\
 \mathbf{u}(a) &amp;= \mathbf{u}_0,
 \end{align}\]</div>
@@ -571,8 +572,8 @@ We see that as we try to match more and more terms in the Taylor expansion, more
 
 (Check this yourself!)</p>
 <p>More generally, we can match even more terms in <span class="math notranslate nohighlight">\(u\)</span>’s Taylor expansion by making several intermediate <span class="math notranslate nohighlight">\(f\)</span>-evaluations. These intermediate evaluations constitute <strong>stages</strong> of a Runge–Kutta method. For <span class="math notranslate nohighlight">\(s\)</span> stages, the forecasting step can be summarized as (note that I’ll write <span class="math notranslate nohighlight">\(u_i := u(t_i)\)</span>)</p>
-<div class="amsmath math notranslate nohighlight" id="equation-10be625e-495f-4d9e-a290-c82b132b8e7e">
-<span class="eqno">(9)<a class="headerlink" href="#equation-10be625e-495f-4d9e-a290-c82b132b8e7e" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-08f36da4-242f-4517-8ab5-399191dd43b0">
+<span class="eqno">(9)<a class="headerlink" href="#equation-08f36da4-242f-4517-8ab5-399191dd43b0" title="Permalink to this equation">#</a></span>\[\begin{align}
 &amp;k_1 = hf(t_i, u_i),\\
 &amp;k_2 = hf(t_i + c_1h, u_i + a_{11}k_1 + a_{12}k_2 + \ldots + a_{1s}k_s),\\
 &amp;\vdots \\

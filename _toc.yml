@@ -17,6 +17,7 @@ chapters:
 - file: ODES2_spectral
 - file: ODEs_1_RK
 - file: ODEs_3_asymptotic
+- file: stiffness_implicit
 # - file: github
 # - file: poly_interp
 # - file: poly_interp2

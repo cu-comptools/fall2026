@@ -62,6 +62,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'ODEs_3_asymptotic';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="10. Stiffness and stability" href="stiffness_implicit.html" />
     <link rel="prev" title="8. Ordinary differential equations II" href="ODEs_1_RK.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -190,6 +191,7 @@
 <li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">7. Ordinary differential equations I</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ODEs_1_RK.html">8. Ordinary differential equations II</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">9. Ordinary differential equations III</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stiffness_implicit.html">10. Stiffness and stability</a></li>
 </ul>
 
     </div>
@@ -464,8 +466,8 @@ u'(a) &amp;= u'_0.\end{split}\]</div>
 </div>
 </details>
 </div>
-<div class="amsmath math notranslate nohighlight" id="equation-e95ed9e3-f227-4967-aca8-fb420b47b1bc">
-<span class="eqno">(11)<a class="headerlink" href="#equation-e95ed9e3-f227-4967-aca8-fb420b47b1bc" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-0949d833-064a-427d-a6c2-35b261444dd5">
+<span class="eqno">(11)<a class="headerlink" href="#equation-0949d833-064a-427d-a6c2-35b261444dd5" title="Permalink to this equation">#</a></span>\[\begin{align}
 u'' + \omega_0^2u &amp;= 0 \quad t \in [-1, 1]\\
 u(-1) &amp;= 1, \\
 u'(-1) &amp;= 0.
@@ -505,56 +507,7 @@ u'(-1) &amp;= 0.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">line</span> <span class="mi">21</span>
-<span class="g g-Whitespace">     </span><span class="mi">19</span> <span class="n">t1</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">20</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-<span class="ne">---&gt; </span><span class="mi">21</span>     <span class="n">solution</span> <span class="o">=</span> <span class="n">si</span><span class="o">.</span><span class="n">solve_ivp</span><span class="p">(</span><span class="n">f_ivp</span><span class="p">,</span> <span class="n">tspan</span><span class="p">,</span> <span class="n">u0</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">22</span> <span class="n">t2</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="n">times</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">t2</span> <span class="o">-</span> <span class="n">t1</span><span class="p">)</span><span class="o">/</span><span class="n">N</span>
-
-<span class="nn">File ~/all-virtual-envs/csci7000f24/lib/python3.10/site-packages/scipy/integrate/_ivp/ivp.py:655,</span> in <span class="ni">solve_ivp</span><span class="nt">(fun, t_span, y0, method, t_eval, dense_output, events, vectorized, args, **options)</span>
-<span class="g g-Whitespace">    </span><span class="mi">653</span> <span class="n">status</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="g g-Whitespace">    </span><span class="mi">654</span> <span class="k">while</span> <span class="n">status</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">655</span>     <span class="n">message</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-<span class="g g-Whitespace">    </span><span class="mi">657</span>     <span class="k">if</span> <span class="n">solver</span><span class="o">.</span><span class="n">status</span> <span class="o">==</span> <span class="s1">&#39;finished&#39;</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">658</span>         <span class="n">status</span> <span class="o">=</span> <span class="mi">0</span>
-
-<span class="nn">File ~/all-virtual-envs/csci7000f24/lib/python3.10/site-packages/scipy/integrate/_ivp/base.py:197,</span> in <span class="ni">OdeSolver.step</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">195</span> <span class="k">else</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">196</span>     <span class="n">t</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span>
-<span class="ne">--&gt; </span><span class="mi">197</span>     <span class="n">success</span><span class="p">,</span> <span class="n">message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_step_impl</span><span class="p">()</span>
-<span class="g g-Whitespace">    </span><span class="mi">199</span>     <span class="k">if</span> <span class="ow">not</span> <span class="n">success</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">200</span>         <span class="bp">self</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="s1">&#39;failed&#39;</span>
-
-<span class="nn">File ~/all-virtual-envs/csci7000f24/lib/python3.10/site-packages/scipy/integrate/_ivp/rk.py:144,</span> in <span class="ni">RungeKutta._step_impl</span><span class="nt">(self)</span>
-<span class="g g-Whitespace">    </span><span class="mi">141</span> <span class="n">h</span> <span class="o">=</span> <span class="n">t_new</span> <span class="o">-</span> <span class="n">t</span>
-<span class="g g-Whitespace">    </span><span class="mi">142</span> <span class="n">h_abs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">144</span> <span class="n">y_new</span><span class="p">,</span> <span class="n">f_new</span> <span class="o">=</span> <span class="n">rk_step</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fun</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">145</span>                        <span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">K</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">146</span> <span class="n">scale</span> <span class="o">=</span> <span class="n">atol</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y_new</span><span class="p">))</span> <span class="o">*</span> <span class="n">rtol</span>
-<span class="g g-Whitespace">    </span><span class="mi">147</span> <span class="n">error_norm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_estimate_error_norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">K</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">scale</span><span class="p">)</span>
-
-<span class="nn">File ~/all-virtual-envs/csci7000f24/lib/python3.10/site-packages/scipy/integrate/_ivp/rk.py:64,</span> in <span class="ni">rk_step</span><span class="nt">(fun, t, y, f, h, A, B, C, K)</span>
-<span class="g g-Whitespace">     </span><span class="mi">62</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">A</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">:]),</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-<span class="g g-Whitespace">     </span><span class="mi">63</span>     <span class="n">dy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">K</span><span class="p">[:</span><span class="n">s</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">a</span><span class="p">[:</span><span class="n">s</span><span class="p">])</span> <span class="o">*</span> <span class="n">h</span>
-<span class="ne">---&gt; </span><span class="mi">64</span>     <span class="n">K</span><span class="p">[</span><span class="n">s</span><span class="p">]</span> <span class="o">=</span> <span class="n">fun</span><span class="p">(</span><span class="n">t</span> <span class="o">+</span> <span class="n">c</span> <span class="o">*</span> <span class="n">h</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">dy</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">66</span> <span class="n">y_new</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="n">h</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">K</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">67</span> <span class="n">f_new</span> <span class="o">=</span> <span class="n">fun</span><span class="p">(</span><span class="n">t</span> <span class="o">+</span> <span class="n">h</span><span class="p">,</span> <span class="n">y_new</span><span class="p">)</span>
-
-<span class="nn">File ~/all-virtual-envs/csci7000f24/lib/python3.10/site-packages/scipy/integrate/_ivp/base.py:154,</span> in <span class="ni">OdeSolver.__init__.&lt;locals&gt;.fun</span><span class="nt">(t, y)</span>
-<span class="g g-Whitespace">    </span><span class="mi">152</span> <span class="k">def</span> <span class="nf">fun</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">153</span>     <span class="bp">self</span><span class="o">.</span><span class="n">nfev</span> <span class="o">+=</span> <span class="mi">1</span>
-<span class="ne">--&gt; </span><span class="mi">154</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fun_single</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-
-<span class="nn">File ~/all-virtual-envs/csci7000f24/lib/python3.10/site-packages/scipy/integrate/_ivp/base.py:23,</span> in <span class="ni">check_arguments.&lt;locals&gt;.fun_wrapped</span><span class="nt">(t, y)</span>
-<span class="g g-Whitespace">     </span><span class="mi">22</span> <span class="k">def</span> <span class="nf">fun_wrapped</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-<span class="ne">---&gt; </span><span class="mi">23</span>     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">fun</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
-
-<span class="ne">KeyboardInterrupt</span>: 
-</pre></div>
-</div>
+<img alt="_images/bfdbb4ff6b9f6831bb084f83964841387d418bd143c3362586ca0ec197bceee5.png" src="_images/bfdbb4ff6b9f6831bb084f83964841387d418bd143c3362586ca0ec197bceee5.png" />
 </div>
 </div>
 <p>As expected, the runtime of <code class="docutils literal notranslate"><span class="pre">scipy</span></code>’s default Runge-Kutta solver scales as <span class="math notranslate nohighlight">\(\mathcal{O}(\omega)\)</span>.</p>
@@ -590,13 +543,7 @@ u'(-1) &amp;= 0.
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:13: SyntaxWarning: invalid escape sequence &#39;\o&#39;
-&lt;&gt;:13: SyntaxWarning: invalid escape sequence &#39;\o&#39;
-/tmp/ipykernel_3053695/4246866310.py:13: SyntaxWarning: invalid escape sequence &#39;\o&#39;
-  plt.xlabel(&quot;$\omega$&quot;)
-</pre></div>
-</div>
-<img alt="_images/3b947f982b968df3dad99b7f7aac18cba782dcfcd85d87fed276901de61ef4e0.png" src="_images/3b947f982b968df3dad99b7f7aac18cba782dcfcd85d87fed276901de61ef4e0.png" />
+<img alt="_images/41a4a21645e07bf719dfb26d1d7ac6b212feb91d250396f1c426f5a3270e7092.png" src="_images/41a4a21645e07bf719dfb26d1d7ac6b212feb91d250396f1c426f5a3270e7092.png" />
 </div>
 </div>
 <p>Something weird is going on at small values of <span class="math notranslate nohighlight">\(\omega\)</span>. The runtime of <code class="docutils literal notranslate"><span class="pre">time.time()</span></code> itself and other things (e.g. other things running inside a notebook, initialization, etc.) will add to the overall runtime, and may be significant relative to that of the code you want to measure. It’s important to reduce this noise by averaging to get an accurate measurement.</p>
@@ -706,17 +653,7 @@ Solvers will need the following three components to work:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:17: SyntaxWarning: invalid escape sequence &#39;\o&#39;
-&lt;&gt;:18: SyntaxWarning: invalid escape sequence &#39;\m&#39;
-&lt;&gt;:17: SyntaxWarning: invalid escape sequence &#39;\o&#39;
-&lt;&gt;:18: SyntaxWarning: invalid escape sequence &#39;\m&#39;
-/tmp/ipykernel_3053695/3941512404.py:17: SyntaxWarning: invalid escape sequence &#39;\o&#39;
-  plt.ylabel(&quot;$x(t) - i\omega_0$&quot;)
-/tmp/ipykernel_3053695/3941512404.py:18: SyntaxWarning: invalid escape sequence &#39;\m&#39;
-  leg = ax.legend([ls], [&#39;$\mathrm{Im}(\\alpha) \in \{ 0, 1, \ldots, 10\}$&#39;],
-</pre></div>
-</div>
-<img alt="_images/beab75c73ebd08cd1ea38e0853111cbfb461c57ca62751dc2b23944f4697485c.png" src="_images/beab75c73ebd08cd1ea38e0853111cbfb461c57ca62751dc2b23944f4697485c.png" />
+<img alt="_images/301a27f64312fe0a9b0ffe6c3dbd8b0666ac4f410b97684061505a54041e1e66.png" src="_images/301a27f64312fe0a9b0ffe6c3dbd8b0666ac4f410b97684061505a54041e1e66.png" />
 </div>
 </div>
 <p>We’ll use a different approach: a <strong>defect correction</strong> scheme. We’ll construct a series of increasingly refined approximations to the true <span class="math notranslate nohighlight">\(x\)</span>: <span class="math notranslate nohighlight">\(x_0(t), x_1(t), \ldots, x_j(t)\)</span>. Each iteration, we add a small correction term <span class="math notranslate nohighlight">\(\delta(t)\)</span> to get to the next. We’ll start from a nonoscillatory initial guess <span class="math notranslate nohighlight">\(x_0(t)\)</span>, and make sure that <span class="math notranslate nohighlight">\(\delta(t)\)</span> is also nonoscillatory, thereby building a guaranteed nonoscillatory approximation to <span class="math notranslate nohighlight">\(x(t)\)</span>.</p>
@@ -762,8 +699,8 @@ Solvers will need the following three components to work:</p>
 \[R[u](t) = u'' + \omega^2 u = (x' + x^2 + \omega^2)u = R[x]u,\]</div>
 <p>therefore <span class="math notranslate nohighlight">\(R[x] = R[u]/u\)</span>. We need to find how this quantity depends on the width of the interval we apply the defect correction to (the stepsize). Unlike the local truncation error of Runge-Kutta methods, this is not a simple <span class="math notranslate nohighlight">\(\Delta = \mathcal{O}(h^{p+1})\)</span>-type relationship.</p>
 <p>To get an idea of how the residual decreases during iterations of the Riccati defect correction, let’s inspect the first couple terms in the series and their residual:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b4dacd8e-dea6-46e6-885f-7338f340b783">
-<span class="eqno">(13)<a class="headerlink" href="#equation-b4dacd8e-dea6-46e6-885f-7338f340b783" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-06bd5a1d-23af-4b28-a3ee-7e79f7b9896b">
+<span class="eqno">(13)<a class="headerlink" href="#equation-06bd5a1d-23af-4b28-a3ee-7e79f7b9896b" title="Permalink to this equation">#</a></span>\[\begin{align}
 x_0 &amp;= i\omega, \quad  &amp;&amp;R[x_0] = i\omega' = \mathcal{O}(\omega), \\
 x_1 &amp;= i\omega - \frac{\omega'}{2\omega}, \quad &amp;&amp;R[x_1] = \frac{3(\omega')^2}{4\omega^2} - \frac{\omega''}{2\omega} = \mathcal{O}(1).
 \end{align}\]</div>
@@ -775,8 +712,8 @@ x_1 &amp;= i\omega - \frac{\omega'}{2\omega}, \quad &amp;&amp;R[x_1] = \frac{3(\
 <div class="hint admonition">
 <p class="admonition-title">Theorem</p>
 <p>Fix <span class="math notranslate nohighlight">\(t \in \mathbb{R}\)</span>. Let <span class="math notranslate nohighlight">\(\omega\)</span> be analytic in the closed disc <span class="math notranslate nohighlight">\(B_\rho(t) := \{ z \in \mathbb{C}: |z - t| \leq \rho\}\)</span> for some <span class="math notranslate nohighlight">\(\rho &gt; 0\)</span> with bounds</p>
-<div class="amsmath math notranslate nohighlight" id="equation-c73e4227-85a0-4859-9724-6411501d311a">
-<span class="eqno">(14)<a class="headerlink" href="#equation-c73e4227-85a0-4859-9724-6411501d311a" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-56bc3de8-159e-49f0-a4e7-bb61913f75bf">
+<span class="eqno">(14)<a class="headerlink" href="#equation-56bc3de8-159e-49f0-a4e7-bb61913f75bf" title="Permalink to this equation">#</a></span>\[\begin{align}
 \eta_1 \leq &amp;|\omega(z)| \leq \eta_2, \\
 &amp;|\omega'(z)| \leq \eta_3 \leq \frac{\eta_1^2}{18}.
 \end{align}\]</div>
@@ -831,8 +768,8 @@ R_{j+1} &amp;= x_{j+1}' + x^2_{j+1} + \omega^2 \nonumber \\
 <div class="math notranslate nohighlight">
 \[ f'(z) = \frac{1}{2\pi i} \int_{|\xi - t| = \rho_j}\frac{f(\xi)\mathrm{d}\xi}{(\xi - z)^2}, \quad z \in B_{j+1}. \]</div>
 <p>Instead of naively bounding the integrand, we’ll write it in terms of a known integral (which will give a tighter bound),</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a4595ad8-c693-4ff4-acbe-2866b43077f2">
-<span class="eqno">(16)<a class="headerlink" href="#equation-a4595ad8-c693-4ff4-acbe-2866b43077f2" title="Permalink to this equation">#</a></span>\[\begin{align} 
+<div class="amsmath math notranslate nohighlight" id="equation-8235d34c-a5bc-4d4a-ba6a-09ebafb2fc23">
+<span class="eqno">(16)<a class="headerlink" href="#equation-8235d34c-a5bc-4d4a-ba6a-09ebafb2fc23" title="Permalink to this equation">#</a></span>\[\begin{align} 
 |f'(z)| &amp;\leq \frac{||f||_j}{2\pi}\int_{|\xi - t| = \rho_j} \frac{|\mathrm{d}\xi|}{|\xi - z|^2} \\
 &amp; = \frac{||f||_j}{2\pi}\int_{0}^{2\pi} \frac{\rho_j\mathrm{d}\theta}{|z|^2 + \rho_j^2 - 2|z|\rho_j \cos\theta},
 \end{align}\]</div>
@@ -840,16 +777,16 @@ R_{j+1} &amp;= x_{j+1}' + x^2_{j+1} + \omega^2 \nonumber \\
 <div class="math notranslate nohighlight">
 \[ \int{0}^{2\pi} \frac{\mathrm{d}\theta}{a + b\cos\theta} = \frac{2\pi}{\sqrt{a^2 - b^2}} \]</div>
 <p>with <span class="math notranslate nohighlight">\(a = |z|^2 + \rho_j^2\)</span>, <span class="math notranslate nohighlight">\(b = -2|z|\rho_j\)</span>. Now noticing that the case <span class="math notranslate nohighlight">\(|z| = \rho_j\)</span> bounds all others,  we get</p>
-<div class="amsmath math notranslate nohighlight" id="equation-4e0b0726-793b-4a28-9204-53fe40ea0f34">
-<span class="eqno">(17)<a class="headerlink" href="#equation-4e0b0726-793b-4a28-9204-53fe40ea0f34" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-6e47add7-37bb-4c58-9334-06f742890a20">
+<span class="eqno">(17)<a class="headerlink" href="#equation-6e47add7-37bb-4c58-9334-06f742890a20" title="Permalink to this equation">#</a></span>\[\begin{align}
 ||f||_{j+1} &amp;\leq \frac{||f||_j}{2\pi}\frac{2\pi \rho_j}{\rho_j^2 - \rho_{j+1}^2} \\
 &amp;= \frac{||f||_j}{\rho}\frac{k(k-j)}{2k - 2j - 1} = \frac{||f||_j}{\rho}k\left[ \frac{1}{2} + \frac{1}{2(2k - 2j - 1)} \right] \\
 &amp;\leq \frac{k}{\rho}||f||_j,
 \end{align}\]</div>
 <p>where we made use of <span class="math notranslate nohighlight">\(\rho_j = (1 - \tfrac{j}{k})\rho\)</span>.</p>
 <p>The next step is to prove the following two statements by induction, given that <span class="math notranslate nohighlight">\(x_l\)</span>, <span class="math notranslate nohighlight">\(R_l\)</span> are analytic in <span class="math notranslate nohighlight">\(B_j\)</span> for all <span class="math notranslate nohighlight">\(0 \leq l \leq j\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-8bfb2a51-12fb-4305-8595-6afd12605da0">
-<span class="eqno">(18)<a class="headerlink" href="#equation-8bfb2a51-12fb-4305-8595-6afd12605da0" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-013dd470-89c1-4b34-94af-7cbcf9181757">
+<span class="eqno">(18)<a class="headerlink" href="#equation-013dd470-89c1-4b34-94af-7cbcf9181757" title="Permalink to this equation">#</a></span>\[\begin{align}
 \tilde{\eta}_1 \leq &amp;|x_l| \leq \tilde{\eta}_2 \quad &amp;&amp;\text{in } B_j,\\
 &amp; |R_l| \leq \eta_3 r^l \quad &amp;&amp;\text{in } B_j, \text{for all } 0 \leq l \leq j.
 \end{align}\]</div>
@@ -959,7 +896,7 @@ Sometimes these only surface when we implement a method, so let’s try doing th
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/a4266ac0e28a2225144d85887676ac791539e51a1ff26b64baf05c8e7b7348cf.png" src="_images/a4266ac0e28a2225144d85887676ac791539e51a1ff26b64baf05c8e7b7348cf.png" />
+<img alt="_images/e3b7c55c549ab61b053eeedfdd8c900ee86ea5209baea27c7bb68b79aeef4654.png" src="_images/e3b7c55c549ab61b053eeedfdd8c900ee86ea5209baea27c7bb68b79aeef4654.png" />
 </div>
 </div>
 <div class="admonition-question admonition">
@@ -980,8 +917,8 @@ Sometimes these only surface when we implement a method, so let’s try doing th
 </div>
 <p>In the above code, the lambda (in-line function)</p>
 <p>gets called repeatedly. The first few calls will look like this:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f4ad4a36-3881-452c-8392-3c761cfb2b70">
-<span class="eqno">(19)<a class="headerlink" href="#equation-f4ad4a36-3881-452c-8392-3c761cfb2b70" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-4ae3e6be-7eec-477f-9e0f-adb1d4b3676c">
+<span class="eqno">(19)<a class="headerlink" href="#equation-4ae3e6be-7eec-477f-9e0f-adb1d4b3676c" title="Permalink to this equation">#</a></span>\[\begin{align}
 R[x_0] &amp;= i\omega' - \omega^2 + \omega^2,
 R[x_1] &amp;= \left( i\omega' - \frac{\omega'}{2\omega}\right)' + \left( i\omega' - \frac{\omega'}{2\omega}\right)^2 + \omega^2,
 \end{align}\]</div>
@@ -1040,7 +977,7 @@ R[x_1] &amp;= \left( i\omega' - \frac{\omega'}{2\omega}\right)' + \left( i\omega
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/37f10a2fdb2c3b5910518c844188b1f027b2db33d97da7cf2d418631f60b9bcb.png" src="_images/37f10a2fdb2c3b5910518c844188b1f027b2db33d97da7cf2d418631f60b9bcb.png" />
+<img alt="_images/5d26a405ffa9df04dde60643f217e9b2914e36feb3dcc05c5dd3dc628857b86f.png" src="_images/5d26a405ffa9df04dde60643f217e9b2914e36feb3dcc05c5dd3dc628857b86f.png" />
 </div>
 </div>
 <p>Much better! We got rid of the bottoming-out of the residual and at high frequencies, can achieve machine precision in about 5 iterations. However, there are other sources of error left in the algorithm…</p>
@@ -1100,6 +1037,15 @@ R[x_1] &amp;= \left( i\omega' - \frac{\omega'}{2\omega}\right)' + \left( i\omega
         <p class="prev-next-subtitle">previous</p>
         <p class="prev-next-title">8. Ordinary differential equations II</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="stiffness_implicit.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">10. Stiffness and stability</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
