@@ -28,11 +28,11 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -62,6 +62,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'complex_analysis_notes';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="7. Ordinary differential equations I" href="ODES2_spectral.html" />
+    <link rel="prev" title="5. Smooth quadrature" href="quadrature.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -124,8 +126,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -181,13 +181,14 @@
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="course_introduction.html">0. Course introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="floatingpoint.html">1. Floating point representation and roundoff error</a></li>
 <li class="toctree-l1"><a class="reference internal" href="conditionnumber.html">2. Conditioning of a problem and the condition number</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stability.html">3. Stability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="poly_interp.html">4. Interpolation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quadrature.html">5. Smooth quadrature</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">6. Complex analysis fundamentals</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">7. Ordinary differential equations I</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ODEs_1_RK.html">8. Ordinary differential equations II</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">9. Ordinary differential equations III</a></li>
@@ -418,13 +419,14 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivation">6.1 Motivation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analyticity">Analyticity</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#absolute-convergence">Absolute convergence</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#more-examples">More examples</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kl-divergence">KL divergence</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-evidence">Bayesian evidence</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convolution">Convolution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivation">6.1 Motivation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kl-divergence">6.1.1 KL divergence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-evidence">6.1.2 Bayesian evidence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convolution">6.1.3 Convolution</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analyticity-radius-of-convergence">6.2 Analyticity, radius of convergence</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#radius-of-convergence-and-interpolation-quadrature-error">6.3 Radius of convergence and interpolation/quadrature error</a></li>
 </ul>
             </nav>
         </div>
@@ -446,9 +448,9 @@ document.write(`
 <div class="math notranslate nohighlight">
 \[ \left|\int_a^b f(x) \mathrm{d} x - \frac{b-a}{2}[f(a) + f(b)]\right| \leq \frac{1}{12} ||f''||_{L_{\infty}}(b-a)^3. \]</div>
 </p></li>
-<li><p>Gauss–Legendre quadrature has
+<li><p>Gauss–Legendre quadrature (with <span class="math notranslate nohighlight">\(n+1\)</span> nodes indexed from <span class="math notranslate nohighlight">\(0\)</span> to <span class="math notranslate nohighlight">\(n\)</span>) has
 <div class="math notranslate nohighlight">
-\[\left|\int_a^b f(x) \mathrm{d} x - \frac{b-a}{2}[f(a) + f(b)]\right| \sim \frac{f^{(2n+1)}}{(2n+1)!}.\]</div>
+\[\left|\int_a^b f(x) \mathrm{d} x - \frac{b-a}{2}[f(a) + f(b)]\right| \sim \frac{f^{(2n+2)}}{(2n+2)!}.\]</div>
 </p></li>
 </ol>
 <p>The right-hand-sides above are reminiscent of terms in a Taylor expansion, e.g. consider the Taylor expansion of <span class="math notranslate nohighlight">\(f(z)\)</span> around <span class="math notranslate nohighlight">\(z = 0\)</span>,
@@ -461,13 +463,53 @@ f(z) = \sum_{n=0}^{\infty} a_n z^n,
 \[
 a_n = \frac{f^{(n)}(0)}{n!}.
 \]</div>
-</p>
+
+To estimate the error in quadrature (and interpolation), we therefore need to know how large these Taylor series terms can get.
+To list a few applications of numerical integration (quadrature) in the sciences, take the following examples:</p>
+<section id="kl-divergence">
+<h3>6.1.1 KL divergence<a class="headerlink" href="#kl-divergence" title="Link to this heading">#</a></h3>
+<p>For probability distributions <span class="math notranslate nohighlight">\(p\)</span> and <span class="math notranslate nohighlight">\(q\)</span>, the KL divergence is defined as
+<div class="math notranslate nohighlight">
+\[
+D_{\mathrm{KL}}(P\,\|\,Q)
+= \int_{-\infty}^{\infty}
+p(x)\log\!\left(\frac{p(x)}{q(x)}\right)\,dx.
+\]</div>
+
+The KL divergence is a measure of how similar the two distributions look like. It is therefore helpful in applications where the objective is to produce (predict) a value with as similar of a probability distribution as some given goal. This function occurs frequently in Bayesian neural networks, or inference, and contains an integral over smooth functions – a prime candidate for evaluation by quadrature.</p>
 </section>
-<section id="analyticity">
-<h2>Analyticity<a class="headerlink" href="#analyticity" title="Link to this heading">#</a></h2>
+<section id="bayesian-evidence">
+<h3>6.1.2 Bayesian evidence<a class="headerlink" href="#bayesian-evidence" title="Link to this heading">#</a></h3>
+<p>On the topic of Bayesian inference, the quantity appearing in the denominator in Bayes’ theorem is the Bayesian evidence,
+<div class="math notranslate nohighlight">
+\[
+p(D) = \int p(D\mid\theta)\,p(\theta)\,d\theta,
+\]</div>
+
+where <span class="math notranslate nohighlight">\(p(D\mid\theta)\)</span> is a function describing the probability of obtaining/observing data <span class="math notranslate nohighlight">\(D\)</span> given a model parameterized by the parameter(s) <span class="math notranslate nohighlight">\(\theta\)</span>, and <span class="math notranslate nohighlight">\(p(\theta)\)</span> summarizes the prior constraints/knowledge of the model parameters. <span class="math notranslate nohighlight">\(p(D\mid\theta)\)</span> is called the likelihood, and the above integral is therefore also referred to as the marginalized likelihood (since the model parameters have been integrated out/marginalized over). The Bayesian evidence is used to compare scientific models, since it captures both</p>
+<ul class="simple">
+<li><p>how likely a model is to produce the data we observed (the more likely, the better), and</p></li>
+<li><p>how many parameters it uses to do so (the fewer, the better, as per Occam’s razor).
+It takes the form of an integral, but even if the integrand is closed-form, the integral itself rarely is. It therefore needs to be computed via quadrature, though not necessarily with the methods we discuss in this course.</p></li>
+</ul>
+</section>
+<section id="convolution">
+<h3>6.1.3 Convolution<a class="headerlink" href="#convolution" title="Link to this heading">#</a></h3>
+<p>In Fourier space, a product of functions <span class="math notranslate nohighlight">\(f\)</span> and <span class="math notranslate nohighlight">\(g\)</span> becomes a convolution, defined as
+<div class="math notranslate nohighlight">
+\[
+(f*g)(t)
+= \int_{-\infty}^{\infty} f(t)\,g(t-\tau)\,d\tau.
+\]</div>
+
+Convolutions occur in physics, e.g. when computing a diffraction pattern, in signal processing, and in neural networks specializing in image recognition (e.g. convolutional neural nets). It is once again extremely rare for a convolution to be computable on paper, which means that one has to resort to quadrature.</p>
+</section>
+</section>
+<section id="analyticity-radius-of-convergence">
+<h2>6.2 Analyticity, radius of convergence<a class="headerlink" href="#analyticity-radius-of-convergence" title="Link to this heading">#</a></h2>
 <div class="admonition-definition-analyticity admonition">
 <p class="admonition-title">Definition: analyticity</p>
-<p>If <span class="math notranslate nohighlight">\(f\)</span> is analytic at <span class="math notranslate nohighlight">\(0\)</span>, there exists <span class="math notranslate nohighlight">\(\xi&gt;0\)</span> such that the above series converges absolutely for all <span class="math notranslate nohighlight">\(z\)</span> in the disc
+<p>If <span class="math notranslate nohighlight">\(f\)</span> is analytic at <span class="math notranslate nohighlight">\(0\)</span>, there exists <span class="math notranslate nohighlight">\(\xi&gt;0\)</span> such that the above series <strong>converges absolutely</strong> for all <span class="math notranslate nohighlight">\(z\)</span> in the disc
 <div class="math notranslate nohighlight">
 \[
 |z|&lt;\xi,
@@ -475,16 +517,15 @@ a_n = \frac{f^{(n)}(0)}{n!}.
 
 and diverges absolutely for all <span class="math notranslate nohighlight">\(z\)</span> outside.</p>
 </div>
-<p>Analyticity necessarily implies smoothness, i.e. the function has derivatives of all orders, but not the other way round.</p>
-<p>Examples:</p>
+<p>Analyticity necessarily implies smoothness, i.e. the function has derivatives of all orders, but not the other way round. Some examples of analyticity (or lack thereof) include:</p>
 <ul class="simple">
-<li><p>polynomials, <span class="math notranslate nohighlight">\(e^z\)</span>, and trigonometric functions are analytic everywhere (“entire”),</p></li>
+<li><p>polynomials, <span class="math notranslate nohighlight">\(e^z\)</span>, and trigonometric functions are analytic everywhere (thus they are “entire”),</p></li>
 <li><p><span class="math notranslate nohighlight">\(|z|\)</span> is not analytic at <span class="math notranslate nohighlight">\(z=0\)</span>,</p></li>
 <li><p>piecewise functions are not analytic where intervals meet.</p></li>
 </ul>
-</section>
-<section id="absolute-convergence">
-<h2>Absolute convergence<a class="headerlink" href="#absolute-convergence" title="Link to this heading">#</a></h2>
+<p>The above definition used the concept of <strong>absolute convergence</strong>, which in turn is defined as follows.</p>
+<div class="admonition-definition-absolute-convergence admonition">
+<p class="admonition-title">Definition: Absolute convergence</p>
 <p>A real or complex series
 <div class="math notranslate nohighlight">
 \[
@@ -498,94 +539,84 @@ converges <strong>absolutely</strong> if
 \]</div>
 
 for some real and finite <span class="math notranslate nohighlight">\(L\)</span>.</p>
-</section>
-<section id="more-examples">
-<h2>More examples<a class="headerlink" href="#more-examples" title="Link to this heading">#</a></h2>
-<p>Consider
+</div>
+<p>Some functions we’ll have to deal with will be analytic everywhere, except at specific points, for example <strong>isolated singularities</strong>. These are a finite number of points at which the Taylor series of the function fails to converge, and the function “blows up”. For example, the function
 <div class="math notranslate nohighlight">
 \[
-f(z) = \frac{1}{1+z^2}.
-\]</div>
-</p>
-<p>It has singularities at
-<div class="math notranslate nohighlight">
-\[
-z=\pm i,
+f(z) = \frac{1}{1+z^2}
 \]</div>
 
-so there is no convergent Taylor series around those points.</p>
-<p>For the Taylor series about <span class="math notranslate nohighlight">\(z=0\)</span>,
-<div class="math notranslate nohighlight">
-\[
-\text{radius of convergence } \xi = 1.
-\]</div>
-</p>
-<p>The singularities lie at <span class="math notranslate nohighlight">\(+i\)</span> and <span class="math notranslate nohighlight">\(-i\)</span> on the imaginary axis.</p>
+has two isolated singularities at <span class="math notranslate nohighlight">\( z=\pm i,\)</span> around which is has no convergent Taylor series. These points are so-called simple poles, or poles of order 1. If we try to Taylor-expand the function around <span class="math notranslate nohighlight">\(z = 0\)</span>, we see that its radius of convergence is determined by the distance to the nearest singularities, and will in this case be <span class="math notranslate nohighlight">\(1\)</span>. Take a look at this function in the complex plane:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Surface plot for f(z) = 1 / (1 + z**2)</span>
-<span class="c1"># (code to be added)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">axisarr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">rearr</span><span class="p">,</span> <span class="n">imarr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">axisarr</span><span class="p">,</span> <span class="n">axisarr</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">rearr</span> <span class="o">+</span> <span class="mi">1</span><span class="n">j</span><span class="o">*</span><span class="n">imarr</span>
+<span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">z</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">z</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">rearr</span><span class="p">,</span> <span class="n">imarr</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">z</span><span class="p">)),</span> <span class="n">vmin</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Re(z)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Im(z)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="_images/e5e5658ab064935fb98e7687a6a1c97b32d8310d33a5283d7a41ef4653d31031.png" src="_images/e5e5658ab064935fb98e7687a6a1c97b32d8310d33a5283d7a41ef4653d31031.png" />
 </div>
-<p>Within the radius of convergence, take
+</div>
+<p>This radius of convergence tells us something about the size of terms in the Taylor series of the function. Take a function, expanded around the point <span class="math notranslate nohighlight">\(z = 0\)</span>, at which is it analytic. Suppose its radius of convergence around <span class="math notranslate nohighlight">\(x_0\)</span> is <span class="math notranslate nohighlight">\(\rho\)</span>. Within this radius of convergence, i.e. for <span class="math notranslate nohighlight">\(|z| = \rho - \varepsilon\)</span> <span class="math notranslate nohighlight">\(\forall \varepsilon &gt; 0\)</span>, it is true that
 <div class="math notranslate nohighlight">
 \[
-|z| = \xi-\varepsilon,
-\qquad \forall\,\varepsilon&gt;0.
+|a_n|(\xi-\varepsilon)^n \leq C,
 \]</div>
-</p>
-<p>As <span class="math notranslate nohighlight">\(n\to\infty\)</span>, the terms decrease, so
+
+since the function is absolutely convergent. Then,
 <div class="math notranslate nohighlight">
 \[
-|a_n|(\xi-\varepsilon)^n \leq C.
+|a_n| \leq \frac{C}{(\xi-\varepsilon)^n},
 \]</div>
-</p>
-<p>That is,
+
+i.e. the larger the radius of convergence, the smaller this upper bound on the Taylor coefficients. This, in turn, determines the error of smooth quadratures, or interpolation, involving this function.</p>
+</section>
+<section id="radius-of-convergence-and-interpolation-quadrature-error">
+<h2>6.3 Radius of convergence and interpolation/quadrature error<a class="headerlink" href="#radius-of-convergence-and-interpolation-quadrature-error" title="Link to this heading">#</a></h2>
+<p>For example, assume we want to interpolate a function <span class="math notranslate nohighlight">\(f\)</span> on the interval <span class="math notranslate nohighlight">\([a,b]\)</span>. Let’s say we know that <span class="math notranslate nohighlight">\(f\)</span> is analytic in an open domain containing the “stadium”
 <div class="math notranslate nohighlight">
 \[
-|a_n| \leq \frac{C}{(\xi-\varepsilon)^n}.
+\left\{z\in\mathbb{C}: \operatorname{dist}(z,[a,b])\leq R\right\},
 \]</div>
-</p>
-<p>Assume <span class="math notranslate nohighlight">\(f\)</span> is analytic in an open domain containing the “stadium”
-<div class="math notranslate nohighlight">
-\[
-\left\{z\in\mathbb{C}: \operatorname{dist}(z,[a,b])\leq R\right\}.
-\]</div>
-</p>
-<p>Then the Taylor coefficients satisfy
+
+i.e. inside of an ellipse that is a distance <span class="math notranslate nohighlight">\(R\)</span> away from the interval.
+Then, based on the above, the Taylor coefficients for <span class="math notranslate nohighlight">\(f\)</span> satisfy
 <div class="math notranslate nohighlight">
 \[
 |a_n| \leq \frac{C}{R^n}.
 \]</div>
-</p>
-</section>
-<section id="kl-divergence">
-<h2>KL divergence<a class="headerlink" href="#kl-divergence" title="Link to this heading">#</a></h2>
-<p>For probability distributions <span class="math notranslate nohighlight">\(p\)</span> and <span class="math notranslate nohighlight">\(q\)</span>,
+
+Recalling our theorem on the accuracy of interpolation, we know that if <span class="math notranslate nohighlight">\(L_nf\)</span> is the interpolating polynomial of <span class="math notranslate nohighlight">\(f\)</span> we constructed using <span class="math notranslate nohighlight">\(n+1\)</span> nodes, the error in interpolation will be
 <div class="math notranslate nohighlight">
-\[
-D_{\mathrm{KL}}(P\,\|\,Q)
-= \int_{-\infty}^{\infty}
-p(x)\log\!\left(\frac{p(x)}{q(x)}\right)\,dx.
+\[ 
+||f - L_nf||_{L_\infty} = \max_{x \in [a,b]} |f(x) - L_nf(x)|  \leq \frac{f^{(n+1)}(\xi)}{(n+1)!}(b-a)^{n+1}, \quad \xi \in [a,b].
 \]</div>
-</p>
-</section>
-<section id="bayesian-evidence">
-<h2>Bayesian evidence<a class="headerlink" href="#bayesian-evidence" title="Link to this heading">#</a></h2>
+
+Identifying the derivative term as a Taylor coefficient, we can say that
 <div class="math notranslate nohighlight">
-\[
-p(D) = \int p(D\mid\theta)\,p(\theta)\,d\theta.
+\[ 
+||f - L_nf||_{L_\infty} \leq \frac{c'}{R^{n+1}}(b-a)^{n+1} = c'\left(\frac{H}{R}\right)^{n+1},
 \]</div>
-</section>
-<section id="convolution">
-<h2>Convolution<a class="headerlink" href="#convolution" title="Link to this heading">#</a></h2>
-<div class="math notranslate nohighlight">
-\[
-(f*g)(t)
-= \int_{-\infty}^{\infty} f(t)\,g(t-\tau)\,d\tau.
-\]</div>
+
+where <span class="math notranslate nohighlight">\(H = b-a \)</span> is the width of the interpolation interval. We can deduce that</p>
+<ul class="simple">
+<li><p>if the radius of convergence (often distance to nearest singularity) is <strong>larger</strong> than the width of the interval, then interpolation will converge with <span class="math notranslate nohighlight">\(n\)</span>, and it will do so exponentially,</p></li>
+<li><p>the exact rate of convergence depends on the ratio of the radius of convergence and the interval width, with the larger, the quicker the convergence,</p></li>
+<li><p>if the radius of convergence is <strong>smaller</strong> than or equal to the interval width, interpolation may not converge.</p></li>
+</ul>
 </section>
 </section>
 
@@ -619,6 +650,24 @@ p(D) = \int p(D\mid\theta)\,p(\theta)\,d\theta.
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="quadrature.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">5. Smooth quadrature</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="ODES2_spectral.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">7. Ordinary differential equations I</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -635,13 +684,14 @@ p(D) = \int p(D\mid\theta)\,p(\theta)\,d\theta.
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivation">6.1 Motivation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analyticity">Analyticity</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#absolute-convergence">Absolute convergence</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#more-examples">More examples</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kl-divergence">KL divergence</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-evidence">Bayesian evidence</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#convolution">Convolution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#motivation">6.1 Motivation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#kl-divergence">6.1.1 KL divergence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bayesian-evidence">6.1.2 Bayesian evidence</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convolution">6.1.3 Convolution</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analyticity-radius-of-convergence">6.2 Analyticity, radius of convergence</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#radius-of-convergence-and-interpolation-quadrature-error">6.3 Radius of convergence and interpolation/quadrature error</a></li>
 </ul>
   </nav></div>
 

@@ -14,6 +14,7 @@ chapters:
 - file: stability
 - file: poly_interp
 - file: quadrature
+- file: complex_analysis_notes
 - file: ODES2_spectral
 - file: ODEs_1_RK
 - file: ODEs_3_asymptotic
