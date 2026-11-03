@@ -28,11 +28,11 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -62,6 +62,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'ODEs_3_asymptotic';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="10. Stiffness and stability" href="stiffness_implicit.html" />
+    <link rel="prev" title="8. Ordinary differential equations II" href="ODEs_1_RK.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -124,8 +126,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -181,7 +181,7 @@
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="course_introduction.html">0. Course introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="floatingpoint.html">1. Floating point representation and roundoff error</a></li>
 <li class="toctree-l1"><a class="reference internal" href="conditionnumber.html">2. Conditioning of a problem and the condition number</a></li>
@@ -189,6 +189,9 @@
 <li class="toctree-l1"><a class="reference internal" href="poly_interp.html">4. Interpolation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quadrature.html">5. Smooth quadrature</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">7. Ordinary differential equations I</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_1_RK.html">8. Ordinary differential equations II</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">9. Ordinary differential equations III</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stiffness_implicit.html">10. Stiffness and stability</a></li>
 </ul>
 
     </div>
@@ -437,7 +440,7 @@ document.write(`
 <h2>9.1 The problem and why some methods fail<a class="headerlink" href="#the-problem-and-why-some-methods-fail" title="Link to this heading">#</a></h2>
 <p>We’ll solve the initial value problem (IVP)</p>
 <div class="math notranslate nohighlight" id="equation-osc-ivp">
-<span class="eqno">()<a class="headerlink" href="#equation-osc-ivp" title="Link to this equation">#</a></span>\[\begin{split}u''(t) + \omega^2(t)u(t) &amp;= 0, \quad t \in [a,b], \\
+<span class="eqno">(10)<a class="headerlink" href="#equation-osc-ivp" title="Link to this equation">#</a></span>\[\begin{split}u''(t) + \omega^2(t)u(t) &amp;= 0, \quad t \in [a,b], \\
 u(a) &amp;= u_0, \\
 u'(a) &amp;= u'_0.\end{split}\]</div>
 <p>Physically, <span class="math notranslate nohighlight">\(u\)</span> describes how the position of a simple harmonic oscillator changes with time. The oscillator moves with a time-dependent frequency <span class="math notranslate nohighlight">\(\omega\)</span>. If <span class="math notranslate nohighlight">\(\omega\)</span> is real, then the solution is oscillatory, if it has an imaginary component, then it decays exponentially (while potentially oscillating inside the evanescent envelope). The larger <span class="math notranslate nohighlight">\(\omega\)</span>, the faster the oscillations (the shorter the period and wavelength).</p>
@@ -447,24 +450,24 @@ u'(a) &amp;= u'_0.\end{split}\]</div>
 </div>
 <p>Polynomial-based methods (meaning: methods which fit some sort of polynomial to approximate the solution) have a complexity of <span class="math notranslate nohighlight">\(\mathcal{O}(\omega)\)</span> when dealing with oscillatory problems. This is due to their discretization length (e.g. stepsize, or node-spacing) having to decrease proportionally to the wavelength, which is <span class="math notranslate nohighlight">\(\propto \tfrac{1}{\omega}\)</span>, hence their runtime being <span class="math notranslate nohighlight">\(\propto \omega\)</span>. This unfortunately gets too long at large values of <span class="math notranslate nohighlight">\(\omega\)</span>. Let’s check this expected scaling by solving</p>
 <div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
+<details class="hide above-input">
 <summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">si</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.integrate</span> <span class="k">as</span> <span class="nn">si</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">time</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
 </pre></div>
 </div>
 </div>
 </details>
 </div>
-<div class="amsmath math notranslate nohighlight" id="equation-60a13f0a-3299-43d7-9149-2f73aefda548">
-<span class="eqno">()<a class="headerlink" href="#equation-60a13f0a-3299-43d7-9149-2f73aefda548" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-0949d833-064a-427d-a6c2-35b261444dd5">
+<span class="eqno">(11)<a class="headerlink" href="#equation-0949d833-064a-427d-a6c2-35b261444dd5" title="Permalink to this equation">#</a></span>\[\begin{align}
 u'' + \omega_0^2u &amp;= 0 \quad t \in [-1, 1]\\
 u(-1) &amp;= 1, \\
 u'(-1) &amp;= 0.
@@ -473,7 +476,7 @@ u'(-1) &amp;= 0.
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Scipy&#39;s default Runge-Kutta solver</span>
 
-<span class="k">def</span><span class="w"> </span><span class="nf">f_ivp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">f_ivp</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">u</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; The right-hand-side in u&#39; = f(t, u). &quot;&quot;&quot;</span>
     <span class="n">du</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">du</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -504,7 +507,7 @@ u'(-1) &amp;= 0.
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/6d8f69dc8ee5e72a59f3abb223eecc6dff0a7a7201aa7b4964080fe427688d64.png" src="_images/6d8f69dc8ee5e72a59f3abb223eecc6dff0a7a7201aa7b4964080fe427688d64.png" />
+<img alt="_images/bfdbb4ff6b9f6831bb084f83964841387d418bd143c3362586ca0ec197bceee5.png" src="_images/bfdbb4ff6b9f6831bb084f83964841387d418bd143c3362586ca0ec197bceee5.png" />
 </div>
 </div>
 <p>As expected, the runtime of <code class="docutils literal notranslate"><span class="pre">scipy</span></code>’s default Runge-Kutta solver scales as <span class="math notranslate nohighlight">\(\mathcal{O}(\omega)\)</span>.</p>
@@ -514,10 +517,10 @@ u'(-1) &amp;= 0.
 </div>
 <p>Aside: when measuring the performance of a piece of code, make sure to run it multiple times, <em>especially</em> if the runtime is expected to be short. Otherwise this happens (here, I omitted the loop):</p>
 <div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
+<details class="hide above-input">
 <summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ws</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
@@ -540,13 +543,7 @@ u'(-1) &amp;= 0.
 </div>
 </details>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:13: SyntaxWarning: invalid escape sequence &#39;\o&#39;
-&lt;&gt;:13: SyntaxWarning: invalid escape sequence &#39;\o&#39;
-/tmp/ipykernel_724857/4246866310.py:13: SyntaxWarning: invalid escape sequence &#39;\o&#39;
-  plt.xlabel(&quot;$\omega$&quot;)
-</pre></div>
-</div>
-<img alt="_images/8741e1b2632512f7a295d3ac56449c7a2683e096cd895686dcc6b6e21cfe3519.png" src="_images/8741e1b2632512f7a295d3ac56449c7a2683e096cd895686dcc6b6e21cfe3519.png" />
+<img alt="_images/41a4a21645e07bf719dfb26d1d7ac6b212feb91d250396f1c426f5a3270e7092.png" src="_images/41a4a21645e07bf719dfb26d1d7ac6b212feb91d250396f1c426f5a3270e7092.png" />
 </div>
 </div>
 <p>Something weird is going on at small values of <span class="math notranslate nohighlight">\(\omega\)</span>. The runtime of <code class="docutils literal notranslate"><span class="pre">time.time()</span></code> itself and other things (e.g. other things running inside a notebook, initialization, etc.) will add to the overall runtime, and may be significant relative to that of the code you want to measure. It’s important to reduce this noise by averaging to get an accurate measurement.</p>
@@ -572,7 +569,7 @@ Solvers will need the following three components to work:</p>
 <ol class="arabic simple" start="3">
 <li><p>This local error estimate is used to define a <strong>controller</strong>, which does two things: it accepts or rejects proposals for <span class="math notranslate nohighlight">\(\tilde{u}_{i}\)</span> depending on the local error estimate <span class="math notranslate nohighlight">\(\Delta_{i}\)</span>, and proposes the next stepsize, <span class="math notranslate nohighlight">\(h_{i+1}\)</span> (or a new <span class="math notranslate nohighlight">\(h_i\)</span> if the step was rejected). This adaptive way of updating the stepsize is crucial in modern, efficient solvers, and it requires information about the dependence of the local error on the stepsize, <span class="math notranslate nohighlight">\(\Delta(h)\)</span>.</p></li>
 </ol>
-<p>We’ll now review each of these components that make up a specialized solver for IVPs of the form <a class="reference internal" href="#equation-osc-ivp">()</a>.</p>
+<p>We’ll now review each of these components that make up a specialized solver for IVPs of the form <a class="reference internal" href="#equation-osc-ivp">(10)</a>.</p>
 </section>
 <section id="riccati-defect-correction">
 <h2>9.3 Riccati defect correction<a class="headerlink" href="#riccati-defect-correction" title="Link to this heading">#</a></h2>
@@ -586,12 +583,12 @@ Solvers will need the following three components to work:</p>
 <p class="admonition-title">Question</p>
 <p>What variable substitution will get us to the differential equation obeyed by this phase-derivative?</p>
 </div>
-<p>Since the solution of <a class="reference internal" href="#equation-osc-ivp">()</a> is expected to be oscillatory, it makes sense to make the substitution</p>
+<p>Since the solution of <a class="reference internal" href="#equation-osc-ivp">(10)</a> is expected to be oscillatory, it makes sense to make the substitution</p>
 <div class="math notranslate nohighlight">
 \[ u = e^{\int^t x(\sigma) \mathrm{d}\sigma}, \]</div>
 <p>which gives us the <strong>Riccati equation</strong></p>
 <div class="math notranslate nohighlight" id="equation-riccati">
-<span class="eqno">()<a class="headerlink" href="#equation-riccati" title="Link to this equation">#</a></span>\[x' + x^2 + \omega^2 = 0.\]</div>
+<span class="eqno">(12)<a class="headerlink" href="#equation-riccati" title="Link to this equation">#</a></span>\[x' + x^2 + \omega^2 = 0.\]</div>
 <p>We might hope to brute-force numerically solve this equation, but that’s a bad idea for multiple reasons:</p>
 <ul class="simple">
 <li><p>it’s first-order <em>nonlinear</em> ODE, so we’d have to worry about the existence and uniqueness of the solution,</p></li>
@@ -602,19 +599,19 @@ Solvers will need the following three components to work:</p>
 \[ x(t) = \omega_0\tan(\alpha - \omega_0t), \]</div>
 <p>where <span class="math notranslate nohighlight">\(\alpha \in \mathbb{C}\)</span> is a complex parameter corresponding to the initial conditions. This solution is in general periodic with a period <span class="math notranslate nohighlight">\(\propto \tfrac{1}{2\omega_0}\)</span> (think about the period of the <span class="math notranslate nohighlight">\(\tan\)</span> function vs. <span class="math notranslate nohighlight">\(\cos\)</span>). Its real part controls the phase of oscillations, its imaginary part controls their amplitude. It’s only in the limit of <span class="math notranslate nohighlight">\(\mathrm{Im}(\alpha) \to \infty\)</span> that we get a nonoscillatory solution for <span class="math notranslate nohighlight">\(x\)</span>, <span class="math notranslate nohighlight">\(x(t) = \pm i\omega(t)\)</span>, so a naive numerical approach is guaranteed to suffer from oscillatory instabilities. The code snippet below plots the solution for <span class="math notranslate nohighlight">\(x\)</span> as we change <span class="math notranslate nohighlight">\(\mathrm{Im}(\alpha)\)</span>; observe how the oscillations die down as it is increased and note the symmetric-log scaling of the <span class="math notranslate nohighlight">\(y\)</span>-axis (which turns to linear at <span class="math notranslate nohighlight">\(|y| &lt; 10^{-6}\)</span>).</p>
 <div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
+<details class="hide above-input">
 <summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.legend_handler</span><span class="w"> </span><span class="kn">import</span> <span class="n">HandlerTuple</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib.legend_handler</span> <span class="kn">import</span> <span class="n">HandlerTuple</span>
 
-<span class="k">class</span><span class="w"> </span><span class="nc">HandlerTupleVertical</span><span class="p">(</span><span class="n">HandlerTuple</span><span class="p">):</span>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">HandlerTupleVertical</span><span class="p">(</span><span class="n">HandlerTuple</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">HandlerTuple</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">create_artists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">legend</span><span class="p">,</span> <span class="n">orig_handle</span><span class="p">,</span>
+    <span class="k">def</span> <span class="nf">create_artists</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">legend</span><span class="p">,</span> <span class="n">orig_handle</span><span class="p">,</span>
                        <span class="n">xdescent</span><span class="p">,</span> <span class="n">ydescent</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">fontsize</span><span class="p">,</span> <span class="n">trans</span><span class="p">):</span>
         <span class="n">numlines</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">orig_handle</span><span class="p">)</span>
         <span class="n">handler_map</span> <span class="o">=</span> <span class="n">legend</span><span class="o">.</span><span class="n">get_legend_handler_map</span><span class="p">()</span>
@@ -656,17 +653,7 @@ Solvers will need the following three components to work:</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:17: SyntaxWarning: invalid escape sequence &#39;\o&#39;
-&lt;&gt;:18: SyntaxWarning: invalid escape sequence &#39;\m&#39;
-&lt;&gt;:17: SyntaxWarning: invalid escape sequence &#39;\o&#39;
-&lt;&gt;:18: SyntaxWarning: invalid escape sequence &#39;\m&#39;
-/tmp/ipykernel_724857/3941512404.py:17: SyntaxWarning: invalid escape sequence &#39;\o&#39;
-  plt.ylabel(&quot;$x(t) - i\omega_0$&quot;)
-/tmp/ipykernel_724857/3941512404.py:18: SyntaxWarning: invalid escape sequence &#39;\m&#39;
-  leg = ax.legend([ls], [&#39;$\mathrm{Im}(\\alpha) \in \{ 0, 1, \ldots, 10\}$&#39;],
-</pre></div>
-</div>
-<img alt="_images/beab75c73ebd08cd1ea38e0853111cbfb461c57ca62751dc2b23944f4697485c.png" src="_images/beab75c73ebd08cd1ea38e0853111cbfb461c57ca62751dc2b23944f4697485c.png" />
+<img alt="_images/301a27f64312fe0a9b0ffe6c3dbd8b0666ac4f410b97684061505a54041e1e66.png" src="_images/301a27f64312fe0a9b0ffe6c3dbd8b0666ac4f410b97684061505a54041e1e66.png" />
 </div>
 </div>
 <p>We’ll use a different approach: a <strong>defect correction</strong> scheme. We’ll construct a series of increasingly refined approximations to the true <span class="math notranslate nohighlight">\(x\)</span>: <span class="math notranslate nohighlight">\(x_0(t), x_1(t), \ldots, x_j(t)\)</span>. Each iteration, we add a small correction term <span class="math notranslate nohighlight">\(\delta(t)\)</span> to get to the next. We’ll start from a nonoscillatory initial guess <span class="math notranslate nohighlight">\(x_0(t)\)</span>, and make sure that <span class="math notranslate nohighlight">\(\delta(t)\)</span> is also nonoscillatory, thereby building a guaranteed nonoscillatory approximation to <span class="math notranslate nohighlight">\(x(t)\)</span>.</p>
@@ -698,7 +685,7 @@ Solvers will need the following three components to work:</p>
 <p>To summarize, the forecasting step of the numerical method based on this defect correction scheme will look like this:</p>
 <ol class="arabic simple">
 <li><p>Starting from <span class="math notranslate nohighlight">\(x_0 = \pm i\omega\)</span>, we iterate over the <span class="math notranslate nohighlight">\(x_j\)</span> until the residual <span class="math notranslate nohighlight">\(R[x_j]\)</span> drops below a user-specified tolerance <span class="math notranslate nohighlight">\(\varepsilon\)</span>.</p></li>
-<li><p>Then we transform back from the phase-derivative <span class="math notranslate nohighlight">\(x\)</span> to <span class="math notranslate nohighlight">\(u\)</span> via <span class="math notranslate nohighlight">\(u = e^{\int^t x(\sigma) \mathrm{d}\sigma}\)</span>. Depending on whether we started from <span class="math notranslate nohighlight">\(x_0 = +i\omega\)</span> or <span class="math notranslate nohighlight">\(-i\omega\)</span>, we get two phase-derivatives <span class="math notranslate nohighlight">\(x_{\pm}\)</span> and therefore linearly independent approximate solutions of <a class="reference internal" href="#equation-osc-ivp">()</a>, <span class="math notranslate nohighlight">\(u_+\)</span> and <span class="math notranslate nohighlight">\(u_-\)</span>.</p></li>
+<li><p>Then we transform back from the phase-derivative <span class="math notranslate nohighlight">\(x\)</span> to <span class="math notranslate nohighlight">\(u\)</span> via <span class="math notranslate nohighlight">\(u = e^{\int^t x(\sigma) \mathrm{d}\sigma}\)</span>. Depending on whether we started from <span class="math notranslate nohighlight">\(x_0 = +i\omega\)</span> or <span class="math notranslate nohighlight">\(-i\omega\)</span>, we get two phase-derivatives <span class="math notranslate nohighlight">\(x_{\pm}\)</span> and therefore linearly independent approximate solutions of <a class="reference internal" href="#equation-osc-ivp">(10)</a>, <span class="math notranslate nohighlight">\(u_+\)</span> and <span class="math notranslate nohighlight">\(u_-\)</span>.</p></li>
 <li><p>We find the linear combination of <span class="math notranslate nohighlight">\(u_{\pm}\)</span>, <span class="math notranslate nohighlight">\(Au_+ + Bu_-\)</span>, that satisfies the initial conditions of the IVP by solving the linear system
 <div class="math notranslate nohighlight">
 \[\begin{split}  \begin{bmatrix} u_+ &amp; u_- \\ x_+u_+ &amp; x_-u_-\end{bmatrix}\begin{bmatrix} A \\ B \end{bmatrix} = \begin{bmatrix} u_0 \\ u'_0 \end{bmatrix}. \end{split}\]</div>
@@ -712,8 +699,8 @@ Solvers will need the following three components to work:</p>
 \[R[u](t) = u'' + \omega^2 u = (x' + x^2 + \omega^2)u = R[x]u,\]</div>
 <p>therefore <span class="math notranslate nohighlight">\(R[x] = R[u]/u\)</span>. We need to find how this quantity depends on the width of the interval we apply the defect correction to (the stepsize). Unlike the local truncation error of Runge-Kutta methods, this is not a simple <span class="math notranslate nohighlight">\(\Delta = \mathcal{O}(h^{p+1})\)</span>-type relationship.</p>
 <p>To get an idea of how the residual decreases during iterations of the Riccati defect correction, let’s inspect the first couple terms in the series and their residual:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b204f426-9f97-47cc-aa1f-18384992fb44">
-<span class="eqno">()<a class="headerlink" href="#equation-b204f426-9f97-47cc-aa1f-18384992fb44" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-06bd5a1d-23af-4b28-a3ee-7e79f7b9896b">
+<span class="eqno">(13)<a class="headerlink" href="#equation-06bd5a1d-23af-4b28-a3ee-7e79f7b9896b" title="Permalink to this equation">#</a></span>\[\begin{align}
 x_0 &amp;= i\omega, \quad  &amp;&amp;R[x_0] = i\omega' = \mathcal{O}(\omega), \\
 x_1 &amp;= i\omega - \frac{\omega'}{2\omega}, \quad &amp;&amp;R[x_1] = \frac{3(\omega')^2}{4\omega^2} - \frac{\omega''}{2\omega} = \mathcal{O}(1).
 \end{align}\]</div>
@@ -725,8 +712,8 @@ x_1 &amp;= i\omega - \frac{\omega'}{2\omega}, \quad &amp;&amp;R[x_1] = \frac{3(\
 <div class="hint admonition">
 <p class="admonition-title">Theorem</p>
 <p>Fix <span class="math notranslate nohighlight">\(t \in \mathbb{R}\)</span>. Let <span class="math notranslate nohighlight">\(\omega\)</span> be analytic in the closed disc <span class="math notranslate nohighlight">\(B_\rho(t) := \{ z \in \mathbb{C}: |z - t| \leq \rho\}\)</span> for some <span class="math notranslate nohighlight">\(\rho &gt; 0\)</span> with bounds</p>
-<div class="amsmath math notranslate nohighlight" id="equation-929b98f0-92e2-4fdd-a124-b4d02b4050a6">
-<span class="eqno">()<a class="headerlink" href="#equation-929b98f0-92e2-4fdd-a124-b4d02b4050a6" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-56bc3de8-159e-49f0-a4e7-bb61913f75bf">
+<span class="eqno">(14)<a class="headerlink" href="#equation-56bc3de8-159e-49f0-a4e7-bb61913f75bf" title="Permalink to this equation">#</a></span>\[\begin{align}
 \eta_1 \leq &amp;|\omega(z)| \leq \eta_2, \\
 &amp;|\omega'(z)| \leq \eta_3 \leq \frac{\eta_1^2}{18}.
 \end{align}\]</div>
@@ -764,7 +751,7 @@ x_1 &amp;= i\omega - \frac{\omega'}{2\omega}, \quad &amp;&amp;R[x_1] = \frac{3(\
 </ul>
 <p>So, first is the residual of <span class="math notranslate nohighlight">\(x_{j+1}\)</span> in terms of <span class="math notranslate nohighlight">\(R_j\)</span> and <span class="math notranslate nohighlight">\(x_j\)</span>,</p>
 <div class="math notranslate nohighlight" id="equation-residual-iter">
-<span class="eqno">()<a class="headerlink" href="#equation-residual-iter" title="Link to this equation">#</a></span>\[\begin{split}\begin{align}
+<span class="eqno">(15)<a class="headerlink" href="#equation-residual-iter" title="Link to this equation">#</a></span>\[\begin{split}\begin{align}
 R_{j+1} &amp;= x_{j+1}' + x^2_{j+1} + \omega^2 \nonumber \\
 &amp;= \left(x_j - \frac{R_j}{2x_j}\right)' + \left( x_j - \frac{R_j}{2x_j}\right)^2 + \omega^2 \\
 &amp;= x_j' - \frac{R_j'}{2x_j} + \frac{R_jx_j'}{2x_j^2} - R_j + \frac{R_j^2}{4x_j^2} \nonumber \\
@@ -781,8 +768,8 @@ R_{j+1} &amp;= x_{j+1}' + x^2_{j+1} + \omega^2 \nonumber \\
 <div class="math notranslate nohighlight">
 \[ f'(z) = \frac{1}{2\pi i} \int_{|\xi - t| = \rho_j}\frac{f(\xi)\mathrm{d}\xi}{(\xi - z)^2}, \quad z \in B_{j+1}. \]</div>
 <p>Instead of naively bounding the integrand, we’ll write it in terms of a known integral (which will give a tighter bound),</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0f0c2f66-496d-4725-b24f-a5044b7672bf">
-<span class="eqno">()<a class="headerlink" href="#equation-0f0c2f66-496d-4725-b24f-a5044b7672bf" title="Permalink to this equation">#</a></span>\[\begin{align} 
+<div class="amsmath math notranslate nohighlight" id="equation-8235d34c-a5bc-4d4a-ba6a-09ebafb2fc23">
+<span class="eqno">(16)<a class="headerlink" href="#equation-8235d34c-a5bc-4d4a-ba6a-09ebafb2fc23" title="Permalink to this equation">#</a></span>\[\begin{align} 
 |f'(z)| &amp;\leq \frac{||f||_j}{2\pi}\int_{|\xi - t| = \rho_j} \frac{|\mathrm{d}\xi|}{|\xi - z|^2} \\
 &amp; = \frac{||f||_j}{2\pi}\int_{0}^{2\pi} \frac{\rho_j\mathrm{d}\theta}{|z|^2 + \rho_j^2 - 2|z|\rho_j \cos\theta},
 \end{align}\]</div>
@@ -790,21 +777,21 @@ R_{j+1} &amp;= x_{j+1}' + x^2_{j+1} + \omega^2 \nonumber \\
 <div class="math notranslate nohighlight">
 \[ \int{0}^{2\pi} \frac{\mathrm{d}\theta}{a + b\cos\theta} = \frac{2\pi}{\sqrt{a^2 - b^2}} \]</div>
 <p>with <span class="math notranslate nohighlight">\(a = |z|^2 + \rho_j^2\)</span>, <span class="math notranslate nohighlight">\(b = -2|z|\rho_j\)</span>. Now noticing that the case <span class="math notranslate nohighlight">\(|z| = \rho_j\)</span> bounds all others,  we get</p>
-<div class="amsmath math notranslate nohighlight" id="equation-2b75aba9-835a-445e-a0a9-e4969189f5f1">
-<span class="eqno">()<a class="headerlink" href="#equation-2b75aba9-835a-445e-a0a9-e4969189f5f1" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-6e47add7-37bb-4c58-9334-06f742890a20">
+<span class="eqno">(17)<a class="headerlink" href="#equation-6e47add7-37bb-4c58-9334-06f742890a20" title="Permalink to this equation">#</a></span>\[\begin{align}
 ||f||_{j+1} &amp;\leq \frac{||f||_j}{2\pi}\frac{2\pi \rho_j}{\rho_j^2 - \rho_{j+1}^2} \\
 &amp;= \frac{||f||_j}{\rho}\frac{k(k-j)}{2k - 2j - 1} = \frac{||f||_j}{\rho}k\left[ \frac{1}{2} + \frac{1}{2(2k - 2j - 1)} \right] \\
 &amp;\leq \frac{k}{\rho}||f||_j,
 \end{align}\]</div>
 <p>where we made use of <span class="math notranslate nohighlight">\(\rho_j = (1 - \tfrac{j}{k})\rho\)</span>.</p>
 <p>The next step is to prove the following two statements by induction, given that <span class="math notranslate nohighlight">\(x_l\)</span>, <span class="math notranslate nohighlight">\(R_l\)</span> are analytic in <span class="math notranslate nohighlight">\(B_j\)</span> for all <span class="math notranslate nohighlight">\(0 \leq l \leq j\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-469f8f45-5f97-424e-a094-0de012bbb578">
-<span class="eqno">()<a class="headerlink" href="#equation-469f8f45-5f97-424e-a094-0de012bbb578" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-013dd470-89c1-4b34-94af-7cbcf9181757">
+<span class="eqno">(18)<a class="headerlink" href="#equation-013dd470-89c1-4b34-94af-7cbcf9181757" title="Permalink to this equation">#</a></span>\[\begin{align}
 \tilde{\eta}_1 \leq &amp;|x_l| \leq \tilde{\eta}_2 \quad &amp;&amp;\text{in } B_j,\\
 &amp; |R_l| \leq \eta_3 r^l \quad &amp;&amp;\text{in } B_j, \text{for all } 0 \leq l \leq j.
 \end{align}\]</div>
 <p>We’ll start with the second statement, assuming that it is true for <span class="math notranslate nohighlight">\(j\)</span> and proving it for <span class="math notranslate nohighlight">\(j+1\)</span>.</p>
-<p>Starting from <a class="reference internal" href="#equation-residual-iter">()</a>, we use the induction hypotheses and the theorem’s assumptions to lower bound the denominators and upper bound the numeriators, as well as upper bound the derivatives with our lemma,</p>
+<p>Starting from <a class="reference internal" href="#equation-residual-iter">(15)</a>, we use the induction hypotheses and the theorem’s assumptions to lower bound the denominators and upper bound the numeriators, as well as upper bound the derivatives with our lemma,</p>
 <div class="math notranslate nohighlight">
 \[ ||R_{j+1}||_{j+1} \leq \frac{1}{2\tilde{\eta}_1}\left(\frac{k\tilde{\eta}_2}{\tilde{\eta}_1\rho} + \frac{k}{\rho}\right) ||R_j||_j + \left( \frac{||R_j||_j}{2\tilde{\eta}_2} \right)^2. \]</div>
 <p>We wish to pull out a factor of <span class="math notranslate nohighlight">\(||R_j||_j\)</span>, so we use the crude bound <span class="math notranslate nohighlight">\(||R_j|| \leq \eta_3\)</span> from the induction hypothesis to replace one of the <span class="math notranslate nohighlight">\(||R_j||_j\)</span>-s in the last term to get</p>
@@ -835,13 +822,13 @@ Sometimes these only surface when we implement a method, so let’s try doing th
 \[ u'' + \frac{m^2 - 1}{(1 + t^2)^2}u = 0, \quad t \in [0, 0.5], \]</div>
 <p>where the parameter <span class="math notranslate nohighlight">\(m\)</span> will be varied from <span class="math notranslate nohighlight">\(10^1\)</span> to <span class="math notranslate nohighlight">\(10^4\)</span>. The iteration requires taking derivatives repeatedly, which I’ll do with a spectral differentiation matrix (based on Chebyshev nodes). I’ll therefore only evaluate the phase-derivative <span class="math notranslate nohighlight">\(x\)</span> at these nodes, and will measure and plot the maximum <span class="math notranslate nohighlight">\(R[x]\)</span> at those nodes, as a function of the iteration number. With a <em>naive</em> implementation, we get the following progression:</p>
 <div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
+<details class="hide above-input">
 <summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">chebD</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">chebD</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Computes the (n+1)x(n+1) spectral differentiation matrix\</span>
 <span class="sd">    using Chebyshev roots according to Ch 6 of Trefethen&#39;s\</span>
@@ -870,7 +857,7 @@ Sometimes these only surface when we implement a method, so let’s try doing th
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">ricc_defect_corr</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">10</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ricc_defect_corr</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">10</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Performs k+1 steps of Riccati defect correction and returns the residuals of x.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -909,17 +896,7 @@ Sometimes these only surface when we implement a method, so let’s try doing th
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:30: SyntaxWarning: invalid escape sequence &#39;\o&#39;
-&lt;&gt;:32: SyntaxWarning: invalid escape sequence &#39;\m&#39;
-&lt;&gt;:30: SyntaxWarning: invalid escape sequence &#39;\o&#39;
-&lt;&gt;:32: SyntaxWarning: invalid escape sequence &#39;\m&#39;
-/tmp/ipykernel_724857/1655584016.py:30: SyntaxWarning: invalid escape sequence &#39;\o&#39;
-  plt.semilogy(range(k+1), errs, marker = symbols[i], label = &#39;$\omega_{\mathrm{max}} =&#39; + &#39;{}&#39;.format(m) + &#39;$&#39;)
-/tmp/ipykernel_724857/1655584016.py:32: SyntaxWarning: invalid escape sequence &#39;\m&#39;
-  plt.ylabel(&quot;Maximum residual over interval, $\max_{t \in [0, 0.5]}R[x_j](t)$&quot;)
-</pre></div>
-</div>
-<img alt="_images/60ddecad63fcf006eb229fa2d3e2bcfc59f8ed7fb46af3547ff953cfa556a34e.png" src="_images/60ddecad63fcf006eb229fa2d3e2bcfc59f8ed7fb46af3547ff953cfa556a34e.png" />
+<img alt="_images/e3b7c55c549ab61b053eeedfdd8c900ee86ea5209baea27c7bb68b79aeef4654.png" src="_images/e3b7c55c549ab61b053eeedfdd8c900ee86ea5209baea27c7bb68b79aeef4654.png" />
 </div>
 </div>
 <div class="admonition-question admonition">
@@ -940,8 +917,8 @@ Sometimes these only surface when we implement a method, so let’s try doing th
 </div>
 <p>In the above code, the lambda (in-line function)</p>
 <p>gets called repeatedly. The first few calls will look like this:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-082eec57-3841-4dfc-8004-1a9a33f0942a">
-<span class="eqno">()<a class="headerlink" href="#equation-082eec57-3841-4dfc-8004-1a9a33f0942a" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-4ae3e6be-7eec-477f-9e0f-adb1d4b3676c">
+<span class="eqno">(19)<a class="headerlink" href="#equation-4ae3e6be-7eec-477f-9e0f-adb1d4b3676c" title="Permalink to this equation">#</a></span>\[\begin{align}
 R[x_0] &amp;= i\omega' - \omega^2 + \omega^2,
 R[x_1] &amp;= \left( i\omega' - \frac{\omega'}{2\omega}\right)' + \left( i\omega' - \frac{\omega'}{2\omega}\right)^2 + \omega^2,
 \end{align}\]</div>
@@ -953,13 +930,13 @@ R[x_1] &amp;= \left( i\omega' - \frac{\omega'}{2\omega}\right)' + \left( i\omega
 <p>A fix for this unnecessary error is to get rid of those cancellations by writing the residual function <span class="math notranslate nohighlight">\(R\)</span> in terms of <span class="math notranslate nohighlight">\(\delta\)</span> instead of <span class="math notranslate nohighlight">\(x\)</span>. From the Riccati defect correction iteration, we can write</p>
 <div class="math notranslate nohighlight">
 \[ \delta_{i+1} = -\frac{R[x_i]}{2x_i},\]</div>
-<p>and <a class="reference internal" href="#equation-residual-iter">()</a> gives us</p>
+<p>and <a class="reference internal" href="#equation-residual-iter">(15)</a> gives us</p>
 <div class="math notranslate nohighlight">
 \[ R[x_{i+1}] = \frac{1}{2x_i}\left( \frac{x_i'}{x_i}R_i - R_i'\right) + \left( \frac{R_i}{2x_i} \right)^2 = \delta_{i+1}' + \delta_{i+1}^2. \]</div>
 <p>Using this to rewrite the algorithm, we get the following:</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">ricc_defect_corr</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">10</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ricc_defect_corr</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">t0</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">10</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Performs k+1 steps of Riccati defect correction and returns the residuals of x.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1000,17 +977,7 @@ R[x_1] &amp;= \left( i\omega' - \frac{\omega'}{2\omega}\right)' + \left( i\omega
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:32: SyntaxWarning: invalid escape sequence &#39;\o&#39;
-&lt;&gt;:34: SyntaxWarning: invalid escape sequence &#39;\m&#39;
-&lt;&gt;:32: SyntaxWarning: invalid escape sequence &#39;\o&#39;
-&lt;&gt;:34: SyntaxWarning: invalid escape sequence &#39;\m&#39;
-/tmp/ipykernel_724857/777035567.py:32: SyntaxWarning: invalid escape sequence &#39;\o&#39;
-  plt.semilogy(range(k+1), errs, marker = symbols[i], label = &#39;$\omega_{\mathrm{max}} =&#39; + &#39;{}&#39;.format(m) + &#39;$&#39;)
-/tmp/ipykernel_724857/777035567.py:34: SyntaxWarning: invalid escape sequence &#39;\m&#39;
-  plt.ylabel(&quot;Maximum residual over interval, $\max_{t \in [0, 0.5]}R[x_j](t)$&quot;)
-</pre></div>
-</div>
-<img alt="_images/b73115af46b1ece3e5159942e7e838470bde25f57cb92c51fd69e55f055c1f8b.png" src="_images/b73115af46b1ece3e5159942e7e838470bde25f57cb92c51fd69e55f055c1f8b.png" />
+<img alt="_images/5d26a405ffa9df04dde60643f217e9b2914e36feb3dcc05c5dd3dc628857b86f.png" src="_images/5d26a405ffa9df04dde60643f217e9b2914e36feb3dcc05c5dd3dc628857b86f.png" />
 </div>
 </div>
 <p>Much better! We got rid of the bottoming-out of the residual and at high frequencies, can achieve machine precision in about 5 iterations. However, there are other sources of error left in the algorithm…</p>
@@ -1062,6 +1029,24 @@ R[x_1] &amp;= \left( i\omega' - \frac{\omega'}{2\omega}\right)' + \left( i\omega
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="ODEs_1_RK.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">8. Ordinary differential equations II</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="stiffness_implicit.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">10. Stiffness and stability</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
