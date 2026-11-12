@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>7. Ordinary differential equations I &#8212; Computational Tools for Multiscale Problems</title>
+    <title>7. ODEs I: Spectral collocation &#8212; Computational Tools for Multiscale Problems</title>
   
   
   
@@ -62,7 +62,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'ODES2_spectral';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="8. Ordinary differential equations II" href="ODEs_1_RK.html" />
+    <link rel="next" title="8. ODEs II: Runge–Kutta methods, adaptive timestepping" href="ODEs_1_RK.html" />
     <link rel="prev" title="6. Complex analysis fundamentals" href="complex_analysis_notes.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -189,10 +189,11 @@
 <li class="toctree-l1"><a class="reference internal" href="poly_interp.html">4. Interpolation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quadrature.html">5. Smooth quadrature</a></li>
 <li class="toctree-l1"><a class="reference internal" href="complex_analysis_notes.html">6. Complex analysis fundamentals</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">7. Ordinary differential equations I</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ODEs_1_RK.html">8. Ordinary differential equations II</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">9. Ordinary differential equations III</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">7. ODEs I: Spectral collocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_1_RK.html">8. ODEs II: Runge–Kutta methods, adaptive timestepping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">9. ODEs III: Linear oscillations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stiffness_implicit.html">10. Stiffness and stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_4_nonlinear_oscillations.html">11. ODEs IV: Nonlinear oscillations</a></li>
 </ul>
 
     </div>
@@ -409,7 +410,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>7. Ordinary differential equations I</h1>
+    <h1>7. ODEs I: Spectral collocation</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -433,8 +434,8 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="ordinary-differential-equations-i">
-<h1>7. Ordinary differential equations I<a class="headerlink" href="#ordinary-differential-equations-i" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="odes-i-spectral-collocation">
+<h1>7. ODEs I: Spectral collocation<a class="headerlink" href="#odes-i-spectral-collocation" title="Link to this heading">#</a></h1>
 <div class="warning admonition">
 <p class="admonition-title">Additional resource</p>
 <p><a class="reference external" href="https://danfortunato.com/talks/ModernSpectralMethods.pdf">Dan Fortunato’s talk: Modern spectral methods</a></p>
@@ -443,8 +444,8 @@ document.write(`
 <h2>7.1 Some basics<a class="headerlink" href="#some-basics" title="Link to this heading">#</a></h2>
 <p>Most numerical libraries will let you call well-established methods to solve <em>initial value problems</em>. These are (ordinary) differential equations with <em>complementary conditions</em> that are posed at the start of the solution range. <em>Boundary value problems</em> impose conditions at either end of this interval.</p>
 <p>Any higher-order IVP may be written in the form</p>
-<div class="amsmath math notranslate nohighlight" id="equation-89fc0acc-1828-4674-aaac-18ae38cd8bfa">
-<span class="eqno">(5)<a class="headerlink" href="#equation-89fc0acc-1828-4674-aaac-18ae38cd8bfa" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f757416e-432c-45f5-993d-f617ed2b076e">
+<span class="eqno">(5)<a class="headerlink" href="#equation-f757416e-432c-45f5-993d-f617ed2b076e" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathbf{u}'(t) &amp;= f(\mathbf{u}(t)), \quad t \in [a, b], \\
 \mathbf{u}(a) &amp;= \mathbf{u}_0. 
 \end{align}\]</div>
@@ -493,8 +494,8 @@ document.write(`
 </table>
 </div>
 <p>The basic idea is to turn our ODE and supplementary information (boundary, initial, or mixed) into a (sequence of) linear system(s) to solve. Starting from the simplest example,</p>
-<div class="amsmath math notranslate nohighlight" id="equation-7a521727-2fff-4168-9eb7-e08fccd1bbfb">
-<span class="eqno">(6)<a class="headerlink" href="#equation-7a521727-2fff-4168-9eb7-e08fccd1bbfb" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-a071f715-caaa-4a3d-b23d-0f9fd79e131c">
+<span class="eqno">(6)<a class="headerlink" href="#equation-a071f715-caaa-4a3d-b23d-0f9fd79e131c" title="Permalink to this equation">#</a></span>\[\begin{align}
 u' &amp;= f(t), \quad t \in [a, b], \\
 u(a) &amp;= u_0,
 \end{align}\]</div>
@@ -603,7 +604,7 @@ D^{(n)}\begin{bmatrix} u_0 \\ u_1 \\ \vdots \\ u_n \end{bmatrix} =
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:16: SyntaxWarning: invalid escape sequence &#39;\c&#39;
 &lt;&gt;:16: SyntaxWarning: invalid escape sequence &#39;\c&#39;
-/tmp/ipykernel_1248593/2064136796.py:16: SyntaxWarning: invalid escape sequence &#39;\c&#39;
+/tmp/ipykernel_2715322/2064136796.py:16: SyntaxWarning: invalid escape sequence &#39;\c&#39;
   plt.semilogy(ns, errs2, &#39;--&#39;, label = &quot;$f(x) = \cos(5x)$&quot;)
 </pre></div>
 </div>
@@ -694,8 +695,8 @@ u_0 \\ f_1 \\ \vdots \\ f_n
 </div>
 <p>Repeated differentiation can be done by the repeated application of <span class="math notranslate nohighlight">\(D\)</span>, e.g. <span class="math notranslate nohighlight">\(u'' = D^2 u\)</span>.</p>
 <p>Neumann conditions are most easily added by appending the relevant row of <span class="math notranslate nohighlight">\(D\)</span> to the left-hand-side, e.g. <span class="math notranslate nohighlight">\(u'(-1) = u'_0\)</span> may be written as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-28b1af77-f40b-4b40-878e-51e4439cf629">
-<span class="eqno">(7)<a class="headerlink" href="#equation-28b1af77-f40b-4b40-878e-51e4439cf629" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-50cf6ae1-7d4d-4f9f-b7b6-ccb090234316">
+<span class="eqno">(7)<a class="headerlink" href="#equation-50cf6ae1-7d4d-4f9f-b7b6-ccb090234316" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \begin{bmatrix} D_{00} &amp; D_{01} &amp; \ldots  &amp; D_{0n} \end{bmatrix}
 \begin{bmatrix} u_0 \\ u_1 \\ \vdots \\ u_n \end{bmatrix}
 = u'_0.
@@ -798,7 +799,7 @@ which corresponds to a simple harmonic oscillator with constant frequency <span 
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">8. Ordinary differential equations II</p>
+        <p class="prev-next-title">8. ODEs II: Runge–Kutta methods, adaptive timestepping</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

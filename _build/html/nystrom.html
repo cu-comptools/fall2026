@@ -189,10 +189,11 @@
 <li class="toctree-l1"><a class="reference internal" href="poly_interp.html">4. Interpolation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quadrature.html">5. Smooth quadrature</a></li>
 <li class="toctree-l1"><a class="reference internal" href="complex_analysis_notes.html">6. Complex analysis fundamentals</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">7. Ordinary differential equations I</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ODEs_1_RK.html">8. Ordinary differential equations II</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">9. Ordinary differential equations III</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">7. ODEs I: Spectral collocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_1_RK.html">8. ODEs II: Runge–Kutta methods, adaptive timestepping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">9. ODEs III: Linear oscillations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stiffness_implicit.html">10. Stiffness and stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_4_nonlinear_oscillations.html">11. ODEs IV: Nonlinear oscillations</a></li>
 </ul>
 
     </div>
@@ -454,16 +455,16 @@ document.write(`
 \[ p(x) = \sum_{k = 0}^{n}a_k x^k, \]</div>
 
 so that the function evaluations become constraints</p>
-<div class="amsmath math notranslate nohighlight" id="equation-195c8f27-d3ff-4b6c-bfd6-4e9e1e68b7c2">
-<span class="eqno">()<a class="headerlink" href="#equation-195c8f27-d3ff-4b6c-bfd6-4e9e1e68b7c2" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-68befded-db64-475b-a9f3-6fecddaefdd1">
+<span class="eqno">()<a class="headerlink" href="#equation-68befded-db64-475b-a9f3-6fecddaefdd1" title="Permalink to this equation">#</a></span>\[\begin{align}
 p(x_0) &amp;= a_0 + a_1 x_0 + a_2 x_0^2 + \ldots + a_n x_0^n = y_0,\\
 p(x_1) &amp;= a_0 + a_1 x_1 + a_2 x_1^2 + \ldots + a_n x_1^n = y_1,\\
 \vdots &amp;\vphantom{=}\\
 p(x_n) &amp;= a_0 + a_1 x_n + a_2 x_n^2 + \ldots + a_n x_n^n = y_n.
 \end{align}\]</div>
 <p>This can be rewritten rather compactly as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e1318794-dd97-4dc2-ba10-31d6978044f9">
-<span class="eqno">()<a class="headerlink" href="#equation-e1318794-dd97-4dc2-ba10-31d6978044f9" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-18b11413-5635-4a02-ac06-d58560f0b915">
+<span class="eqno">()<a class="headerlink" href="#equation-18b11413-5635-4a02-ac06-d58560f0b915" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \begin{bmatrix}
 1 &amp; x_0 &amp; x_0^2 &amp; \ldots &amp; x_0^n \\
 1 &amp; x_1 &amp; x_1^2 &amp; \ldots &amp; x_1^n \\
@@ -715,7 +716,7 @@ Now try some other functions that require higher-order interpolation either beca
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/7d3d46e63e8204301a627d1b5287b2f885b40ac88aaa57a5f05d077715488099.png" src="_images/7d3d46e63e8204301a627d1b5287b2f885b40ac88aaa57a5f05d077715488099.png" />
+<img alt="_images/830047e7cd4e526fe876038d3e76e4a6f2cb2d253f299c3cc2bb49beb938e826.png" src="_images/830047e7cd4e526fe876038d3e76e4a6f2cb2d253f299c3cc2bb49beb938e826.png" />
 </div>
 </div>
 <div class="admonition-question admonition">
@@ -817,7 +818,7 @@ Therefore,</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/6f32d8883d2206a5e1e11d268e3def257193132e5ce05a8f00f2d75d55ad8732.png" src="_images/6f32d8883d2206a5e1e11d268e3def257193132e5ce05a8f00f2d75d55ad8732.png" />
+<img alt="_images/47b8af71ae007cabd0571536bf711e6d77ecba730d7616fd3e3480c6d9d59be2.png" src="_images/47b8af71ae007cabd0571536bf711e6d77ecba730d7616fd3e3480c6d9d59be2.png" />
 </div>
 </div>
 </section>

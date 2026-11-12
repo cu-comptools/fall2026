@@ -1,0 +1,895 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>11. ODEs IV: Nonlinear oscillations &#8212; Computational Tools for Multiscale Problems</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'ODEs_4_nonlinear_oscillations';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="10. Stiffness and stability" href="stiffness_implicit.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.jpeg" class="logo__image only-light" alt="Computational Tools for Multiscale Problems - Home"/>
+    <script>document.write(`<img src="_static/logo.jpeg" class="logo__image only-dark" alt="Computational Tools for Multiscale Problems - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="course_introduction.html">0. Course introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="floatingpoint.html">1. Floating point representation and roundoff error</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conditionnumber.html">2. Conditioning of a problem and the condition number</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stability.html">3. Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">4. Interpolation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quadrature.html">5. Smooth quadrature</a></li>
+<li class="toctree-l1"><a class="reference internal" href="complex_analysis_notes.html">6. Complex analysis fundamentals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">7. ODEs I: Spectral collocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_1_RK.html">8. ODEs II: Runge–Kutta methods, adaptive timestepping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">9. ODEs III: Linear oscillations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stiffness_implicit.html">10. Stiffness and stability</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">11. ODEs IV: Nonlinear oscillations</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/cu-comptools/fall2026/main?urlpath=tree/ODEs_4_nonlinear_oscillations.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/cu-comptools/fall2026" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/cu-comptools/fall2026/issues/new?title=Issue%20on%20page%20%2FODEs_4_nonlinear_oscillations.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/ODEs_4_nonlinear_oscillations.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>11. ODEs IV: Nonlinear oscillations</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#periodic-orbits-and-their-stability">11.1 Periodic orbits and their stability</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linearization">11.1.1 Linearization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#characteristic-multipliers">11.1.2 Characteristic multipliers</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-not-just-use-an-ivp-solver">11.2 Why not just use an IVP solver?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-lindstedt-poincare-technique">11.3 The Lindstedt–Poincaré technique</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-a-regular-perturbation-expansion-fails">11.3.1 Why a regular perturbation expansion fails</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analytic-lindstedt-poincare">11.3.2 Analytic Lindstedt–Poincaré</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numerical-lindstedt-poincare">11.4 Numerical Lindstedt–Poincaré</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-duffing-equation-in-hamiltonian-form">11.4.1 The Duffing equation in Hamiltonian form</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-correction-iteration-for-the-duffing-oscillator">11.4.2 One correction iteration (for the Duffing oscillator)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-general-correction-equation">11.4.3 The general correction equation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fourier-interpolation">11.5 Fourier interpolation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#representing-the-whole-periodic-orbit">11.5.1 Representing the whole periodic orbit</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isolated-and-non-isolated-periodic-orbits">11.6 Isolated and non-isolated periodic orbits</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="odes-iv-nonlinear-oscillations">
+<h1>11. ODEs IV: Nonlinear oscillations<a class="headerlink" href="#odes-iv-nonlinear-oscillations" title="Link to this heading">#</a></h1>
+<p>In the previous chapters, we studied numerical methods for solving initial value problems (IVPs) associated with <strong>linear</strong> ordinary differential equations. This included some lesser-known, specialized methods to deal with oscillatory solutions.
+In this chapter, we’ll look at the (limited) toolbox for solving <strong>nonlinear</strong> oscillatory ODEs, with a focus on <strong>finding periodic orbits/solutions</strong>, rather than following one trajectory for a prescribed length of time. The frequency/period of the orbits we seek are unknown a priori – finding them is part of the numerical solution.</p>
+<p>We’ll first discuss how to characterize the stability of a periodic orbit, and why simply running an ODE solver is not a reliable method for finding one. Then we’ll introduce the <strong>Lindstedt–Poincaré method</strong>, an analytic perturbation method for finding periodic orbit solution on which we’ll build a numerical, iterative algorithm.</p>
+<div class="warning admonition">
+<p class="admonition-title">Additional resource</p>
+<p>Divakar Viswanath (2001), <a class="reference external" href="https://public.websites.umich.edu/divakar/4-Viswanath2001-LindstedtPoincare.pdf"><em>The Lindstedt–Poincaré Technique as an Algorithm for Computing Periodic Orbits</em></a>, <em>SIAM Review</em>, <strong>43</strong>(3), 478–495. The notation for the numerical iteration below follows Section 2 of this paper.</p>
+</div>
+<section id="periodic-orbits-and-their-stability">
+<h2>11.1 Periodic orbits and their stability<a class="headerlink" href="#periodic-orbits-and-their-stability" title="Link to this heading">#</a></h2>
+<p>Consider an autonomous system of nonlinear ODEs</p>
+<div class="amsmath math notranslate nohighlight" id="equation-0a828dd2-02a4-458b-b08a-7465c882c4ca">
+<span class="eqno">(22)<a class="headerlink" href="#equation-0a828dd2-02a4-458b-b08a-7465c882c4ca" title="Permalink to this equation">#</a></span>\[\begin{align}
+\dot{x}(t) &amp;= f(x(t)), \qquad x(t)\in\mathbb{R}^d,
+\end{align}\]</div>
+<p>where a dot denotes differentiation with respect to <span class="math notranslate nohighlight">\(t\)</span>. Assume that <span class="math notranslate nohighlight">\(f\)</span> is at least twice continuously differentiable (though, in many applications, it will be analytic). We would like to calculate a <em>periodic orbit</em>: a nonconstant solution <span class="math notranslate nohighlight">\(x(t)\)</span> for which</p>
+<div class="math notranslate nohighlight">
+\[x(t+T)=x(t)\qquad \forall t,\]</div>
+<p>for some period <span class="math notranslate nohighlight">\(T&gt;0\)</span>. Its frequency is <span class="math notranslate nohighlight">\(\omega=2\pi/T\)</span>. Both the orbit <span class="math notranslate nohighlight">\(x(t)\)</span> and <span class="math notranslate nohighlight">\(T\)</span> are unknown.</p>
+<p>To see why simple Runge–Kutta methods don’t always work in the above example, we have to analyze this ODE a bit further.</p>
+<section id="linearization">
+<h3>11.1.1 Linearization<a class="headerlink" href="#linearization" title="Link to this heading">#</a></h3>
+<p>To see how solutions of the nonlinear ODE behave, it is common to perform stability analysis by linearization as follows. Suppose <span class="math notranslate nohighlight">\(x(t)\)</span> is a periodic orbit. Perturb it by a small displacement <span class="math notranslate nohighlight">\(\delta x(t)\)</span> and expand the right-hand-side in a Taylor series around <span class="math notranslate nohighlight">\(x(t)\)</span> to get</p>
+<div class="amsmath math notranslate nohighlight" id="equation-e98ef5ae-afa6-4253-ab17-c23d313d1e99">
+<span class="eqno">(23)<a class="headerlink" href="#equation-e98ef5ae-afa6-4253-ab17-c23d313d1e99" title="Permalink to this equation">#</a></span>\[\begin{align}
+\frac{d}{dt}(x+\delta x)
+&amp;=f(x+\delta x)\\
+&amp;=f(x)+\left.\frac{\partial f}{\partial x}\right|_{x=x(t)}\delta x+\mathcal{O}(\|\delta x\|^2).
+\end{align}\]</div>
+<p>Subtracting <span class="math notranslate nohighlight">\(\dot{x}=f(x)\)</span>, denoting <span class="math notranslate nohighlight">\(\delta x(t) = y(t)\)</span>, and neglecting quadratic terms gives the <em>variational equation</em></p>
+<div class="math notranslate nohighlight" id="equation-ch11-variational">
+<span class="eqno">(24)<a class="headerlink" href="#equation-ch11-variational" title="Link to this equation">#</a></span>\[\dot y(t)=A(t)y(t),\qquad
+A(t)=\left.\frac{\partial f}{\partial x}\right|_{x=x(t)}.\]</div>
+<p>Here <span class="math notranslate nohighlight">\(A(t+T)=A(t)\)</span> because <span class="math notranslate nohighlight">\(x(t)\)</span> is periodic. Let <span class="math notranslate nohighlight">\(Y(t)\in\mathbb{R}^{d\times d}\)</span> be the fundamental matrix solution, defined by</p>
+<div class="math notranslate nohighlight">
+\[\dot Y(t)=A(t)Y(t),\qquad Y(0)=I,\]</div>
+<p>where <span class="math notranslate nohighlight">\(I\)</span> is a <span class="math notranslate nohighlight">\(d \times d\)</span> identity matrix. Each column of <span class="math notranslate nohighlight">\(Y(t)\)</span> is a solution of the variational equation that starts from a different initial condition, with one component of <span class="math notranslate nohighlight">\(y(0)\)</span> being 1, the rest 0. Due to the linearity of the variational equation, we can linearly combine these <span class="math notranslate nohighlight">\(d\)</span> individual solutions to match any initial condition, meaning <span class="math notranslate nohighlight">\(y(t)=Y(t)y(0)\)</span>. The matrix</p>
+<div class="math notranslate nohighlight" id="equation-ch11-monodromy">
+<span class="eqno">(25)<a class="headerlink" href="#equation-ch11-monodromy" title="Link to this equation">#</a></span>\[M=Y(T)\]</div>
+<p>is called the <strong>monodromy matrix</strong>. It maps an infinitesimal perturbation through one period: <span class="math notranslate nohighlight">\(y(T)=My(0)\)</span>. Its eigenvalues <span class="math notranslate nohighlight">\(\lambda_i\)</span> are the <em>Floquet multipliers</em> (the nontrivial ones are often called <em>characteristic multipliers</em>).</p>
+<p>There is always a multiplier <span class="math notranslate nohighlight">\(\lambda=1\)</span>: the perturbation <span class="math notranslate nohighlight">\(y(t)=\dot{x}(t)\)</span> solves the variational equation, and <span class="math notranslate nohighlight">\(\dot{x}(T)=\dot{x}(0)\)</span>. It corresponds to starting at a slightly different point <strong>along the same orbit</strong>.</p>
+</section>
+<section id="characteristic-multipliers">
+<h3>11.1.2 Characteristic multipliers<a class="headerlink" href="#characteristic-multipliers" title="Link to this heading">#</a></h3>
+<p>The multipliers other than the compulsory <span class="math notranslate nohighlight">\(1\)</span> determine the linear behavior <em>transverse</em> to the orbit:</p>
+<ul class="simple">
+<li><p>If all transverse multipliers satisfy <span class="math notranslate nohighlight">\(|\lambda_i|&lt;1\)</span>, the orbit is attracting (asymptotically stable).</p></li>
+<li><p>If all transverse multipliers satisfy <span class="math notranslate nohighlight">\(|\lambda_i|&gt;1\)</span>, the orbit is repelling in forward time.</p></li>
+<li><p>If some are inside and some outside the unit circle, the orbit is a saddle.</p></li>
+<li><p>If additional multipliers lie on the unit circle, the linearization alone may not decide the nonlinear stability.</p></li>
+</ul>
+<p>For example, if the dominant contracting multiplier has magnitude <span class="math notranslate nohighlight">\(0.8\)</span> and the initial displacement in that direction is <span class="math notranslate nohighlight">\(10^{-1}\)</span>, its linearized size after <span class="math notranslate nohighlight">\(n\)</span> periods is approximately <span class="math notranslate nohighlight">\(10^{-1}(0.8)^n\)</span>. This is <strong>geometric (linear) convergence</strong> to the orbit. In contrast, the numerical method described here will have a <strong>quadratically convergent</strong> iteration, meaning it would produce errors <span class="math notranslate nohighlight">\(10^{-1},10^{-2},10^{-4},10^{-8},\ldots\)</span> (when starting from an initial guess that is suitably close to the solution).</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>Why might integrating forward for many periods fail to find a saddle-type periodic orbit, even if the initial condition is very close to it?</p>
+</div>
+</section>
+</section>
+<section id="why-not-just-use-an-ivp-solver">
+<h2>11.2 Why not just use an IVP solver?<a class="headerlink" href="#why-not-just-use-an-ivp-solver" title="Link to this heading">#</a></h2>
+<p>The most obvious idea for solving an ODE like this would be to pick an initial condition near the desired orbit, integrate <span class="math notranslate nohighlight">\(\dot{x}=f(x)\)</span> forward using a Runge–Kutta or multistep method, and hope that the trajectory converges (to the desired orbit). This can work for an attracting orbit, but it fails for a repelling orbit and, generally, for a saddle orbit. Even when it works, convergence to the orbit is usually only geometric, as predicted by the Floquet multipliers.</p>
+<p>There are algorithms that instead turn periodic-orbit calculation into a nonlinear system. As an example, write <span class="math notranslate nohighlight">\(\phi_s:\mathbb{R}^d\to\mathbb{R}^d\)</span> for the flow map: <span class="math notranslate nohighlight">\(\phi_s(a)\)</span> is the solution obtained by integrating the ODE for time <span class="math notranslate nohighlight">\(s\)</span>, starting at <span class="math notranslate nohighlight">\(a\)</span>. If <span class="math notranslate nohighlight">\(x_1,\ldots,x_{N-1}\)</span> are successive points on a periodic orbit at times <span class="math notranslate nohighlight">\(t_1&lt;\cdots&lt;t_N\)</span>, with <span class="math notranslate nohighlight">\(x_N=x_1\)</span>, then</p>
+<div class="amsmath math notranslate nohighlight" id="equation-f1863203-87e6-48a8-a0ed-e0ad42bc199f">
+<span class="eqno">(26)<a class="headerlink" href="#equation-f1863203-87e6-48a8-a0ed-e0ad42bc199f" title="Permalink to this equation">#</a></span>\[\begin{align}
+\phi_{t_2-t_1}(x_1)&amp;=x_2,\\
+\phi_{t_3-t_2}(x_2)&amp;=x_3,\\
+&amp;\ \vdots\\
+\phi_{t_N-t_{N-1}}(x_{N-1})&amp;=x_1.
+\end{align}\]</div>
+<p>These are <em>multiple-shooting</em> equations. Their unknowns include the points and segment lengths, and <span class="math notranslate nohighlight">\(T=t_N-t_1\)</span>. With appropriate additional constraints they can be solved by Newton’s method. The software package AUTO implements an approach based on the above strategy.</p>
+<p>The calculation of periodic orbits, much like finding a root of <span class="math notranslate nohighlight">\(f(x)=0\)</span>, generally requires a <strong>sufficiently good initial guess</strong>. The main advantage of Newton-type algorithms is that, near a regular solution, their convergence can be quadratic instead of geometric.</p>
+<p>In what follows, we’ll combine three ideas: the Lindstedt–Poincaré technique from perturbation theory, Newton’s method, and Fourier interpolation.</p>
+</section>
+<section id="the-lindstedt-poincare-technique">
+<h2>11.3 The Lindstedt–Poincaré technique<a class="headerlink" href="#the-lindstedt-poincare-technique" title="Link to this heading">#</a></h2>
+<section id="why-a-regular-perturbation-expansion-fails">
+<h3>11.3.1 Why a regular perturbation expansion fails<a class="headerlink" href="#why-a-regular-perturbation-expansion-fails" title="Link to this heading">#</a></h3>
+<p>Consider the <em>Duffing oscillator</em></p>
+<div class="math notranslate nohighlight" id="equation-ch11-duffing">
+<span class="eqno">(27)<a class="headerlink" href="#equation-ch11-duffing" title="Link to this equation">#</a></span>\[\ddot{x}+x+\varepsilon x^3=0,\qquad x(0)=1,\qquad \dot{x}(0)=0,\]</div>
+<p>with <span class="math notranslate nohighlight">\(0&lt;\varepsilon\ll 1\)</span>. At <span class="math notranslate nohighlight">\(\varepsilon=0\)</span>, the ODE is linear (a simple harmonic oscillator), with a frequency of <span class="math notranslate nohighlight">\(\omega_0 = 1\)</span> and solution <span class="math notranslate nohighlight">\(x_0(t)=\cos t\)</span>. Let’s try a regular power series to represent the solution, starting from an initial guess <span class="math notranslate nohighlight">\(x_0(t)\)</span>, and adding successively smaller corrections,</p>
+<div class="math notranslate nohighlight">
+\[x(t)=x_0(t)+\varepsilon x_1(t)+\varepsilon^2x_2(t)+\cdots.\]</div>
+<p>Substitute it into the ODE and equate powers of <span class="math notranslate nohighlight">\(\varepsilon\)</span>. At orders <span class="math notranslate nohighlight">\(\varepsilon^0\)</span> and <span class="math notranslate nohighlight">\(\varepsilon^1\)</span>, respectively, we obtain</p>
+<div class="amsmath math notranslate nohighlight" id="equation-3ab9d478-8ed9-4c48-937e-f171cf7d4462">
+<span class="eqno">(28)<a class="headerlink" href="#equation-3ab9d478-8ed9-4c48-937e-f171cf7d4462" title="Permalink to this equation">#</a></span>\[\begin{align}
+\ddot{x}_0+x_0&amp;=0,\\
+\ddot{x}_1+x_1&amp;=-x_0^3.
+\end{align}\]</div>
+<p>A solution to the <span class="math notranslate nohighlight">\(\varepsilon^0\)</span>-order equation that satisfies the initial conditions is <span class="math notranslate nohighlight">\(x_0(t) = \cos(t)\)</span>, which turns the second (<span class="math notranslate nohighlight">\(\varepsilon^1\)</span>) equation into</p>
+<div class="math notranslate nohighlight">
+\[ \ddot{x}_1+x_1=-\frac34\cos t-\frac14\cos 3t.\]</div>
+<p>For the <span class="math notranslate nohighlight">\(x_1\)</span> (and all subsequent) correction to satisfy the initial conditions, we need to set <span class="math notranslate nohighlight">\(x_1(0)=\dot{x}_1(0)=0\)</span>. Like the ODE for <span class="math notranslate nohighlight">\(x_1(t)\)</span>, all subsequent ODEs for the <span class="math notranslate nohighlight">\(x_i(t)\)</span>-s will look like simple harmonic oscillators, with a forcing term (inhomogeneous right-hand-side) determined by the previous correction(s). Solving the ODE for <span class="math notranslate nohighlight">\(x_1(t)\)</span> gives</p>
+<div class="math notranslate nohighlight" id="equation-ch11-secular">
+<span class="eqno">(29)<a class="headerlink" href="#equation-ch11-secular" title="Link to this equation">#</a></span>\[x_1(t)=\frac{\cos 3t-\cos t}{32}-\frac38t\sin t.\]</div>
+<p>The term <span class="math notranslate nohighlight">\(t\sin t\)</span> grows in amplitude with <span class="math notranslate nohighlight">\(t\)</span>. It is called a <strong>secular term</strong>, and it makes the perturbation approximation invalid when <span class="math notranslate nohighlight">\(\varepsilon t\)</span> is no longer small. It is unphysical for the true solution of the oscillator to grow without bounds, as it doesn’t conserve energy (which should be conserved for the Duffing oscillator). It is also clearly not a periodic orbit. The core of the problem is that we expanded around an oscillator with the <em>wrong frequency</em>, i.e. we must allow for the frequency of the orbit/solution we seek to be slightly different from our initial guess, <span class="math notranslate nohighlight">\(\omega_0\)</span>.</p>
+</section>
+<section id="analytic-lindstedt-poincare">
+<h3>11.3.2 Analytic Lindstedt–Poincaré<a class="headerlink" href="#analytic-lindstedt-poincare" title="Link to this heading">#</a></h3>
+<p>The Lindstedt–Poincaré idea is to allow the frequency to change by introducing the <em>strained time</em> (or rescaled time)</p>
+<div class="math notranslate nohighlight">
+\[\tau=\omega t,\qquad \omega=\omega_0+\varepsilon\omega_1+\varepsilon^2\omega_2+\ldots,\qquad \omega_0=1.\]</div>
+<p>Now write <span class="math notranslate nohighlight">\(x(\tau)=x_0(\tau)+\varepsilon x_1(\tau)+\ldots\)</span>. In the variable <span class="math notranslate nohighlight">\(\tau\)</span>, the original differential equation becomes</p>
+<div class="math notranslate nohighlight">
+\[\omega^2\frac{d^2x}{d\tau^2}+x+\varepsilon x^3=0.\]</div>
+<p>At zeroth order in <span class="math notranslate nohighlight">\(\varepsilon\)</span> we again have <span class="math notranslate nohighlight">\(x_0(\tau)=\cos\tau\)</span>. At first order,</p>
+<div class="amsmath math notranslate nohighlight" id="equation-b8279ccf-213b-4c45-a5a0-3cf430d02625">
+<span class="eqno">(30)<a class="headerlink" href="#equation-b8279ccf-213b-4c45-a5a0-3cf430d02625" title="Permalink to this equation">#</a></span>\[\begin{align}
+x_1''+x_1
+&amp;=-2\omega_1x_0''-x_0^3\\
+&amp;=\left(2\omega_1-\frac34\right)\cos\tau-\frac14\cos3\tau.
+\end{align}\]</div>
+<p>This has the (parametric) solution</p>
+<div class="math notranslate nohighlight">
+\[
+x_1 = \frac{1}{32}(\cos 3\tau - \cos \tau) + (\omega_1 - \frac{3}{8})\tau \sin \tau.
+\]</div>
+<p>It is clear that with the choice <span class="math notranslate nohighlight">\(\omega_1 = \frac{3}{8}\)</span>, we can get rid of the problematic secular term. Then the frequency of the first-order accurate approximation of the orbit we seek is</p>
+<div class="math notranslate nohighlight" id="equation-ch11-freq-first">
+<span class="eqno">(31)<a class="headerlink" href="#equation-ch11-freq-first" title="Link to this equation">#</a></span>\[\omega=1+\frac38\varepsilon+\mathcal{O}(\varepsilon^2),\]</div>
+<p>And the first-order accurate estimate for the solution is</p>
+<div class="math notranslate nohighlight">
+\[x(t)\approx \cos(\omega t)+\frac{\varepsilon}{32}\left[\cos(3\omega t)-\cos(\omega t)\right],\qquad
+\omega\approx1+\frac38\varepsilon.\]</div>
+<p>In a nutshell, allowing the frequency of the orbit we seek to be different than the inital guess has introduced a new unknown (<span class="math notranslate nohighlight">\(\omega_1\)</span>), whose value we fixed by requiring the solution <span class="math notranslate nohighlight">\(x_0 + \varepsilon x_1\)</span> to be periodic with a frequency <span class="math notranslate nohighlight">\(\omega = \omega_0 + \varepsilon \omega_1\)</span>. This necessarily forces the secular terms to be zero and prevents the solution from growing without bounds. At each iteration of this analytic version of the Poincaré–Lindstedt method, a new pair of unknowns is introduced (<span class="math notranslate nohighlight">\(x_i\)</span> and <span class="math notranslate nohighlight">\(\omega_i\)</span>), and a new pair of constraints come from (1) satisfying the ODE, and (2) setting a secular term to zero.</p>
+<p>Below we compare the long-time behavior of the approximation for the solution of the Duffing equation with <span class="math notranslate nohighlight">\(\varepsilon = 0.1\)</span> resulting from a regular perturbation expansion, and the Lindstedt–Poincaré.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">si</span>
+
+<span class="n">eps</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">duffing_rhs</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="n">eps</span><span class="p">):</span>
+    <span class="n">q</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">state</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">p</span><span class="p">,</span> <span class="o">-</span><span class="n">q</span> <span class="o">-</span> <span class="n">epsilon</span><span class="o">*</span><span class="n">q</span><span class="o">**</span><span class="mi">3</span><span class="p">])</span>
+
+<span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">55.0</span><span class="p">,</span> <span class="mi">1600</span><span class="p">)</span>
+<span class="n">sol</span> <span class="o">=</span> <span class="n">si</span><span class="o">.</span><span class="n">solve_ivp</span><span class="p">(</span><span class="n">duffing_rhs</span><span class="p">,</span> <span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span> <span class="p">[</span><span class="mf">1.</span><span class="p">,</span><span class="mf">0.</span><span class="p">],</span>
+                   <span class="n">t_eval</span><span class="o">=</span><span class="n">t</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;DOP853&#39;</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">2e-12</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">2e-13</span><span class="p">)</span>
+<span class="n">q_true</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">q_regular</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">+</span> <span class="n">eps</span><span class="o">*</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">t</span><span class="p">)</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t</span><span class="p">))</span><span class="o">/</span><span class="mi">32</span> <span class="o">-</span> <span class="mi">3</span><span class="o">*</span><span class="n">t</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">tau</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">eps</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span><span class="o">*</span><span class="n">t</span>
+<span class="n">q_lindstedt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">tau</span><span class="p">)</span> <span class="o">+</span> <span class="n">eps</span><span class="o">*</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">tau</span><span class="p">)</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">tau</span><span class="p">))</span><span class="o">/</span><span class="mi">32</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mf">4.2</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">q_true</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Numerical solution&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">q_regular</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.3</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Regular perturbation&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">q_lindstedt</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Lindstedt--Poincare, first order&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;$t$&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;$x(t)$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/e1b40dba34057eb78cf505704f386e800f636601331c002821519926b85bae28.png" src="_images/e1b40dba34057eb78cf505704f386e800f636601331c002821519926b85bae28.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="numerical-lindstedt-poincare">
+<h2>11.4 Numerical Lindstedt–Poincaré<a class="headerlink" href="#numerical-lindstedt-poincare" title="Link to this heading">#</a></h2>
+<p>The perturbative derivation above assumes that <span class="math notranslate nohighlight">\(\varepsilon\)</span> is small. Viswanath’s (the author of the paper listed at the top) observation is that we can instead linearize the ODE about an approximate periodic orbit and solve for a correction, without discarding terms in the Jacobian just because they contain <span class="math notranslate nohighlight">\(\varepsilon\)</span>. This gives an iterative numerical algorithm that converges more quickly than the analytic Lindstedt–Poincaré, and is purely numerical (i.e. requires no symbolic algebra). The paper also proposes to represent the initial guess, <span class="math notranslate nohighlight">\(x_0\)</span> and all other functions in terms of a truncated Fourier series, which by construction ensures that all solutions will be periodic.</p>
+<section id="the-duffing-equation-in-hamiltonian-form">
+<h3>11.4.1 The Duffing equation in Hamiltonian form<a class="headerlink" href="#the-duffing-equation-in-hamiltonian-form" title="Link to this heading">#</a></h3>
+<p>Following the paper, let us introduce the generalized poisition, <span class="math notranslate nohighlight">\(q=x\)</span>, and momentum <span class="math notranslate nohighlight">\(p=\dot{q}\)</span>. The Duffing equation becomes</p>
+<div class="math notranslate nohighlight">
+\[\dot{q}=p,\qquad \dot{p}=-q-\varepsilon q^3.\]</div>
+<p>The associated Hamiltonian (a quantity expressing the total energy in the system) is</p>
+<div class="math notranslate nohighlight" id="equation-ch11-energy">
+<span class="eqno">(32)<a class="headerlink" href="#equation-ch11-energy" title="Link to this equation">#</a></span>\[H(q,p)=\frac{p^2}{2}+\frac{q^2}{2}+\frac{\varepsilon q^4}{4}.\]</div>
+<p>The Hamiltoninan is a conserved quantity in this particular system, and may be used to derive the equation(s) of motion as <span class="math notranslate nohighlight">\(\dot q=\partial H/\partial p\)</span> and <span class="math notranslate nohighlight">\(\dot p=-\partial H/\partial q\)</span>. You can check for yourself that (1) these Hamiltonian equations of motion agree with the original ODE, and (2) that the total derivative of the Hamiltonian, <span class="math notranslate nohighlight">\(dH/dt=0\)</span>, i.e. the Hamiltonian is conserved. For <span class="math notranslate nohighlight">\(\varepsilon&gt;0\)</span>, this means that the solutions of the ODE in phase space (in the <span class="math notranslate nohighlight">\(q\)</span>-<span class="math notranslate nohighlight">\(p\)</span> plane) are closed contours, lying on level curves of the Hamiltonian, and they are all periodic. These periodic orbits are <strong>not isolated:</strong> varying the initial amplitude gives a continuous family of distinct periodic orbits (with different frequencies).</p>
+<p>Below are some constant-Hamiltonian orbits of the Duffing oscillator with <span class="math notranslate nohighlight">\(\varepsilon = 0.1\)</span> in phase space, starting from different amplitudes (<span class="math notranslate nohighlight">\(q(0)\)</span>). The constant-Hamiltonian orbits form a continuous family, each curve selected by a different initial condition.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">6.4</span><span class="p">,</span><span class="mf">5.0</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">amplitude</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">]:</span>
+    <span class="n">energy</span> <span class="o">=</span> <span class="n">amplitude</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="n">eps</span><span class="o">*</span><span class="n">amplitude</span><span class="o">**</span><span class="mi">4</span><span class="o">/</span><span class="mi">4</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">amplitude</span><span class="p">,</span> <span class="n">amplitude</span><span class="p">,</span> <span class="mi">700</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">energy</span> <span class="o">-</span> <span class="n">q</span><span class="o">*</span><span class="n">q</span> <span class="o">-</span> <span class="n">eps</span><span class="o">*</span><span class="n">q</span><span class="o">**</span><span class="mi">4</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">line</span><span class="p">,</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">fr</span><span class="s1">&#39;$q(0)=</span><span class="si">{</span><span class="n">amplitude</span><span class="si">:</span><span class="s1">g</span><span class="si">}</span><span class="s1">$&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="o">-</span><span class="n">p</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">line</span><span class="o">.</span><span class="n">get_color</span><span class="p">(),</span> <span class="n">lw</span><span class="o">=</span><span class="mf">1.8</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">([</span><span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;$q$&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;$p$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s1">&#39;equal&#39;</span><span class="p">,</span> <span class="n">adjustable</span><span class="o">=</span><span class="s1">&#39;box&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span> <span class="o">=</span> <span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/caf146e9ebd00575d4a32820ada41718ce16aaaa9e5c63c6182714f2e5d24cef.png" src="_images/caf146e9ebd00575d4a32820ada41718ce16aaaa9e5c63c6182714f2e5d24cef.png" />
+</div>
+</div>
+</section>
+<section id="one-correction-iteration-for-the-duffing-oscillator">
+<h3>11.4.2 One correction iteration (for the Duffing oscillator)<a class="headerlink" href="#one-correction-iteration-for-the-duffing-oscillator" title="Link to this heading">#</a></h3>
+<p>We rescale time by the unknown frequency of the desired orbit as <span class="math notranslate nohighlight">\(\tau=\omega t\)</span>, so that the ODEs become</p>
+<div class="math notranslate nohighlight" id="equation-ch11-duffing-rescaled">
+<span class="eqno">(33)<a class="headerlink" href="#equation-ch11-duffing-rescaled" title="Link to this equation">#</a></span>\[\omega\frac{dq}{d\tau}=p,\qquad
+\omega\frac{dp}{d\tau}=-q-\varepsilon q^3.\]</div>
+<p>With this rescaling, we seek <span class="math notranslate nohighlight">\(2\pi\)</span>-periodic functions <span class="math notranslate nohighlight">\(q(\tau),p(\tau)\)</span>. (This will have a further advantage for numerical computation that we’ll see later.) We start from the initial guesses</p>
+<div class="math notranslate nohighlight">
+\[\omega_0=1,\qquad q_0(\tau)=\cos\tau,\qquad p_0(\tau)=-\sin\tau\]</div>
+<p>that satisfy the initial conditions <span class="math notranslate nohighlight">\(q(0) = 1\)</span>, <span class="math notranslate nohighlight">\(p(0) = 0\)</span>. We make a small correction to each quantity,</p>
+<div class="math notranslate nohighlight">
+\[\omega_1=\omega_0+\delta\omega,\qquad
+q_1=q_0+\delta q,\qquad p_1=p_0+\delta p.\]</div>
+<p>The corrections <span class="math notranslate nohighlight">\(\delta q,\delta p\)</span> should also be <span class="math notranslate nohighlight">\(2\pi\)</span> periodic, since the whole solution needs to be <span class="math notranslate nohighlight">\(2\pi\)</span> periodic. Substitute these expressions into the nonlinear equations and drop all terms quadratic or higher in the corrections <span class="math notranslate nohighlight">\(\delta q,\delta p,\delta\omega\)</span> to get</p>
+<div class="math notranslate nohighlight" id="equation-ch11-duffing-linearized">
+<span class="eqno">(34)<a class="headerlink" href="#equation-ch11-duffing-linearized" title="Link to this equation">#</a></span>\[\begin{split}\omega_0\frac{d}{d\tau}
+\begin{pmatrix}\delta q\\\delta p\end{pmatrix}
+=
+\begin{pmatrix}0&amp;1\\-1-3\varepsilon\cos^2\tau&amp;0\end{pmatrix}
+\begin{pmatrix}\delta q\\\delta p\end{pmatrix}
++\delta\omega\begin{pmatrix}\sin\tau\\\cos\tau\end{pmatrix}
+-\begin{pmatrix}0\\\varepsilon\cos^3\tau\end{pmatrix}.\end{split}\]</div>
+<p>Notice the factor <span class="math notranslate nohighlight">\(-3\varepsilon\cos^2\tau\)</span> in the matrix. This wasn’t present in the analytic, conventional Lindstedt–Poincaré correction at first order, it is clearly an order <span class="math notranslate nohighlight">\(\varepsilon\)</span> different thant the rest of the terms. In the <strong>numerical</strong> iteration we retain it; doing so is one reason this numerical algorithm has quick(er) convergence.</p>
+<p>Because our approximate orbit already satisfies <span class="math notranslate nohighlight">\(q_0(0)=1\)</span> and <span class="math notranslate nohighlight">\(p_0(0)=0\)</span>, set <span class="math notranslate nohighlight">\(\delta q(0)=\delta p(0)=0\)</span>.
+The equation we obtained for the corrections <span class="math notranslate nohighlight">\(\delta q\)</span> and <span class="math notranslate nohighlight">\(\delta p\)</span> is a set of coupled linear, inhomogeneous ODEs, containing an unknown paramater <span class="math notranslate nohighlight">\(\delta \omega\)</span>. Its solution can be written in terms of this parameter as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{pmatrix}\delta q(\tau)\\\delta p(\tau)\end{pmatrix}
+=f_1(\tau)-\delta\omega\,f_2(\tau),\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(f_1,f_2\)</span> both vanish at <span class="math notranslate nohighlight">\(\tau=0\)</span>, and are particular solutions of the ODE. Note that the homogeneous solution does not enter into <span class="math notranslate nohighlight">\(f_1\)</span> or <span class="math notranslate nohighlight">\(f_2\)</span> due to the zero initial condition, as we’ll see later, due to the non-isolation of the orbits of the Duffing equation.</p>
+<p>To fix the <span class="math notranslate nohighlight">\(\delta \omega\)</span> parameter, we need to minimize secural terms. One was to do that is to minimize the magnitude of the solution at <span class="math notranslate nohighlight">\(\tau = 2\pi\)</span>, i.e. make it as close to periodic as possible (in this case, we started from zero initial conditions). This constraint can be phrased as a scalar least-squares problem,</p>
+<div class="math notranslate nohighlight">
+\[\min_{\delta\omega}\left\|f_1(2\pi)-\delta\omega f_2(2\pi)\right\|_2.\]</div>
+<p>It has the solution (try it yourself: differentiate the expression with respect to <span class="math notranslate nohighlight">\(\delta \omega\)</span>, and set to zero)</p>
+<div class="math notranslate nohighlight" id="equation-ch11-domega">
+<span class="eqno">(35)<a class="headerlink" href="#equation-ch11-domega" title="Link to this equation">#</a></span>\[\delta\omega
+=\frac{f_2(2\pi)^Tf_1(2\pi)}{f_2(2\pi)^Tf_2(2\pi)},\]</div>
+<p>provided <span class="math notranslate nohighlight">\(f_2(2\pi)\ne0\)</span>. We then update the entire orbit and its frequency, and may repeat the step.</p>
+</section>
+<section id="the-general-correction-equation">
+<h3>11.4.3 The general correction equation<a class="headerlink" href="#the-general-correction-equation" title="Link to this heading">#</a></h3>
+<p>The Duffing oscillator represents a special case of a more general problem.
+If we denote the correction vector, <span class="math notranslate nohighlight">\([ \delta q, \delta p]\)</span>, as <span class="math notranslate nohighlight">\(y\)</span>, then we know that the Duffing oscillator has <span class="math notranslate nohighlight">\(y(0) = 0\)</span>. This is not true in general, for isolated orbits, where the correction we need to make to our initial guess <span class="math notranslate nohighlight">\(x_0\)</span> may not be zero at <span class="math notranslate nohighlight">\(\tau = 0\)</span>.
+We also haven’t explained how the correction equation may be written down and solved iteratively without symbolic algebra, which we do below.</p>
+<p>For a general autonomous nonlinear system <span class="math notranslate nohighlight">\(\dot{x}=f(x)\)</span>, rescale time as before,</p>
+<div class="math notranslate nohighlight">
+\[\omega x'(\tau)=f(x(\tau)), \qquad 0\leq\tau\leq 2\pi,\]</div>
+<p>where a prime now denotes differentiation with respect to <span class="math notranslate nohighlight">\(\tau\)</span>. Let <span class="math notranslate nohighlight">\(x_0(\tau)\)</span> be an initial, approximate <span class="math notranslate nohighlight">\(2\pi\)</span>-periodic orbit and <span class="math notranslate nohighlight">\(\omega_0\)</span> its approximate frequency, which may not satisfy the ODE. In one step, let us make the corrections</p>
+<div class="math notranslate nohighlight">
+\[x=x_0+y,\qquad \omega=\omega_0+\delta\omega.\]</div>
+<p>After substitution back into the ODE and linearization in terms of corrections, the correction <span class="math notranslate nohighlight">\(y\)</span> satisfies</p>
+<div class="math notranslate nohighlight" id="equation-ch11-correction">
+<span class="eqno">(36)<a class="headerlink" href="#equation-ch11-correction" title="Link to this equation">#</a></span>\[\omega_0 y'(\tau)=A(\tau)y(\tau)+r(\tau)-\delta\omega\,x_0'(\tau),\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[A(\tau)=\left.\frac{\partial f}{\partial x}\right|_{x=x_0(\tau)},\qquad
+r(\tau)=f(x_0(\tau))-\omega_0x_0'(\tau).\]</div>
+<p>The function <span class="math notranslate nohighlight">\(r\)</span> is the <strong>ODE residual</strong> of our current approximation. If <span class="math notranslate nohighlight">\(r\equiv0\)</span> and the orbit is periodic, there is nothing to correct since the solution satisfies the ODE, otherwise it is a measure of error.</p>
+<p>Let <span class="math notranslate nohighlight">\(Y(\tau)\)</span> be the fundamental (matrix) solution of <span class="math notranslate nohighlight">\(\omega_0Y'=AY\)</span>, with <span class="math notranslate nohighlight">\(Y(0)=I\)</span>, and denote the (approximate) monodromy matrix as <span class="math notranslate nohighlight">\(M=Y(2\pi)\)</span>. Define <span class="math notranslate nohighlight">\(f_1,f_2\)</span> as the particular solutions that satisfy</p>
+<div class="amsmath math notranslate nohighlight" id="equation-f8325d8d-86ec-4930-9f21-864f5ede6ccd">
+<span class="eqno">(37)<a class="headerlink" href="#equation-f8325d8d-86ec-4930-9f21-864f5ede6ccd" title="Permalink to this equation">#</a></span>\[\begin{align}
+\omega_0 f_1'&amp;=Af_1+r, &amp;f_1(0)&amp;=0,\\
+\omega_0 f_2'&amp;=Af_2+x_0', &amp;f_2(0)&amp;=0.
+\end{align}\]</div>
+<p>Then the general solution of the correction equation is</p>
+<div class="math notranslate nohighlight" id="equation-ch11-general-solution">
+<span class="eqno">(38)<a class="headerlink" href="#equation-ch11-general-solution" title="Link to this equation">#</a></span>\[ y(\tau)=Y(\tau)y(0)+f_1(\tau)-\delta\omega f_2(\tau).\]</div>
+<p>We need to choose <span class="math notranslate nohighlight">\(y(0)\)</span> and <span class="math notranslate nohighlight">\(\delta\omega\)</span> so that <span class="math notranslate nohighlight">\(y(2\pi)=y(0)\)</span>, i.e. enforce periodicity and eliminate secular terms. This, if <span class="math notranslate nohighlight">\(x \in \mathbb{R}^d\)</span>, only provides <span class="math notranslate nohighlight">\(d\)</span> constraints, whereas we have <span class="math notranslate nohighlight">\(d+1\)</span> unknowns (the entries of <span class="math notranslate nohighlight">\(y(0)\)</span>, and the scalar <span class="math notranslate nohighlight">\(\delta \omega\)</span>). We complete the system with an additional constraint, a <strong>phase condition</strong> <span class="math notranslate nohighlight">\(f(x_0(0))^Ty(0)=0\)</span>. This excludes a correction along the direction of the orbit by requiring that the correction is orthogonal to the flow of the orbit, as any correction along the orbit would result in the same orbit. Together these give, for the general <strong>isolated orbit</strong>,</p>
+<div class="math notranslate nohighlight" id="equation-ch11-bordered-system">
+<span class="eqno">(39)<a class="headerlink" href="#equation-ch11-bordered-system" title="Link to this equation">#</a></span>\[\begin{split}\begin{pmatrix}
+I-M &amp; f_2(2\pi)\\
+f(x_0(0))^T &amp; 0
+\end{pmatrix}
+\begin{pmatrix}y(0)\\\delta\omega\end{pmatrix}
+=
+\begin{pmatrix}f_1(2\pi)\\0\end{pmatrix}.\end{split}\]</div>
+<p>A caveat is that the system can be singular if the orbit sought is <strong>degenerate</strong>, or nearly singular if orbits exists close to one another.</p>
+</section>
+</section>
+<section id="fourier-interpolation">
+<h2>11.5 Fourier interpolation<a class="headerlink" href="#fourier-interpolation" title="Link to this heading">#</a></h2>
+<section id="representing-the-whole-periodic-orbit">
+<h3>11.5.1 Representing the whole periodic orbit<a class="headerlink" href="#representing-the-whole-periodic-orbit" title="Link to this heading">#</a></h3>
+<p>The algorithm needs a representation for several <span class="math notranslate nohighlight">\(2\pi\)</span>-periodic functions, e.g. <span class="math notranslate nohighlight">\(x_0\)</span>, so that we may evaluate them at any <span class="math notranslate nohighlight">\(\tau\)</span>. Fourier series are a natural choice, since the functions are periodic:</p>
+<div class="math notranslate nohighlight">
+\[x_0(\tau)\approx\sum_{k=-m}^m a_k e^{ik\tau}.\]</div>
+<p>On an odd number <span class="math notranslate nohighlight">\(n=2m+1\)</span> of equispaced nodes <span class="math notranslate nohighlight">\(\tau_j=2\pi j/n\)</span>, the coefficients can be computed by the FFT. The derivative is obtained by multiplying each coefficient by <span class="math notranslate nohighlight">\(ik\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[x'_0(\tau)\approx\sum_{k=-m}^{m}ik\,a_k e^{ik\tau}.\]</div>
+<p>The FFT costs <span class="math notranslate nohighlight">\(\mathcal{O}(n\log n)\)</span> operations per component. If the orbit is analytic, its Fourier coefficients typically decay exponentially, so modest values of <span class="math notranslate nohighlight">\(n\)</span> may suffice. Nonlinear products can produce higher modes, however, so <span class="math notranslate nohighlight">\(n\)</span> must be large enough to control <strong>aliasing</strong>.</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>Why is Fourier interpolation a more natural representation here than a single high-degree polynomial on <span class="math notranslate nohighlight">\([0,2\pi]\)</span>?</p>
+</div>
+</section>
+</section>
+<section id="isolated-and-non-isolated-periodic-orbits">
+<h2>11.6 Isolated and non-isolated periodic orbits<a class="headerlink" href="#isolated-and-non-isolated-periodic-orbits" title="Link to this heading">#</a></h2>
+<p>There is an important distinction between the analytical result for the numerical algorithm and the Duffing example:</p>
+<ul class="simple">
+<li><p>For an <strong>isolated periodic orbit</strong>, the only unit Floquet multiplier is typically the trivial one corresponding to time translation. The phase condition fixes that freedom, and the linear system can be invertible. Under assumptions of smoothness for <span class="math notranslate nohighlight">\(f\)</span> and nondegeneracy of the orbit, the numerical Lindstedt–Poincare iteration converges <em>quadratically</em> (compare with the slower, exponential convergence of a naive Runge–Kutta method).</p></li>
+<li><p>For a <strong>non-isolated periodic orbit</strong>, as in the Duffing equation, nearby energy levels supply a continuous family of available periodic orbits. This would make the linear system singular, but it is not necessary to solve: we <em>prescribe</em> an amplitude or energy, or add another appropriate constraint to select the orbit desired. Fixing <span class="math notranslate nohighlight">\(q(0)=1\)</span>, <span class="math notranslate nohighlight">\(p(0)=0\)</span> (or, in summary, <span class="math notranslate nohighlight">\(y(0) = 0\)</span>) is the choice we used here.</p></li>
+</ul>
+<p>This distinction also affects the monodromy matrix: for the Duffing equation, both eigenvalues are <span class="math notranslate nohighlight">\(1\)</span>. The family of orbits is therefore not asymptotically attracting. It is precisely the situation in which simply following a nearby trajectory will not lead to finding the desired orbit, so the naive Runge–Kutta approach would fail to converge.</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>Suppose an algorithm produces a very small ODE residual for a periodic-looking trajectory, but its starting amplitude has drifted from <span class="math notranslate nohighlight">\(1\)</span> to <span class="math notranslate nohighlight">\(0.9\)</span>. Has it necessarily found the orbit we requested?</p>
+</div>
+<p>No: a small residual means the computed function nearly satisfies the ODE, but an amplitude constraint is also needed to identify the <strong>particular</strong> member of a non-isolated family.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="stiffness_implicit.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">10. Stiffness and stability</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#periodic-orbits-and-their-stability">11.1 Periodic orbits and their stability</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linearization">11.1.1 Linearization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#characteristic-multipliers">11.1.2 Characteristic multipliers</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-not-just-use-an-ivp-solver">11.2 Why not just use an IVP solver?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-lindstedt-poincare-technique">11.3 The Lindstedt–Poincaré technique</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#why-a-regular-perturbation-expansion-fails">11.3.1 Why a regular perturbation expansion fails</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#analytic-lindstedt-poincare">11.3.2 Analytic Lindstedt–Poincaré</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numerical-lindstedt-poincare">11.4 Numerical Lindstedt–Poincaré</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-duffing-equation-in-hamiltonian-form">11.4.1 The Duffing equation in Hamiltonian form</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#one-correction-iteration-for-the-duffing-oscillator">11.4.2 One correction iteration (for the Duffing oscillator)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-general-correction-equation">11.4.3 The general correction equation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fourier-interpolation">11.5 Fourier interpolation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#representing-the-whole-periodic-orbit">11.5.1 Representing the whole periodic orbit</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#isolated-and-non-isolated-periodic-orbits">11.6 Isolated and non-isolated periodic orbits</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Fruzsina Julia Agocs
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

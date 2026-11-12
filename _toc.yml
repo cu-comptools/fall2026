@@ -19,6 +19,7 @@ chapters:
 - file: ODEs_1_RK
 - file: ODEs_3_asymptotic
 - file: stiffness_implicit
+- file: ODEs_4_nonlinear_oscillations
 # - file: github
 # - file: poly_interp
 # - file: poly_interp2

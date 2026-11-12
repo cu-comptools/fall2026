@@ -62,7 +62,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'stiffness_implicit';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="9. Ordinary differential equations III" href="ODEs_3_asymptotic.html" />
+    <link rel="next" title="11. ODEs IV: Nonlinear oscillations" href="ODEs_4_nonlinear_oscillations.html" />
+    <link rel="prev" title="9. ODEs III: Linear oscillations" href="ODEs_3_asymptotic.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -188,10 +189,11 @@
 <li class="toctree-l1"><a class="reference internal" href="poly_interp.html">4. Interpolation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quadrature.html">5. Smooth quadrature</a></li>
 <li class="toctree-l1"><a class="reference internal" href="complex_analysis_notes.html">6. Complex analysis fundamentals</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">7. Ordinary differential equations I</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ODEs_1_RK.html">8. Ordinary differential equations II</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">9. Ordinary differential equations III</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">7. ODEs I: Spectral collocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_1_RK.html">8. ODEs II: Runge–Kutta methods, adaptive timestepping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">9. ODEs III: Linear oscillations</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">10. Stiffness and stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_4_nonlinear_oscillations.html">11. ODEs IV: Nonlinear oscillations</a></li>
 </ul>
 
     </div>
@@ -447,8 +449,8 @@ document.write(`
 <div><p>An ODE is stiff if the stepsize of a numerical method solving it depends not only on the smoothness of the solution, but is limited by stability.</p>
 </div></blockquote>
 <p>Most explicit methods indeed perform poorly when applied to stiff systems. To demonstrate, we look at the following IVP,</p>
-<div class="amsmath math notranslate nohighlight" id="equation-470a4a9b-64c6-47fe-ab97-703e2cc07eb8">
-<span class="eqno">(20)<a class="headerlink" href="#equation-470a4a9b-64c6-47fe-ab97-703e2cc07eb8" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f190707f-036d-4723-9bd1-f17826bc05cc">
+<span class="eqno">(20)<a class="headerlink" href="#equation-f190707f-036d-4723-9bd1-f17826bc05cc" title="Permalink to this equation">#</a></span>\[\begin{align}
 u' &amp;= u^2 - u^3, \quad t \in (0, \tfrac{2}{\delta}), \\
 u(0) &amp;= \delta,
 \end{align}\]</div>
@@ -676,8 +678,17 @@ then <span class="math notranslate nohighlight">\(R(z)\)</span> for <span class=
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">9. Ordinary differential equations III</p>
+        <p class="prev-next-title">9. ODEs III: Linear oscillations</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="ODEs_4_nonlinear_oscillations.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">11. ODEs IV: Nonlinear oscillations</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
