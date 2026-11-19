@@ -194,6 +194,7 @@
 <li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">9. ODEs III: Linear oscillations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stiffness_implicit.html">10. Stiffness and stability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ODEs_4_nonlinear_oscillations.html">11. ODEs IV: Nonlinear oscillations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BIEs_1_introduction_nystrom.html">12. BIEs I: Introduction and Nystrom discretization</a></li>
 </ul>
 
     </div>
@@ -452,16 +453,16 @@ document.write(`
 \[ p(x) = \sum_{k = 0}^{n}a_k x^k, \]</div>
 
 so that the function evaluations become constraints</p>
-<div class="amsmath math notranslate nohighlight" id="equation-9038dab0-6c6c-441e-af92-3967351eb884">
-<span class="eqno">(1)<a class="headerlink" href="#equation-9038dab0-6c6c-441e-af92-3967351eb884" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-b950f966-c473-4bc7-9424-1076da293747">
+<span class="eqno">(1)<a class="headerlink" href="#equation-b950f966-c473-4bc7-9424-1076da293747" title="Permalink to this equation">#</a></span>\[\begin{align}
 p(x_0) &amp;= a_0 + a_1 x_0 + a_2 x_0^2 + \ldots + a_n x_0^n = y_0,\\
 p(x_1) &amp;= a_0 + a_1 x_1 + a_2 x_1^2 + \ldots + a_n x_1^n = y_1,\\
 \vdots &amp;\vphantom{=}\\
 p(x_n) &amp;= a_0 + a_1 x_n + a_2 x_n^2 + \ldots + a_n x_n^n = y_n.
 \end{align}\]</div>
 <p>This can be rewritten rather compactly as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-021b8f0d-ef6a-4bdf-a378-67fd5af4d323">
-<span class="eqno">(2)<a class="headerlink" href="#equation-021b8f0d-ef6a-4bdf-a378-67fd5af4d323" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-f9936988-92a2-423d-a04e-db29b070e2a9">
+<span class="eqno">(2)<a class="headerlink" href="#equation-f9936988-92a2-423d-a04e-db29b070e2a9" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \begin{bmatrix}
 1 &amp; x_0 &amp; x_0^2 &amp; \ldots &amp; x_0^n \\
 1 &amp; x_1 &amp; x_1^2 &amp; \ldots &amp; x_1^n \\
@@ -713,7 +714,7 @@ Now try some other functions that require higher-order interpolation either beca
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/d11ae3db1f99f52dd73669d5c95b87f0c390158d082c71b630f6142b311ede7b.png" src="_images/d11ae3db1f99f52dd73669d5c95b87f0c390158d082c71b630f6142b311ede7b.png" />
+<img alt="_images/ea2d8e486969a0820d9e10ac8a258a628dc55792234d96abf93ddef48c9f6eab.png" src="_images/ea2d8e486969a0820d9e10ac8a258a628dc55792234d96abf93ddef48c9f6eab.png" />
 </div>
 </div>
 <div class="admonition-question admonition">
@@ -815,7 +816,7 @@ Therefore,</p>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/8abeea7def9508104fdc4445965fb72e5f8af54409e622d548199671a29efb1c.png" src="_images/8abeea7def9508104fdc4445965fb72e5f8af54409e622d548199671a29efb1c.png" />
+<img alt="_images/d977ef4d17c1a4d9cbfd03b18a200198521f91372dfdd984051ca187ed65c9b7.png" src="_images/d977ef4d17c1a4d9cbfd03b18a200198521f91372dfdd984051ca187ed65c9b7.png" />
 </div>
 </div>
 </section>

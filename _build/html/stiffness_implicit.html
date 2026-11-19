@@ -194,6 +194,7 @@
 <li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">9. ODEs III: Linear oscillations</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">10. Stiffness and stability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ODEs_4_nonlinear_oscillations.html">11. ODEs IV: Nonlinear oscillations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BIEs_1_introduction_nystrom.html">12. BIEs I: Introduction and Nystrom discretization</a></li>
 </ul>
 
     </div>
@@ -449,8 +450,8 @@ document.write(`
 <div><p>An ODE is stiff if the stepsize of a numerical method solving it depends not only on the smoothness of the solution, but is limited by stability.</p>
 </div></blockquote>
 <p>Most explicit methods indeed perform poorly when applied to stiff systems. To demonstrate, we look at the following IVP,</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f190707f-036d-4723-9bd1-f17826bc05cc">
-<span class="eqno">(20)<a class="headerlink" href="#equation-f190707f-036d-4723-9bd1-f17826bc05cc" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-b0de235a-941e-4701-87df-3725c7543d16">
+<span class="eqno">(20)<a class="headerlink" href="#equation-b0de235a-941e-4701-87df-3725c7543d16" title="Permalink to this equation">#</a></span>\[\begin{align}
 u' &amp;= u^2 - u^3, \quad t \in (0, \tfrac{2}{\delta}), \\
 u(0) &amp;= \delta,
 \end{align}\]</div>

@@ -194,6 +194,7 @@
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">9. ODEs III: Linear oscillations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stiffness_implicit.html">10. Stiffness and stability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ODEs_4_nonlinear_oscillations.html">11. ODEs IV: Nonlinear oscillations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BIEs_1_introduction_nystrom.html">12. BIEs I: Introduction and Nystrom discretization</a></li>
 </ul>
 
     </div>
@@ -468,8 +469,8 @@ u'(a) &amp;= u'_0.\end{split}\]</div>
 </div>
 </details>
 </div>
-<div class="amsmath math notranslate nohighlight" id="equation-c25de16a-ddaa-420e-aa46-463e50ccc729">
-<span class="eqno">(11)<a class="headerlink" href="#equation-c25de16a-ddaa-420e-aa46-463e50ccc729" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-32d503b9-9f29-4d6b-84ac-6b2d02303a22">
+<span class="eqno">(11)<a class="headerlink" href="#equation-32d503b9-9f29-4d6b-84ac-6b2d02303a22" title="Permalink to this equation">#</a></span>\[\begin{align}
 u'' + \omega_0^2u &amp;= 0 \quad t \in [-1, 1]\\
 u(-1) &amp;= 1, \\
 u'(-1) &amp;= 0.
@@ -509,7 +510,7 @@ u'(-1) &amp;= 0.
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/ed46593d9a54b69db2e5fe571b883f8015eeb074ba2727e2920e00f808c4ca32.png" src="_images/ed46593d9a54b69db2e5fe571b883f8015eeb074ba2727e2920e00f808c4ca32.png" />
+<img alt="_images/9c8f0e6fd0a3f29fee5607704decb16b90ccc9f88a8dba53342209526e8e5774.png" src="_images/9c8f0e6fd0a3f29fee5607704decb16b90ccc9f88a8dba53342209526e8e5774.png" />
 </div>
 </div>
 <p>As expected, the runtime of <code class="docutils literal notranslate"><span class="pre">scipy</span></code>’s default Runge-Kutta solver scales as <span class="math notranslate nohighlight">\(\mathcal{O}(\omega)\)</span>.</p>
@@ -547,11 +548,11 @@ u'(-1) &amp;= 0.
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:13: SyntaxWarning: invalid escape sequence &#39;\o&#39;
 &lt;&gt;:13: SyntaxWarning: invalid escape sequence &#39;\o&#39;
-/tmp/ipykernel_2715440/4246866310.py:13: SyntaxWarning: invalid escape sequence &#39;\o&#39;
+/tmp/ipykernel_304667/4246866310.py:13: SyntaxWarning: invalid escape sequence &#39;\o&#39;
   plt.xlabel(&quot;$\omega$&quot;)
 </pre></div>
 </div>
-<img alt="_images/5eca265a5541416d623498e57db49349af7cd9294775d1fb760568d92696b5b8.png" src="_images/5eca265a5541416d623498e57db49349af7cd9294775d1fb760568d92696b5b8.png" />
+<img alt="_images/959a650d6dde2b1f3fe92635c7443c3cdd1e6dac18db2620aaa71dd061da3f0c.png" src="_images/959a650d6dde2b1f3fe92635c7443c3cdd1e6dac18db2620aaa71dd061da3f0c.png" />
 </div>
 </div>
 <p>Something weird is going on at small values of <span class="math notranslate nohighlight">\(\omega\)</span>. The runtime of <code class="docutils literal notranslate"><span class="pre">time.time()</span></code> itself and other things (e.g. other things running inside a notebook, initialization, etc.) will add to the overall runtime, and may be significant relative to that of the code you want to measure. It’s important to reduce this noise by averaging to get an accurate measurement.</p>
@@ -665,9 +666,9 @@ Solvers will need the following three components to work:</p>
 &lt;&gt;:18: SyntaxWarning: invalid escape sequence &#39;\m&#39;
 &lt;&gt;:17: SyntaxWarning: invalid escape sequence &#39;\o&#39;
 &lt;&gt;:18: SyntaxWarning: invalid escape sequence &#39;\m&#39;
-/tmp/ipykernel_2715440/3941512404.py:17: SyntaxWarning: invalid escape sequence &#39;\o&#39;
+/tmp/ipykernel_304667/3941512404.py:17: SyntaxWarning: invalid escape sequence &#39;\o&#39;
   plt.ylabel(&quot;$x(t) - i\omega_0$&quot;)
-/tmp/ipykernel_2715440/3941512404.py:18: SyntaxWarning: invalid escape sequence &#39;\m&#39;
+/tmp/ipykernel_304667/3941512404.py:18: SyntaxWarning: invalid escape sequence &#39;\m&#39;
   leg = ax.legend([ls], [&#39;$\mathrm{Im}(\\alpha) \in \{ 0, 1, \ldots, 10\}$&#39;],
 </pre></div>
 </div>
@@ -717,8 +718,8 @@ Solvers will need the following three components to work:</p>
 \[R[u](t) = u'' + \omega^2 u = (x' + x^2 + \omega^2)u = R[x]u,\]</div>
 <p>therefore <span class="math notranslate nohighlight">\(R[x] = R[u]/u\)</span>. We need to find how this quantity depends on the width of the interval we apply the defect correction to (the stepsize). Unlike the local truncation error of Runge-Kutta methods, this is not a simple <span class="math notranslate nohighlight">\(\Delta = \mathcal{O}(h^{p+1})\)</span>-type relationship.</p>
 <p>To get an idea of how the residual decreases during iterations of the Riccati defect correction, let’s inspect the first couple terms in the series and their residual:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-9af66980-b32b-4e9d-a5dc-2214c7f9c8c6">
-<span class="eqno">(13)<a class="headerlink" href="#equation-9af66980-b32b-4e9d-a5dc-2214c7f9c8c6" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-7088fbe3-b852-4f90-ab14-ea82c6d8c2fc">
+<span class="eqno">(13)<a class="headerlink" href="#equation-7088fbe3-b852-4f90-ab14-ea82c6d8c2fc" title="Permalink to this equation">#</a></span>\[\begin{align}
 x_0 &amp;= i\omega, \quad  &amp;&amp;R[x_0] = i\omega' = \mathcal{O}(\omega), \\
 x_1 &amp;= i\omega - \frac{\omega'}{2\omega}, \quad &amp;&amp;R[x_1] = \frac{3(\omega')^2}{4\omega^2} - \frac{\omega''}{2\omega} = \mathcal{O}(1).
 \end{align}\]</div>
@@ -730,8 +731,8 @@ x_1 &amp;= i\omega - \frac{\omega'}{2\omega}, \quad &amp;&amp;R[x_1] = \frac{3(\
 <div class="hint admonition">
 <p class="admonition-title">Theorem</p>
 <p>Fix <span class="math notranslate nohighlight">\(t \in \mathbb{R}\)</span>. Let <span class="math notranslate nohighlight">\(\omega\)</span> be analytic in the closed disc <span class="math notranslate nohighlight">\(B_\rho(t) := \{ z \in \mathbb{C}: |z - t| \leq \rho\}\)</span> for some <span class="math notranslate nohighlight">\(\rho &gt; 0\)</span> with bounds</p>
-<div class="amsmath math notranslate nohighlight" id="equation-61b8ed15-4147-44f8-a1b4-c1d329c5c0aa">
-<span class="eqno">(14)<a class="headerlink" href="#equation-61b8ed15-4147-44f8-a1b4-c1d329c5c0aa" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-323830ce-cf30-4e39-99aa-279936f89afe">
+<span class="eqno">(14)<a class="headerlink" href="#equation-323830ce-cf30-4e39-99aa-279936f89afe" title="Permalink to this equation">#</a></span>\[\begin{align}
 \eta_1 \leq &amp;|\omega(z)| \leq \eta_2, \\
 &amp;|\omega'(z)| \leq \eta_3 \leq \frac{\eta_1^2}{18}.
 \end{align}\]</div>
@@ -786,8 +787,8 @@ R_{j+1} &amp;= x_{j+1}' + x^2_{j+1} + \omega^2 \nonumber \\
 <div class="math notranslate nohighlight">
 \[ f'(z) = \frac{1}{2\pi i} \int_{|\xi - t| = \rho_j}\frac{f(\xi)\mathrm{d}\xi}{(\xi - z)^2}, \quad z \in B_{j+1}. \]</div>
 <p>Instead of naively bounding the integrand, we’ll write it in terms of a known integral (which will give a tighter bound),</p>
-<div class="amsmath math notranslate nohighlight" id="equation-4ab27c23-78ac-4726-b24f-2c88d7786256">
-<span class="eqno">(16)<a class="headerlink" href="#equation-4ab27c23-78ac-4726-b24f-2c88d7786256" title="Permalink to this equation">#</a></span>\[\begin{align} 
+<div class="amsmath math notranslate nohighlight" id="equation-666f12b8-be1b-438d-9397-867da884aa2a">
+<span class="eqno">(16)<a class="headerlink" href="#equation-666f12b8-be1b-438d-9397-867da884aa2a" title="Permalink to this equation">#</a></span>\[\begin{align} 
 |f'(z)| &amp;\leq \frac{||f||_j}{2\pi}\int_{|\xi - t| = \rho_j} \frac{|\mathrm{d}\xi|}{|\xi - z|^2} \\
 &amp; = \frac{||f||_j}{2\pi}\int_{0}^{2\pi} \frac{\rho_j\mathrm{d}\theta}{|z|^2 + \rho_j^2 - 2|z|\rho_j \cos\theta},
 \end{align}\]</div>
@@ -795,16 +796,16 @@ R_{j+1} &amp;= x_{j+1}' + x^2_{j+1} + \omega^2 \nonumber \\
 <div class="math notranslate nohighlight">
 \[ \int{0}^{2\pi} \frac{\mathrm{d}\theta}{a + b\cos\theta} = \frac{2\pi}{\sqrt{a^2 - b^2}} \]</div>
 <p>with <span class="math notranslate nohighlight">\(a = |z|^2 + \rho_j^2\)</span>, <span class="math notranslate nohighlight">\(b = -2|z|\rho_j\)</span>. Now noticing that the case <span class="math notranslate nohighlight">\(|z| = \rho_j\)</span> bounds all others,  we get</p>
-<div class="amsmath math notranslate nohighlight" id="equation-5338882e-43cd-4ba7-a4e3-5ddf6e7cc780">
-<span class="eqno">(17)<a class="headerlink" href="#equation-5338882e-43cd-4ba7-a4e3-5ddf6e7cc780" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-8507d784-142d-43de-8ba6-70afe1901520">
+<span class="eqno">(17)<a class="headerlink" href="#equation-8507d784-142d-43de-8ba6-70afe1901520" title="Permalink to this equation">#</a></span>\[\begin{align}
 ||f||_{j+1} &amp;\leq \frac{||f||_j}{2\pi}\frac{2\pi \rho_j}{\rho_j^2 - \rho_{j+1}^2} \\
 &amp;= \frac{||f||_j}{\rho}\frac{k(k-j)}{2k - 2j - 1} = \frac{||f||_j}{\rho}k\left[ \frac{1}{2} + \frac{1}{2(2k - 2j - 1)} \right] \\
 &amp;\leq \frac{k}{\rho}||f||_j,
 \end{align}\]</div>
 <p>where we made use of <span class="math notranslate nohighlight">\(\rho_j = (1 - \tfrac{j}{k})\rho\)</span>.</p>
 <p>The next step is to prove the following two statements by induction, given that <span class="math notranslate nohighlight">\(x_l\)</span>, <span class="math notranslate nohighlight">\(R_l\)</span> are analytic in <span class="math notranslate nohighlight">\(B_j\)</span> for all <span class="math notranslate nohighlight">\(0 \leq l \leq j\)</span>:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-81037fff-238e-4d9a-92fb-ca911184e9a7">
-<span class="eqno">(18)<a class="headerlink" href="#equation-81037fff-238e-4d9a-92fb-ca911184e9a7" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-44d88cde-5c69-4a76-ab1f-6d1f2b92887c">
+<span class="eqno">(18)<a class="headerlink" href="#equation-44d88cde-5c69-4a76-ab1f-6d1f2b92887c" title="Permalink to this equation">#</a></span>\[\begin{align}
 \tilde{\eta}_1 \leq &amp;|x_l| \leq \tilde{\eta}_2 \quad &amp;&amp;\text{in } B_j,\\
 &amp; |R_l| \leq \eta_3 r^l \quad &amp;&amp;\text{in } B_j, \text{for all } 0 \leq l \leq j.
 \end{align}\]</div>
@@ -918,9 +919,9 @@ Sometimes these only surface when we implement a method, so let’s try doing th
 &lt;&gt;:32: SyntaxWarning: invalid escape sequence &#39;\m&#39;
 &lt;&gt;:30: SyntaxWarning: invalid escape sequence &#39;\o&#39;
 &lt;&gt;:32: SyntaxWarning: invalid escape sequence &#39;\m&#39;
-/tmp/ipykernel_2715440/1655584016.py:30: SyntaxWarning: invalid escape sequence &#39;\o&#39;
+/tmp/ipykernel_304667/1655584016.py:30: SyntaxWarning: invalid escape sequence &#39;\o&#39;
   plt.semilogy(range(k+1), errs, marker = symbols[i], label = &#39;$\omega_{\mathrm{max}} =&#39; + &#39;{}&#39;.format(m) + &#39;$&#39;)
-/tmp/ipykernel_2715440/1655584016.py:32: SyntaxWarning: invalid escape sequence &#39;\m&#39;
+/tmp/ipykernel_304667/1655584016.py:32: SyntaxWarning: invalid escape sequence &#39;\m&#39;
   plt.ylabel(&quot;Maximum residual over interval, $\max_{t \in [0, 0.5]}R[x_j](t)$&quot;)
 </pre></div>
 </div>
@@ -945,8 +946,8 @@ Sometimes these only surface when we implement a method, so let’s try doing th
 </div>
 <p>In the above code, the lambda (in-line function)</p>
 <p>gets called repeatedly. The first few calls will look like this:</p>
-<div class="amsmath math notranslate nohighlight" id="equation-04a8a88e-262a-4707-9ee5-a9ce752a3fe5">
-<span class="eqno">(19)<a class="headerlink" href="#equation-04a8a88e-262a-4707-9ee5-a9ce752a3fe5" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-6f68d579-dea9-46e7-9026-6a3dce9ed0cb">
+<span class="eqno">(19)<a class="headerlink" href="#equation-6f68d579-dea9-46e7-9026-6a3dce9ed0cb" title="Permalink to this equation">#</a></span>\[\begin{align}
 R[x_0] &amp;= i\omega' - \omega^2 + \omega^2,
 R[x_1] &amp;= \left( i\omega' - \frac{\omega'}{2\omega}\right)' + \left( i\omega' - \frac{\omega'}{2\omega}\right)^2 + \omega^2,
 \end{align}\]</div>
@@ -1009,9 +1010,9 @@ R[x_1] &amp;= \left( i\omega' - \frac{\omega'}{2\omega}\right)' + \left( i\omega
 &lt;&gt;:34: SyntaxWarning: invalid escape sequence &#39;\m&#39;
 &lt;&gt;:32: SyntaxWarning: invalid escape sequence &#39;\o&#39;
 &lt;&gt;:34: SyntaxWarning: invalid escape sequence &#39;\m&#39;
-/tmp/ipykernel_2715440/777035567.py:32: SyntaxWarning: invalid escape sequence &#39;\o&#39;
+/tmp/ipykernel_304667/777035567.py:32: SyntaxWarning: invalid escape sequence &#39;\o&#39;
   plt.semilogy(range(k+1), errs, marker = symbols[i], label = &#39;$\omega_{\mathrm{max}} =&#39; + &#39;{}&#39;.format(m) + &#39;$&#39;)
-/tmp/ipykernel_2715440/777035567.py:34: SyntaxWarning: invalid escape sequence &#39;\m&#39;
+/tmp/ipykernel_304667/777035567.py:34: SyntaxWarning: invalid escape sequence &#39;\m&#39;
   plt.ylabel(&quot;Maximum residual over interval, $\max_{t \in [0, 0.5]}R[x_j](t)$&quot;)
 </pre></div>
 </div>

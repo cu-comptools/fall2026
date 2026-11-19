@@ -1,0 +1,821 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>12. BIEs I: Introduction and Nystrom discretization &#8212; Computational Tools for Multiscale Problems</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'BIEs_1_introduction_nystrom';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="11. ODEs IV: Nonlinear oscillations" href="ODEs_4_nonlinear_oscillations.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.jpeg" class="logo__image only-light" alt="Computational Tools for Multiscale Problems - Home"/>
+    <script>document.write(`<img src="_static/logo.jpeg" class="logo__image only-dark" alt="Computational Tools for Multiscale Problems - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="course_introduction.html">0. Course introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="floatingpoint.html">1. Floating point representation and roundoff error</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conditionnumber.html">2. Conditioning of a problem and the condition number</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stability.html">3. Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">4. Interpolation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quadrature.html">5. Smooth quadrature</a></li>
+<li class="toctree-l1"><a class="reference internal" href="complex_analysis_notes.html">6. Complex analysis fundamentals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">7. ODEs I: Spectral collocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_1_RK.html">8. ODEs II: Runge–Kutta methods, adaptive timestepping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">9. ODEs III: Linear oscillations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stiffness_implicit.html">10. Stiffness and stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_4_nonlinear_oscillations.html">11. ODEs IV: Nonlinear oscillations</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">12. BIEs I: Introduction and Nystrom discretization</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/cu-comptools/fall2026/main?urlpath=tree/BIEs_1_introduction_nystrom.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/cu-comptools/fall2026" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/cu-comptools/fall2026/issues/new?title=Issue%20on%20page%20%2FBIEs_1_introduction_nystrom.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/BIEs_1_introduction_nystrom.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>12. BIEs I: Introduction and Nystrom discretization</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integral-equations-and-integral-operators">12.1 Integral equations and integral operators</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#integral-operators">12.1.1 Integral operators</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#an-example-nonuniqueness-of-a-first-kind-equation">12.2 An example: nonuniqueness of a first-kind equation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bounded-integral-operators">12.3 Bounded integral operators</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-supremum-norm-of-an-integral-operator">12.3.1 The supremum norm of an integral operator</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weakly-singular-kernels">12.3.2 Weakly singular kernels</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nystrom-discretization">12.4 Nystrom discretization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#approximating-the-operator">12.4.1 Approximating the operator</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-linear-system-at-the-quadrature-nodes">12.4.2 The linear system at the quadrature nodes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reconstructing-the-function-nystrom-interpolation">12.4.3 Reconstructing the function: Nystrom interpolation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-note-on-convergence">12.4.4 A note on convergence</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="bies-i-introduction-and-nystrom-discretization">
+<h1>12. BIEs I: Introduction and Nystrom discretization<a class="headerlink" href="#bies-i-introduction-and-nystrom-discretization" title="Link to this heading">#</a></h1>
+<p>Boundary integral equation (BIE) methods reduce certain problems for partial differential equations to equations for functions defined on a boundary. Before looking at boundary integrals, we will study the basic structure of integral equations, and a numerical method for discretizing them: the <strong>Nystrom method</strong>.</p>
+<p>We will see that an integral equation can be viewed much like a linear system, except that its unknown is a function. We will then turn it into a finite-dimensional linear system by approximating an integral with a quadrature rule.</p>
+<section id="integral-equations-and-integral-operators">
+<h2>12.1 Integral equations and integral operators<a class="headerlink" href="#integral-equations-and-integral-operators" title="Link to this heading">#</a></h2>
+<p>Suppose we are given an interval <span class="math notranslate nohighlight">\([a,b]\)</span>, a function <span class="math notranslate nohighlight">\(f:[a,b]\to\mathbb{R}\)</span>, and a <strong>kernel</strong> <span class="math notranslate nohighlight">\(k:[a,b]\times[a,b]\to\mathbb{R}\)</span>. We would like to find an unknown function <span class="math notranslate nohighlight">\(u\)</span> satisfying</p>
+<div class="math notranslate nohighlight">
+\[
+\int_a^b k(t,s)u(s)\,ds=f(t), \qquad t\in[a,b].
+\]</div>
+<p>This is a <strong>Fredholm integral equation of the first kind</strong>. The integration variable is <span class="math notranslate nohighlight">\(s\)</span>; the equation must hold for every <span class="math notranslate nohighlight">\(t\)</span> in the interval. Notice that we are solving for the entire function <span class="math notranslate nohighlight">\(u\)</span>, not just for a finite number of values.</p>
+<p>A <strong>Fredholm integral equation of the second kind</strong> has an additional term involving <span class="math notranslate nohighlight">\(u\)</span> itself:</p>
+<div class="math notranslate nohighlight">
+\[
+u(t)-\int_a^b k(t,s)u(s)\,ds=f(t), \qquad t\in[a,b].
+\]</div>
+<p>The two kinds of equations have very different properties, and for numerical solution, second kind Fredholm equations are preferred. In particular, first-kind equations can have nonunique solutions (leading to poor conditioning), as we will see in an example.</p>
+<section id="integral-operators">
+<h3>12.1.1 Integral operators<a class="headerlink" href="#integral-operators" title="Link to this heading">#</a></h3>
+<p>Define the integral operator <span class="math notranslate nohighlight">\(K\)</span> by</p>
+<div class="math notranslate nohighlight">
+\[
+(Ku)(t)=\int_a^b k(t,s)u(s)\,ds.
+\]</div>
+<p>Then the first-kind equation is simply</p>
+<div class="math notranslate nohighlight">
+\[
+Ku=f,
+\]</div>
+<p>while the second-kind equation is</p>
+<div class="math notranslate nohighlight">
+\[
+(I-K)u=f,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(I\)</span> is the identity operator, <span class="math notranslate nohighlight">\((Iu)(t)=u(t)\)</span>.</p>
+<p>We can think of <span class="math notranslate nohighlight">\(K\)</span> as an infinite-dimensional analogue of a matrix: <span class="math notranslate nohighlight">\(u\)</span> is the unknown <em>function</em>, <span class="math notranslate nohighlight">\(f\)</span> is the right-hand side, and <span class="math notranslate nohighlight">\(k(t,s)\)</span> plays the role of a matrix entry indexed by two continuous variables. If we fix <span class="math notranslate nohighlight">\(t\)</span>, then <span class="math notranslate nohighlight">\(k(t,\cdot)\)</span> is analogous to one row of a matrix.</p>
+<div class="admonition-question admonition">
+<p class="admonition-title">Question</p>
+<p>What is <span class="math notranslate nohighlight">\(K^2u\)</span>?</p>
+</div>
+<p>Just as with a matrix, <span class="math notranslate nohighlight">\(K^2\)</span> means applying <span class="math notranslate nohighlight">\(K\)</span> twice:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+(K^2u)(t)
+&amp;=\int_a^b k(t,s)(Ku)(s)\,ds\\
+&amp;=\int_a^b k(t,s)\left[\int_a^b k(s,r)u(r)\,dr\right]ds\\
+&amp;=\int_a^b\left[\int_a^b k(t,s)k(s,r)\,ds\right]u(r)\,dr.
+\end{aligned}
+\end{split}\]</div>
+<p>Assuming we can exchange the order of integration, <span class="math notranslate nohighlight">\(K^2\)</span> is itself an integral operator, with kernel</p>
+<div class="math notranslate nohighlight">
+\[
+k^{(2)}(t,r)=\int_a^b k(t,s)k(s,r)\,ds.
+\]</div>
+<p>Compare this with matrix multiplication: <span class="math notranslate nohighlight">\((A^2)_{ij}=\sum_\ell A_{i\ell}A_{\ell j}\)</span>.</p>
+</section>
+</section>
+<section id="an-example-nonuniqueness-of-a-first-kind-equation">
+<h2>12.2 An example: nonuniqueness of a first-kind equation<a class="headerlink" href="#an-example-nonuniqueness-of-a-first-kind-equation" title="Link to this heading">#</a></h2>
+<p>Consider</p>
+<div class="math notranslate nohighlight">
+\[
+\int_0^1 t^2s\,u(s)\,ds=\frac{t^2}{3},\qquad 0&lt;t&lt;1.
+\]</div>
+<p>Because <span class="math notranslate nohighlight">\(t^2\)</span> is constant with respect to the integration variable <span class="math notranslate nohighlight">\(s\)</span>, we can factor it out:</p>
+<div class="math notranslate nohighlight">
+\[
+t^2\int_0^1 s\,u(s)\,ds=\frac{t^2}{3}.
+\]</div>
+<p>For <span class="math notranslate nohighlight">\(t&gt;0\)</span> the equation is equivalent to one scalar constraint on the unknown function,</p>
+<div class="math notranslate nohighlight">
+\[
+\int_0^1 s\,u(s)\,ds=\frac13.
+\]</div>
+<p>One solution is <span class="math notranslate nohighlight">\(u(s)=s\)</span>, since <span class="math notranslate nohighlight">\(\int_0^1s^2\,ds=1/3\)</span>. But <span class="math notranslate nohighlight">\(u(s)=2/3\)</span> is also a solution. In fact, so is every function of the form</p>
+<div class="math notranslate nohighlight">
+\[
+u(s)=s+v(s), \qquad \text{where }\int_0^1 s\,v(s)\,ds=0,
+\]</div>
+<p>i.e. for any <span class="math notranslate nohighlight">\(v\)</span> orthogonal to <span class="math notranslate nohighlight">\(s\)</span> on the interval <span class="math notranslate nohighlight">\([0, 1]\)</span> (their inner product being zero). The operator here has rank one:</p>
+<div class="math notranslate nohighlight">
+\[
+(Ku)(t)=t^2\left(\int_0^1s\,u(s)\,ds\right).
+\]</div>
+<p>No matter what <span class="math notranslate nohighlight">\(u\)</span> we put into <span class="math notranslate nohighlight">\(K\)</span>, the output is a multiple of <span class="math notranslate nohighlight">\(t^2\)</span>. Thus the equation cannot determine the component of <span class="math notranslate nohighlight">\(u\)</span> that is invisible to this integral. This is one reason why first-kind integral equations require particular care.</p>
+</section>
+<section id="bounded-integral-operators">
+<h2>12.3 Bounded integral operators<a class="headerlink" href="#bounded-integral-operators" title="Link to this heading">#</a></h2>
+<p>To discuss the size of an integral operator, we need to choose norms on the functions we are working with. Given an operator <span class="math notranslate nohighlight">\(K\)</span> between normed spaces, its induced (operator) norm is</p>
+<div class="math notranslate nohighlight">
+\[
+\|K\|=\sup_{\|u\|=1}\|Ku\|.
+\]</div>
+<p>We will use the space <span class="math notranslate nohighlight">\(C([a,b])\)</span> of continuous functions on <span class="math notranslate nohighlight">\([a,b]\)</span>, with the supremum norm</p>
+<div class="math notranslate nohighlight">
+\[
+\|u\|_\infty=\max_{t\in[a,b]}|u(t)|.
+\]</div>
+<p>A linear operator is <strong>bounded</strong> if its operator norm is finite.</p>
+<section id="the-supremum-norm-of-an-integral-operator">
+<h3>12.3.1 The supremum norm of an integral operator<a class="headerlink" href="#the-supremum-norm-of-an-integral-operator" title="Link to this heading">#</a></h3>
+<p>Assume first that the kernel <span class="math notranslate nohighlight">\(k\)</span> is continuous on <span class="math notranslate nohighlight">\([a,b]^2\)</span>. If <span class="math notranslate nohighlight">\(\|u\|_\infty=1\)</span>, then for any <span class="math notranslate nohighlight">\(t\in[a,b]\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+|(Ku)(t)|
+&amp;=\left|\int_a^b k(t,s)u(s)\,ds\right|\\
+&amp;\leq\int_a^b |k(t,s)|\,|u(s)|\,ds\\
+&amp;\leq\int_a^b |k(t,s)|\,ds.
+\end{aligned}
+\end{split}\]</div>
+<p>Taking the maximum over <span class="math notranslate nohighlight">\(t\)</span> and then the supremum over <span class="math notranslate nohighlight">\(u\)</span> gives</p>
+<div class="math notranslate nohighlight">
+\[
+\|K\|_\infty\leq\max_{t\in[a,b]}\int_a^b |k(t,s)|\,ds.
+\]</div>
+<p>For continuous kernels, this inequality is actually an equality:</p>
+<div class="math notranslate nohighlight">
+\[
+\|K\|_\infty=\max_{t\in[a,b]}\int_a^b |k(t,s)|\,ds.
+\]</div>
+<p>To see why the bound is sharp, choose <span class="math notranslate nohighlight">\(t_0\)</span> that maximizes the integral. We can choose a continuous function <span class="math notranslate nohighlight">\(u(s)\)</span> of size at most <span class="math notranslate nohighlight">\(1\)</span> that approximates the sign of <span class="math notranslate nohighlight">\(k(t_0,s)\)</span> as closely as we like. Then <span class="math notranslate nohighlight">\(k(t_0,s)u(s)\)</span> is approximately <span class="math notranslate nohighlight">\(|k(t_0,s)|\)</span>, so <span class="math notranslate nohighlight">\(|(Ku)(t_0)|\)</span> can be made arbitrarily close to the right-hand side. (For a complex-valued kernel, use an approximation to its conjugate phase instead of its sign.)</p>
+<p>In matrix terminology, the operator norm is the largest absolute row sum, but with the sum replaced by an integral.</p>
+</section>
+<section id="weakly-singular-kernels">
+<h3>12.3.2 Weakly singular kernels<a class="headerlink" href="#weakly-singular-kernels" title="Link to this heading">#</a></h3>
+<p>A kernel does not have to be bounded pointwise for its integral operator to be bounded. For example, suppose that for <span class="math notranslate nohighlight">\(t\neq s\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+|k(t,s)|\leq \frac{C}{|t-s|^\delta},\qquad 0&lt;\delta&lt;1.
+\]</div>
+<p>The kernel can blow up on the diagonal <span class="math notranslate nohighlight">\(t=s\)</span>. However, the singularity is <strong>integrable</strong>:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\int_a^b |k(t,s)|\,ds
+&amp;\leq C\int_a^b\frac{ds}{|t-s|^\delta}\\
+&amp;=\frac{C}{1-\delta}\big[(t-a)^{1-\delta}+(b-t)^{1-\delta}\big]\\
+&amp;\leq\frac{C\,2^\delta}{1-\delta}(b-a)^{1-\delta}.
+\end{aligned}
+\end{split}\]</div>
+<p>Thus the integral of the absolute value of each row remains uniformly bounded, and <span class="math notranslate nohighlight">\(K\)</span> is a bounded operator on <span class="math notranslate nohighlight">\(C([a,b])\)</span> when it maps continuous functions into continuous functions, as it does for the standard weakly singular kernels of this form.</p>
+<p>Such kernels are called <strong>weakly singular</strong>, ant they are common in boundary integral equations. The basic Nystrom discretization below is most straightforward for a continuous kernel; a singularity on the diagonal requires additional care when evaluating quadrature terms. Sometimes the limit of the kernel as one approaches the diagonal is finite (we will see an example for that later) and can be evaluated analytically, otherwise it requires singular quadrature.</p>
+</section>
+</section>
+<section id="nystrom-discretization">
+<h2>12.4 Nystrom discretization<a class="headerlink" href="#nystrom-discretization" title="Link to this heading">#</a></h2>
+<p>We now turn to a numerical method for solving a <strong>second-kind Fredholm equation</strong>,</p>
+<div class="math notranslate nohighlight">
+\[
+u(t)-\int_a^b k(t,s)u(s)\,ds=f(t),\qquad t\in[a,b],
+\]</div>
+<p>or, in operator notation, <span class="math notranslate nohighlight">\((I-K)u=f\)</span>.</p>
+<p>The key idea is to approximate twice: first, the integral is replaced with a quadrature rule, then, the equation is evaluated at discrete nodes. Let <span class="math notranslate nohighlight">\(s_1,\ldots,s_n\)</span> and <span class="math notranslate nohighlight">\(w_1,\ldots,w_n\)</span> be quadrature nodes and weights, so that</p>
+<div class="math notranslate nohighlight">
+\[
+\int_a^b g(s)\,ds\approx\sum_{j=1}^n w_j g(s_j).
+\]</div>
+<p>At each fixed <span class="math notranslate nohighlight">\(t\)</span>, we apply this rule to the integrand <span class="math notranslate nohighlight">\(g(s)=k(t,s)u(s)\)</span>.</p>
+<section id="approximating-the-operator">
+<h3>12.4.1 Approximating the operator<a class="headerlink" href="#approximating-the-operator" title="Link to this heading">#</a></h3>
+<p>Define the approximate operator <span class="math notranslate nohighlight">\(K_n\)</span> by</p>
+<div class="math notranslate nohighlight">
+\[
+(K_n u)(t)=\sum_{j=1}^n w_j k(t,s_j)u(s_j).
+\]</div>
+<p>The Nystrom approximation <span class="math notranslate nohighlight">\(u_n\)</span> is defined as the solution of</p>
+<div class="math notranslate nohighlight">
+\[
+u_n(t)-\sum_{j=1}^n w_j k(t,s_j)u_n(s_j)=f(t), \qquad t\in[a,b].
+\]</div>
+<p>This is still an equation for a function <span class="math notranslate nohighlight">\(u_n(t)\)</span>, but its right-hand side depends on only <span class="math notranslate nohighlight">\(n\)</span> unknown values: <span class="math notranslate nohighlight">\(u_n(s_1),\ldots,u_n(s_n)\)</span>.</p>
+<p>Notice that <span class="math notranslate nohighlight">\(K_n\)</span> is a <strong>finite-rank</strong> operator. Its range is contained in the span of the <span class="math notranslate nohighlight">\(n\)</span> functions <span class="math notranslate nohighlight">\(k(\cdot,s_j)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\operatorname{range}(K_n)\subseteq
+\operatorname{span}\{k(\cdot,s_1),\ldots,k(\cdot,s_n)\}.
+\]</div>
+<p>In other words, <span class="math notranslate nohighlight">\(K_nu\)</span> is a linear combination of <span class="math notranslate nohighlight">\(n\)</span> column slices of the kernel, each obtained by keeping <span class="math notranslate nohighlight">\(s=s_j\)</span> fixed.</p>
+</section>
+<section id="the-linear-system-at-the-quadrature-nodes">
+<h3>12.4.2 The linear system at the quadrature nodes<a class="headerlink" href="#the-linear-system-at-the-quadrature-nodes" title="Link to this heading">#</a></h3>
+<p>We now choose <span class="math notranslate nohighlight">\(t=s_i\)</span>, for each <span class="math notranslate nohighlight">\(i=1,\ldots,n\)</span>. Denote the unknown nodal values by</p>
+<div class="math notranslate nohighlight">
+\[
+u_i^{(n)}:=u_n(s_i).
+\]</div>
+<p>The function equation becomes</p>
+<div class="math notranslate nohighlight">
+\[
+u_i^{(n)}-\sum_{j=1}^n w_j k(s_i,s_j)u_j^{(n)}=f(s_i),
+\qquad i=1,\ldots,n.
+\]</div>
+<p>Define the <span class="math notranslate nohighlight">\(n\times n\)</span> matrix <span class="math notranslate nohighlight">\(A\)</span> by</p>
+<div class="math notranslate nohighlight">
+\[
+A_{ij}=w_j k(s_i,s_j),
+\]</div>
+<p>and the vectors</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{u}^{(n)}=(u_1^{(n)},\ldots,u_n^{(n)})^T,
+\qquad \mathbf{f}=(f(s_1),\ldots,f(s_n))^T.
+\]</div>
+<p>Then the discrete problem is the linear system</p>
+<div class="math notranslate nohighlight">
+\[
+(I-A)\mathbf{u}^{(n)}=\mathbf{f}.
+\]</div>
+<p>The entries of <span class="math notranslate nohighlight">\(A\)</span> are obtained directly by evaluating the kernel at pairs of nodes and multiplying each <em>column</em> by the corresponding quadrature weight. Once we solve this system, we know the approximate solution at every quadrature node.</p>
+</section>
+<section id="reconstructing-the-function-nystrom-interpolation">
+<h3>12.4.3 Reconstructing the function: Nystrom interpolation<a class="headerlink" href="#reconstructing-the-function-nystrom-interpolation" title="Link to this heading">#</a></h3>
+<p>Finally, we would like to evaluate <span class="math notranslate nohighlight">\(u_n(t)\)</span> at an arbitrary point <span class="math notranslate nohighlight">\(t\)</span>, not just at the quadrature nodes. We could interpolate the values <span class="math notranslate nohighlight">\(u_i^{(n)}\)</span> with a polynomial, but the original discretized equation gives us a more natural formula.</p>
+<p>Rearranging <span class="math notranslate nohighlight">\((I-K_n)u_n=f\)</span> yields</p>
+<div class="math notranslate nohighlight">
+\[
+u_n(t)=f(t)+\sum_{j=1}^n w_j k(t,s_j)u_j^{(n)}.
+\]</div>
+<p>Surprisingly, this formula is <strong>exact for the Nystrom approximation <span class="math notranslate nohighlight">\(u_n\)</span>.</strong> We are not attempting to interpolate the unknown exact solution <span class="math notranslate nohighlight">\(u\)</span> directly.</p>
+<p>To prove exactness, substitute <span class="math notranslate nohighlight">\(t=s_i\)</span>. The linear system tells us that</p>
+<div class="math notranslate nohighlight">
+\[
+f(s_i)+\sum_{j=1}^n w_jk(s_i,s_j)u_j^{(n)}=u_i^{(n)}.
+\]</div>
+<p>Thus the reconstructed function agrees with the nodal solution. Conversely, given any solution of the linear system, the formula defines a function that satisfies the approximate equation for all <span class="math notranslate nohighlight">\(t\in[a,b]\)</span>.</p>
+<p>The construction is sometimes called <strong>Nystrom interpolation</strong>. Where Lagrange polynomial interpolation would use the node polynomials as the basis for the interpolant, Nystrom uses the kernel functions <span class="math notranslate nohighlight">\(k(t,s_j)\)</span> as a basis, together with <span class="math notranslate nohighlight">\(f(t)\)</span>.</p>
+</section>
+<section id="a-note-on-convergence">
+<h3>12.4.4 A note on convergence<a class="headerlink" href="#a-note-on-convergence" title="Link to this heading">#</a></h3>
+<p>How accurate is our discretization of the kernel, and what does this mean for the accuracy of <span class="math notranslate nohighlight">\(u_n(t)\)</span>?</p>
+<p>We cannot claim that <span class="math notranslate nohighlight">\(\|K_n-K\|_\infty\to0\)</span> as <span class="math notranslate nohighlight">\(n\to\infty\)</span>. For each <span class="math notranslate nohighlight">\(n\)</span>, the quadrature samples only finitely many values of <span class="math notranslate nohighlight">\(u\)</span>, while the true integral depends on the function over the whole interval; the operator norm allows us to choose a different, highly oscillatory function for every <span class="math notranslate nohighlight">\(n\)</span>.</p>
+<p>The useful convergence statement is instead that, under the usual assumptions of a continuous kernel and a convergent quadrature rule, for every <em>fixed</em> function <span class="math notranslate nohighlight">\(u\in C([a,b])\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+\|(K_n-K)u\|_\infty\longrightarrow0,\qquad n\to\infty.
+\]</div>
+<p>This is pointwise convergence of operators, not convergence in operator norm. Convergence of the solutions <span class="math notranslate nohighlight">\(u_n\)</span> to <span class="math notranslate nohighlight">\(u\)</span> also requires that the second-kind problem is well posed and that the discretized equations are stable.</p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="ODEs_4_nonlinear_oscillations.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">11. ODEs IV: Nonlinear oscillations</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#integral-equations-and-integral-operators">12.1 Integral equations and integral operators</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#integral-operators">12.1.1 Integral operators</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#an-example-nonuniqueness-of-a-first-kind-equation">12.2 An example: nonuniqueness of a first-kind equation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bounded-integral-operators">12.3 Bounded integral operators</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-supremum-norm-of-an-integral-operator">12.3.1 The supremum norm of an integral operator</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#weakly-singular-kernels">12.3.2 Weakly singular kernels</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#nystrom-discretization">12.4 Nystrom discretization</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#approximating-the-operator">12.4.1 Approximating the operator</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-linear-system-at-the-quadrature-nodes">12.4.2 The linear system at the quadrature nodes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reconstructing-the-function-nystrom-interpolation">12.4.3 Reconstructing the function: Nystrom interpolation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#a-note-on-convergence">12.4.4 A note on convergence</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Fruzsina Julia Agocs
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

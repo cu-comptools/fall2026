@@ -62,6 +62,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'ODEs_4_nonlinear_oscillations';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="12. BIEs I: Introduction and Nystrom discretization" href="BIEs_1_introduction_nystrom.html" />
     <link rel="prev" title="10. Stiffness and stability" href="stiffness_implicit.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -193,6 +194,7 @@
 <li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">9. ODEs III: Linear oscillations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stiffness_implicit.html">10. Stiffness and stability</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">11. ODEs IV: Nonlinear oscillations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BIEs_1_introduction_nystrom.html">12. BIEs I: Introduction and Nystrom discretization</a></li>
 </ul>
 
     </div>
@@ -464,8 +466,8 @@ In this chapter, we’ll look at the (limited) toolbox for solving <strong>nonli
 <section id="periodic-orbits-and-their-stability">
 <h2>11.1 Periodic orbits and their stability<a class="headerlink" href="#periodic-orbits-and-their-stability" title="Link to this heading">#</a></h2>
 <p>Consider an autonomous system of nonlinear ODEs</p>
-<div class="amsmath math notranslate nohighlight" id="equation-0a828dd2-02a4-458b-b08a-7465c882c4ca">
-<span class="eqno">(22)<a class="headerlink" href="#equation-0a828dd2-02a4-458b-b08a-7465c882c4ca" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e2487940-482e-416d-89a9-4e11ce8cbe3b">
+<span class="eqno">(22)<a class="headerlink" href="#equation-e2487940-482e-416d-89a9-4e11ce8cbe3b" title="Permalink to this equation">#</a></span>\[\begin{align}
 \dot{x}(t) &amp;= f(x(t)), \qquad x(t)\in\mathbb{R}^d,
 \end{align}\]</div>
 <p>where a dot denotes differentiation with respect to <span class="math notranslate nohighlight">\(t\)</span>. Assume that <span class="math notranslate nohighlight">\(f\)</span> is at least twice continuously differentiable (though, in many applications, it will be analytic). We would like to calculate a <em>periodic orbit</em>: a nonconstant solution <span class="math notranslate nohighlight">\(x(t)\)</span> for which</p>
@@ -476,8 +478,8 @@ In this chapter, we’ll look at the (limited) toolbox for solving <strong>nonli
 <section id="linearization">
 <h3>11.1.1 Linearization<a class="headerlink" href="#linearization" title="Link to this heading">#</a></h3>
 <p>To see how solutions of the nonlinear ODE behave, it is common to perform stability analysis by linearization as follows. Suppose <span class="math notranslate nohighlight">\(x(t)\)</span> is a periodic orbit. Perturb it by a small displacement <span class="math notranslate nohighlight">\(\delta x(t)\)</span> and expand the right-hand-side in a Taylor series around <span class="math notranslate nohighlight">\(x(t)\)</span> to get</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e98ef5ae-afa6-4253-ab17-c23d313d1e99">
-<span class="eqno">(23)<a class="headerlink" href="#equation-e98ef5ae-afa6-4253-ab17-c23d313d1e99" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-00f34bf7-8c36-49b3-b28e-b2e8b8cf870a">
+<span class="eqno">(23)<a class="headerlink" href="#equation-00f34bf7-8c36-49b3-b28e-b2e8b8cf870a" title="Permalink to this equation">#</a></span>\[\begin{align}
 \frac{d}{dt}(x+\delta x)
 &amp;=f(x+\delta x)\\
 &amp;=f(x)+\left.\frac{\partial f}{\partial x}\right|_{x=x(t)}\delta x+\mathcal{O}(\|\delta x\|^2).
@@ -515,8 +517,8 @@ A(t)=\left.\frac{\partial f}{\partial x}\right|_{x=x(t)}.\]</div>
 <h2>11.2 Why not just use an IVP solver?<a class="headerlink" href="#why-not-just-use-an-ivp-solver" title="Link to this heading">#</a></h2>
 <p>The most obvious idea for solving an ODE like this would be to pick an initial condition near the desired orbit, integrate <span class="math notranslate nohighlight">\(\dot{x}=f(x)\)</span> forward using a Runge–Kutta or multistep method, and hope that the trajectory converges (to the desired orbit). This can work for an attracting orbit, but it fails for a repelling orbit and, generally, for a saddle orbit. Even when it works, convergence to the orbit is usually only geometric, as predicted by the Floquet multipliers.</p>
 <p>There are algorithms that instead turn periodic-orbit calculation into a nonlinear system. As an example, write <span class="math notranslate nohighlight">\(\phi_s:\mathbb{R}^d\to\mathbb{R}^d\)</span> for the flow map: <span class="math notranslate nohighlight">\(\phi_s(a)\)</span> is the solution obtained by integrating the ODE for time <span class="math notranslate nohighlight">\(s\)</span>, starting at <span class="math notranslate nohighlight">\(a\)</span>. If <span class="math notranslate nohighlight">\(x_1,\ldots,x_{N-1}\)</span> are successive points on a periodic orbit at times <span class="math notranslate nohighlight">\(t_1&lt;\cdots&lt;t_N\)</span>, with <span class="math notranslate nohighlight">\(x_N=x_1\)</span>, then</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f1863203-87e6-48a8-a0ed-e0ad42bc199f">
-<span class="eqno">(26)<a class="headerlink" href="#equation-f1863203-87e6-48a8-a0ed-e0ad42bc199f" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-3959bd6c-0e5a-4d5e-9b54-5bd4482e8c70">
+<span class="eqno">(26)<a class="headerlink" href="#equation-3959bd6c-0e5a-4d5e-9b54-5bd4482e8c70" title="Permalink to this equation">#</a></span>\[\begin{align}
 \phi_{t_2-t_1}(x_1)&amp;=x_2,\\
 \phi_{t_3-t_2}(x_2)&amp;=x_3,\\
 &amp;\ \vdots\\
@@ -537,8 +539,8 @@ A(t)=\left.\frac{\partial f}{\partial x}\right|_{x=x(t)}.\]</div>
 <div class="math notranslate nohighlight">
 \[x(t)=x_0(t)+\varepsilon x_1(t)+\varepsilon^2x_2(t)+\cdots.\]</div>
 <p>Substitute it into the ODE and equate powers of <span class="math notranslate nohighlight">\(\varepsilon\)</span>. At orders <span class="math notranslate nohighlight">\(\varepsilon^0\)</span> and <span class="math notranslate nohighlight">\(\varepsilon^1\)</span>, respectively, we obtain</p>
-<div class="amsmath math notranslate nohighlight" id="equation-3ab9d478-8ed9-4c48-937e-f171cf7d4462">
-<span class="eqno">(28)<a class="headerlink" href="#equation-3ab9d478-8ed9-4c48-937e-f171cf7d4462" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-e9ae2e9c-fac0-41de-820f-152d6e91cbad">
+<span class="eqno">(28)<a class="headerlink" href="#equation-e9ae2e9c-fac0-41de-820f-152d6e91cbad" title="Permalink to this equation">#</a></span>\[\begin{align}
 \ddot{x}_0+x_0&amp;=0,\\
 \ddot{x}_1+x_1&amp;=-x_0^3.
 \end{align}\]</div>
@@ -559,8 +561,8 @@ A(t)=\left.\frac{\partial f}{\partial x}\right|_{x=x(t)}.\]</div>
 <div class="math notranslate nohighlight">
 \[\omega^2\frac{d^2x}{d\tau^2}+x+\varepsilon x^3=0.\]</div>
 <p>At zeroth order in <span class="math notranslate nohighlight">\(\varepsilon\)</span> we again have <span class="math notranslate nohighlight">\(x_0(\tau)=\cos\tau\)</span>. At first order,</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b8279ccf-213b-4c45-a5a0-3cf430d02625">
-<span class="eqno">(30)<a class="headerlink" href="#equation-b8279ccf-213b-4c45-a5a0-3cf430d02625" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-ef702d10-377b-4441-bf3e-125294bad7e8">
+<span class="eqno">(30)<a class="headerlink" href="#equation-ef702d10-377b-4441-bf3e-125294bad7e8" title="Permalink to this equation">#</a></span>\[\begin{align}
 x_1''+x_1
 &amp;=-2\omega_1x_0''-x_0^3\\
 &amp;=\left(2\omega_1-\frac34\right)\cos\tau-\frac14\cos3\tau.
@@ -708,8 +710,8 @@ We also haven’t explained how the correction equation may be written down and 
 r(\tau)=f(x_0(\tau))-\omega_0x_0'(\tau).\]</div>
 <p>The function <span class="math notranslate nohighlight">\(r\)</span> is the <strong>ODE residual</strong> of our current approximation. If <span class="math notranslate nohighlight">\(r\equiv0\)</span> and the orbit is periodic, there is nothing to correct since the solution satisfies the ODE, otherwise it is a measure of error.</p>
 <p>Let <span class="math notranslate nohighlight">\(Y(\tau)\)</span> be the fundamental (matrix) solution of <span class="math notranslate nohighlight">\(\omega_0Y'=AY\)</span>, with <span class="math notranslate nohighlight">\(Y(0)=I\)</span>, and denote the (approximate) monodromy matrix as <span class="math notranslate nohighlight">\(M=Y(2\pi)\)</span>. Define <span class="math notranslate nohighlight">\(f_1,f_2\)</span> as the particular solutions that satisfy</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f8325d8d-86ec-4930-9f21-864f5ede6ccd">
-<span class="eqno">(37)<a class="headerlink" href="#equation-f8325d8d-86ec-4930-9f21-864f5ede6ccd" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-765e0826-a3bf-4895-ae07-ac1c7c3bff85">
+<span class="eqno">(37)<a class="headerlink" href="#equation-765e0826-a3bf-4895-ae07-ac1c7c3bff85" title="Permalink to this equation">#</a></span>\[\begin{align}
 \omega_0 f_1'&amp;=Af_1+r, &amp;f_1(0)&amp;=0,\\
 \omega_0 f_2'&amp;=Af_2+x_0', &amp;f_2(0)&amp;=0.
 \end{align}\]</div>
@@ -799,6 +801,15 @@ f(x_0(0))^T &amp; 0
         <p class="prev-next-subtitle">previous</p>
         <p class="prev-next-title">10. Stiffness and stability</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="BIEs_1_introduction_nystrom.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">12. BIEs I: Introduction and Nystrom discretization</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>

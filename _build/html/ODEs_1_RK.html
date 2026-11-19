@@ -194,6 +194,7 @@
 <li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">9. ODEs III: Linear oscillations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stiffness_implicit.html">10. Stiffness and stability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ODEs_4_nonlinear_oscillations.html">11. ODEs IV: Nonlinear oscillations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BIEs_1_introduction_nystrom.html">12. BIEs I: Introduction and Nystrom discretization</a></li>
 </ul>
 
     </div>
@@ -441,8 +442,8 @@ document.write(`
 <section id="recap">
 <h2>8.1 Recap<a class="headerlink" href="#recap" title="Link to this heading">#</a></h2>
 <p>Numerical libraries have plenty of methods for solving initial value problems, which they usually ask for in the standard form</p>
-<div class="amsmath math notranslate nohighlight" id="equation-e88c8301-2e90-43ba-aafb-0d7203123ede">
-<span class="eqno">(8)<a class="headerlink" href="#equation-e88c8301-2e90-43ba-aafb-0d7203123ede" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-bda6052c-4ef1-4ffa-ab7a-e3aada504d1e">
+<span class="eqno">(8)<a class="headerlink" href="#equation-bda6052c-4ef1-4ffa-ab7a-e3aada504d1e" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathbf{u}'(t) &amp;= f(\mathbf{u}(t)), \quad t \in [a, b], \\
 \mathbf{u}(a) &amp;= \mathbf{u}_0,
 \end{align}\]</div>
@@ -574,8 +575,8 @@ We see that as we try to match more and more terms in the Taylor expansion, more
 
 (Check this yourself!)</p>
 <p>More generally, we can match even more terms in <span class="math notranslate nohighlight">\(u\)</span>’s Taylor expansion by making several intermediate <span class="math notranslate nohighlight">\(f\)</span>-evaluations. These intermediate evaluations constitute <strong>stages</strong> of a Runge–Kutta method. For <span class="math notranslate nohighlight">\(s\)</span> stages, the forecasting step can be summarized as (note that I’ll write <span class="math notranslate nohighlight">\(u_i := u(t_i)\)</span>)</p>
-<div class="amsmath math notranslate nohighlight" id="equation-ba540b66-2122-45f9-9079-c5cbb385f7c9">
-<span class="eqno">(9)<a class="headerlink" href="#equation-ba540b66-2122-45f9-9079-c5cbb385f7c9" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-96fe54da-3c55-484a-b01b-59111a08f1a6">
+<span class="eqno">(9)<a class="headerlink" href="#equation-96fe54da-3c55-484a-b01b-59111a08f1a6" title="Permalink to this equation">#</a></span>\[\begin{align}
 &amp;k_1 = hf(t_i, u_i),\\
 &amp;k_2 = hf(t_i + c_1h, u_i + a_{11}k_1 + a_{12}k_2 + \ldots + a_{1s}k_s),\\
 &amp;\vdots \\

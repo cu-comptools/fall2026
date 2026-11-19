@@ -194,6 +194,7 @@
 <li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">9. ODEs III: Linear oscillations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stiffness_implicit.html">10. Stiffness and stability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ODEs_4_nonlinear_oscillations.html">11. ODEs IV: Nonlinear oscillations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BIEs_1_introduction_nystrom.html">12. BIEs I: Introduction and Nystrom discretization</a></li>
 </ul>
 
     </div>
@@ -444,8 +445,8 @@ document.write(`
 <h2>7.1 Some basics<a class="headerlink" href="#some-basics" title="Link to this heading">#</a></h2>
 <p>Most numerical libraries will let you call well-established methods to solve <em>initial value problems</em>. These are (ordinary) differential equations with <em>complementary conditions</em> that are posed at the start of the solution range. <em>Boundary value problems</em> impose conditions at either end of this interval.</p>
 <p>Any higher-order IVP may be written in the form</p>
-<div class="amsmath math notranslate nohighlight" id="equation-f757416e-432c-45f5-993d-f617ed2b076e">
-<span class="eqno">(5)<a class="headerlink" href="#equation-f757416e-432c-45f5-993d-f617ed2b076e" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-014641d5-a75c-4d61-9789-e271e1e75acc">
+<span class="eqno">(5)<a class="headerlink" href="#equation-014641d5-a75c-4d61-9789-e271e1e75acc" title="Permalink to this equation">#</a></span>\[\begin{align}
 \mathbf{u}'(t) &amp;= f(\mathbf{u}(t)), \quad t \in [a, b], \\
 \mathbf{u}(a) &amp;= \mathbf{u}_0. 
 \end{align}\]</div>
@@ -494,8 +495,8 @@ document.write(`
 </table>
 </div>
 <p>The basic idea is to turn our ODE and supplementary information (boundary, initial, or mixed) into a (sequence of) linear system(s) to solve. Starting from the simplest example,</p>
-<div class="amsmath math notranslate nohighlight" id="equation-a071f715-caaa-4a3d-b23d-0f9fd79e131c">
-<span class="eqno">(6)<a class="headerlink" href="#equation-a071f715-caaa-4a3d-b23d-0f9fd79e131c" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-f4a6c4b3-5a2c-4eae-84d0-2dd1ac702ebc">
+<span class="eqno">(6)<a class="headerlink" href="#equation-f4a6c4b3-5a2c-4eae-84d0-2dd1ac702ebc" title="Permalink to this equation">#</a></span>\[\begin{align}
 u' &amp;= f(t), \quad t \in [a, b], \\
 u(a) &amp;= u_0,
 \end{align}\]</div>
@@ -604,7 +605,7 @@ D^{(n)}\begin{bmatrix} u_0 \\ u_1 \\ \vdots \\ u_n \end{bmatrix} =
 <div class="cell_output docutils container">
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;&gt;:16: SyntaxWarning: invalid escape sequence &#39;\c&#39;
 &lt;&gt;:16: SyntaxWarning: invalid escape sequence &#39;\c&#39;
-/tmp/ipykernel_2715322/2064136796.py:16: SyntaxWarning: invalid escape sequence &#39;\c&#39;
+/tmp/ipykernel_304553/2064136796.py:16: SyntaxWarning: invalid escape sequence &#39;\c&#39;
   plt.semilogy(ns, errs2, &#39;--&#39;, label = &quot;$f(x) = \cos(5x)$&quot;)
 </pre></div>
 </div>
@@ -695,8 +696,8 @@ u_0 \\ f_1 \\ \vdots \\ f_n
 </div>
 <p>Repeated differentiation can be done by the repeated application of <span class="math notranslate nohighlight">\(D\)</span>, e.g. <span class="math notranslate nohighlight">\(u'' = D^2 u\)</span>.</p>
 <p>Neumann conditions are most easily added by appending the relevant row of <span class="math notranslate nohighlight">\(D\)</span> to the left-hand-side, e.g. <span class="math notranslate nohighlight">\(u'(-1) = u'_0\)</span> may be written as</p>
-<div class="amsmath math notranslate nohighlight" id="equation-50cf6ae1-7d4d-4f9f-b7b6-ccb090234316">
-<span class="eqno">(7)<a class="headerlink" href="#equation-50cf6ae1-7d4d-4f9f-b7b6-ccb090234316" title="Permalink to this equation">#</a></span>\[\begin{equation}
+<div class="amsmath math notranslate nohighlight" id="equation-24a4e3f4-5016-4ee1-9fda-5f6edea87069">
+<span class="eqno">(7)<a class="headerlink" href="#equation-24a4e3f4-5016-4ee1-9fda-5f6edea87069" title="Permalink to this equation">#</a></span>\[\begin{equation}
 \begin{bmatrix} D_{00} &amp; D_{01} &amp; \ldots  &amp; D_{0n} \end{bmatrix}
 \begin{bmatrix} u_0 \\ u_1 \\ \vdots \\ u_n \end{bmatrix}
 = u'_0.
