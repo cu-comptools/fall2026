@@ -28,11 +28,11 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -195,6 +195,7 @@
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">10. Stiffness and stability</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ODEs_4_nonlinear_oscillations.html">11. ODEs IV: Nonlinear oscillations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="BIEs_1_introduction_nystrom.html">12. BIEs I: Introduction and Nystrom discretization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BIEs_2_compactness_laplace.html">13. BIEs II: Compactness and the Laplace equation</a></li>
 </ul>
 
     </div>
@@ -450,22 +451,22 @@ document.write(`
 <div><p>An ODE is stiff if the stepsize of a numerical method solving it depends not only on the smoothness of the solution, but is limited by stability.</p>
 </div></blockquote>
 <p>Most explicit methods indeed perform poorly when applied to stiff systems. To demonstrate, we look at the following IVP,</p>
-<div class="amsmath math notranslate nohighlight" id="equation-b0de235a-941e-4701-87df-3725c7543d16">
-<span class="eqno">(20)<a class="headerlink" href="#equation-b0de235a-941e-4701-87df-3725c7543d16" title="Permalink to this equation">#</a></span>\[\begin{align}
+<div class="amsmath math notranslate nohighlight" id="equation-926ba81e-ad4a-4893-8910-796ee19bb63e">
+<span class="eqno">(20)<a class="headerlink" href="#equation-926ba81e-ad4a-4893-8910-796ee19bb63e" title="Permalink to this equation">#</a></span>\[\begin{align}
 u' &amp;= u^2 - u^3, \quad t \in (0, \tfrac{2}{\delta}), \\
 u(0) &amp;= \delta,
 \end{align}\]</div>
 <p>describing the growth of the radius <span class="math notranslate nohighlight">\(u(t)\)</span> of a spherical flame. It grows by consuming oxygen available through its “surface”, which is <span class="math notranslate nohighlight">\(\propto u^2\)</span>, and burns oxygen contained in its volume, <span class="math notranslate nohighlight">\(\propto u^3\)</span>. Below is the solution as computed by an explicit 4th order Runge-Kutta method, the evolution of its stepsize during the solution, and the total number of steps it took.</p>
 <div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
+<details class="hide above-input">
 <summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.integrate</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">si</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy.integrate</span> <span class="k">as</span> <span class="nn">si</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 </pre></div>
 </div>
 </div>
@@ -473,7 +474,7 @@ u(0) &amp;= \delta,
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="n">y</span><span class="o">**</span><span class="mi">3</span>
     
 <span class="n">delta</span> <span class="o">=</span> <span class="mf">1e-4</span>
@@ -508,7 +509,7 @@ u(0) &amp;= \delta,
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total number of steps:  3051
 </pre></div>
 </div>
-<img alt="_images/0abeb2185ed351e563adf6419961b81d8282600d51005e75f2b3158261e9ef18.png" src="_images/0abeb2185ed351e563adf6419961b81d8282600d51005e75f2b3158261e9ef18.png" />
+<img alt="_images/47e6604824e32f5c8fb8a128bfc9aa367947cb6f893868adb45c5a121fa8bc51.png" src="_images/47e6604824e32f5c8fb8a128bfc9aa367947cb6f893868adb45c5a121fa8bc51.png" />
 </div>
 </div>
 <p>Compare that to an <em>implicit</em> method solving the same problem below. Implicit methods have forecast functions <span class="math notranslate nohighlight">\(\Phi_h\)</span> that depend on the solution at the end of the timestep, therefore require a linear solve to be computed,</p>
@@ -534,7 +535,7 @@ u(0) &amp;= \delta,
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Total number of steps:  74
 </pre></div>
 </div>
-<img alt="_images/128b17074d3999be0d63bec025ffc83d0512e48a9a0ceeba68f78d061b32f1b6.png" src="_images/128b17074d3999be0d63bec025ffc83d0512e48a9a0ceeba68f78d061b32f1b6.png" />
+<img alt="_images/d50f1d1e2ddfc95c35807375da83960d5be26fb20b0e18bc7cfb60d472d98037.png" src="_images/d50f1d1e2ddfc95c35807375da83960d5be26fb20b0e18bc7cfb60d472d98037.png" />
 </div>
 </div>
 <div class="admonition-question admonition">
@@ -565,10 +566,10 @@ then <span class="math notranslate nohighlight">\(R(z)\)</span> for <span class=
 </div>
 <p>This stability region is just a disc centered on <span class="math notranslate nohighlight">\(z = -1\)</span>, with radius 1:</p>
 <div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
+<details class="hide above-input">
 <summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">circle1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C0&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">)</span>
@@ -583,7 +584,7 @@ then <span class="math notranslate nohighlight">\(R(z)\)</span> for <span class=
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="_images/9f85e92707aeafd65611b62358d0440ffbcf258ba8e5d4e401798ce0194a80ea.png" src="_images/9f85e92707aeafd65611b62358d0440ffbcf258ba8e5d4e401798ce0194a80ea.png" />
+<img alt="_images/4509135995fb3a6b8a4227b4ebf00f75fc951ea61f587b72c6369efb188a0b1e.png" src="_images/4509135995fb3a6b8a4227b4ebf00f75fc951ea61f587b72c6369efb188a0b1e.png" />
 </div>
 </div>
 <p>The backward Euler, however, has</p>
@@ -596,10 +597,10 @@ then <span class="math notranslate nohighlight">\(R(z)\)</span> for <span class=
 </div>
 <p>This region is everything outside a disc centered on <span class="math notranslate nohighlight">\(z = 1\)</span>, with radius <span class="math notranslate nohighlight">\(1\)</span>:</p>
 <div class="cell tag_hide-input docutils container">
-<details class="admonition hide above-input">
+<details class="hide above-input">
 <summary aria-label="Toggle hidden content">
-<p class="collapsed admonition-title">Show code cell source</p>
-<p class="expanded admonition-title">Hide code cell source</p>
+<span class="collapsed">Show code cell source</span>
+<span class="expanded">Hide code cell source</span>
 </summary>
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
@@ -621,7 +622,7 @@ then <span class="math notranslate nohighlight">\(R(z)\)</span> for <span class=
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="_images/f9706a7137e040b1bfe9dd7af5afeb92a65e707af406a4fa6680bd3588ed1dca.png" src="_images/f9706a7137e040b1bfe9dd7af5afeb92a65e707af406a4fa6680bd3588ed1dca.png" />
+<img alt="_images/229bc7dfcce8448e1794f722660f3bea771635d1d8e6ed59da2bb0828b8bc5f9.png" src="_images/229bc7dfcce8448e1794f722660f3bea771635d1d8e6ed59da2bb0828b8bc5f9.png" />
 </div>
 </div>
 <div class="hint admonition">

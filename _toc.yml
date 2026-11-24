@@ -21,6 +21,7 @@ chapters:
 - file: stiffness_implicit
 - file: ODEs_4_nonlinear_oscillations
 - file: BIEs_1_introduction_nystrom
+- file: BIEs_2_compactness_laplace
 # - file: github
 # - file: poly_interp
 # - file: poly_interp2

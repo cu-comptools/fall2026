@@ -1,0 +1,859 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>13. BIEs II: Compactness and the Laplace equation &#8212; Computational Tools for Multiscale Problems</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'BIEs_2_compactness_laplace';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="12. BIEs I: Introduction and Nystrom discretization" href="BIEs_1_introduction_nystrom.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.jpeg" class="logo__image only-light" alt="Computational Tools for Multiscale Problems - Home"/>
+    <script>document.write(`<img src="_static/logo.jpeg" class="logo__image only-dark" alt="Computational Tools for Multiscale Problems - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="course_introduction.html">0. Course introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="floatingpoint.html">1. Floating point representation and roundoff error</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conditionnumber.html">2. Conditioning of a problem and the condition number</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stability.html">3. Stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="poly_interp.html">4. Interpolation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quadrature.html">5. Smooth quadrature</a></li>
+<li class="toctree-l1"><a class="reference internal" href="complex_analysis_notes.html">6. Complex analysis fundamentals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODES2_spectral.html">7. ODEs I: Spectral collocation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_1_RK.html">8. ODEs II: Runge–Kutta methods, adaptive timestepping</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_3_asymptotic.html">9. ODEs III: Linear oscillations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stiffness_implicit.html">10. Stiffness and stability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ODEs_4_nonlinear_oscillations.html">11. ODEs IV: Nonlinear oscillations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BIEs_1_introduction_nystrom.html">12. BIEs I: Introduction and Nystrom discretization</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">13. BIEs II: Compactness and the Laplace equation</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/cu-comptools/fall2026/main?urlpath=tree/BIEs_2_compactness_laplace.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/cu-comptools/fall2026" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/cu-comptools/fall2026/issues/new?title=Issue%20on%20page%20%2FBIEs_2_compactness_laplace.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/BIEs_2_compactness_laplace.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>13. BIEs II: Compactness and the Laplace equation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bounded-sequences-and-convergence">13.1 Bounded sequences and convergence</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compact-operators">13.2 Compact operators</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#useful-properties">13.2.1 Useful properties</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-fredholm-alternative">13.3 The Fredholm alternative</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convergence-of-the-nystrom-method">13.3.1 Convergence of the Nyström method</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-laplace-equation">13.4 The Laplace equation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-two-dimensional-fundamental-solution">13.4.1 The two-dimensional fundamental solution</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-normal-derivative-of-the-fundamental-solution">13.4.2 The normal derivative of the fundamental solution</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="bies-ii-compactness-and-the-laplace-equation">
+<h1>13. BIEs II: Compactness and the Laplace equation<a class="headerlink" href="#bies-ii-compactness-and-the-laplace-equation" title="Link to this heading">#</a></h1>
+<p>In the previous chapter, we introduced Fredholm integral equations and the Nyström method for solving second-kind equations of the form <span class="math notranslate nohighlight">\((I-K)u=f\)</span>. The Nyström method transformed this integral equation into a linear system, by replacing <span class="math notranslate nohighlight">\(K\)</span>, a continuous operator on a space of functions, with a finite-dimensional matrix. This raises the question of why and when can we make this approximation, and what is its accuracy?</p>
+<p>To answer these questions, we introduce the notion of <strong>compact operators</strong>. Although they may act on infinite-dimensional spaces, they share some of the useful features of finite-dimensional matrices. This will help us understand when a second-kind integral equation has a unique solution, and why the Nyström method converges.</p>
+<p>We will then turn to the <strong>Laplace equation</strong> in two dimensions. We will introduce harmonic functions, the logarithmic fundamental solution, and the divergence theorem, and calculate the normal derivative of the fundamental solution with respect to its source point. These are some of the fundamental building blocks needed to pose and solve boundary integral equations.</p>
+<section id="bounded-sequences-and-convergence">
+<h2>13.1 Bounded sequences and convergence<a class="headerlink" href="#bounded-sequences-and-convergence" title="Link to this heading">#</a></h2>
+<p>To define compactness, we first need some language for sequences in normed spaces. A function space such as</p>
+<div class="math notranslate nohighlight">
+\[
+X=C([a,b]),
+\]</div>
+<p>the space of continuously differentianble functions is a space in which each “point” is a function. Functions, just like vectors, can have a “length”, formally called a norm, associated with the space, such as the <span class="math notranslate nohighlight">\(L_{\infty}\)</span>-norm,</p>
+<div class="math notranslate nohighlight">
+\[
+\|f\|_\infty=\max_{t\in[a,b]}|f(t)|.
+\]</div>
+<p>Using this notion of length, one can compute projections, e.g. functions can be orthogonal to one another. We can discuss sequences of functions in much the same way as sequences of vectors, except think of functions as infinite-dimensional vectors.</p>
+<p>To study the behavior of integral operators, we need to introduce some concepts related to function spaces, which are defined below.</p>
+<div class="admonition-definition admonition">
+<p class="admonition-title">Definition</p>
+<p>A sequence <span class="math notranslate nohighlight">\((f_n)_{n=1}^{\infty}\)</span> in a normed space <span class="math notranslate nohighlight">\(X\)</span> is <strong>bounded</strong> if there is a constant <span class="math notranslate nohighlight">\(C\)</span> such that</p>
+<div class="math notranslate nohighlight">
+\[
+\|f_n\|\le C,\qquad n=1,2,\ldots.
+\]</div>
+</div>
+<div class="admonition-definition admonition">
+<p class="admonition-title">Definition</p>
+<p>The sequence <strong>converges</strong> to <span class="math notranslate nohighlight">\(f\in X\)</span> if, for every <span class="math notranslate nohighlight">\(\varepsilon&gt;0\)</span>, there is an integer <span class="math notranslate nohighlight">\(N\)</span> such that</p>
+<div class="math notranslate nohighlight">
+\[
+\|f_n-f\|&lt;\varepsilon\qquad \text{for every }n\ge N.
+\]</div>
+</div>
+<div class="admonition-definition admonition">
+<p class="admonition-title">Definition</p>
+<p>A <strong>subsequence</strong> <span class="math notranslate nohighlight">\((f_{n_j})_{j=1}^{\infty}\)</span> is obtained by retaining selected terms in increasing order, where <span class="math notranslate nohighlight">\(n_1&lt;n_2&lt;\cdots\)</span>.</p>
+</div>
+<p>Now that we have defined these terms, an important theorem that links them together is the Bolzano–Weierstrass theorem:</p>
+<div class="hint admonition">
+<p class="admonition-title">Theorem: Bolzano–Weierstrass</p>
+<p>In a finite-dimensional normed space <span class="math notranslate nohighlight">\(X\)</span>, i.e. if <span class="math notranslate nohighlight">\(\mathrm{dim}(X) &lt; \infty\)</span>, every bounded sequence has a convergent subsequence.</p>
+</div>
+<p>Take <span class="math notranslate nohighlight">\(X \in \mathbb{R}\)</span>, for example, let <span class="math notranslate nohighlight">\(X\)</span> be all real numbers between 2 and 3. I can pick numbers randomly from this space, any sequence of them will be bounded (since none of the numbers are greater than 3). Therefore, given a random selection of such numbers, I can always select an infinite number of them as a subset such that they form a convergent sequence, which is quite the striking statement.</p>
+<p>This statement is, however, not generally true in infinite-dimensional spaces, i.e. in these spaces, boundedness of a sequence does not guarantee the existence of a convergent subsequence. Consider the functions</p>
+<div class="math notranslate nohighlight">
+\[
+f_n(t)=\sin(nt),\qquad 0\le t\le\pi,\quad n=1,2,\ldots.
+\]</div>
+<p>They are bounded in the norm <span class="math notranslate nohighlight">\(L^2(0,\pi)\)</span>, since</p>
+<div class="math notranslate nohighlight">
+\[
+\|f_n\|_{L^2}^2=\int_0^\pi \sin^2(nt)\,dt=\frac{\pi}{2}.
+\]</div>
+<p>On the other hand, orthogonality of the sine functions gives, for <span class="math notranslate nohighlight">\(n\ne m\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+\|f_n-f_m\|_{L^2}^2
+=\|f_n\|_{L^2}^2+\|f_m\|_{L^2}^2
+=\pi.
+\]</div>
+<p>The terms of the sequence remain a fixed distance apart, therefore there cannot be a convergent subsequence in <span class="math notranslate nohighlight">\(L^2(0,\pi)\)</span>.</p>
+</section>
+<section id="compact-operators">
+<h2>13.2 Compact operators<a class="headerlink" href="#compact-operators" title="Link to this heading">#</a></h2>
+<p>The operator <span class="math notranslate nohighlight">\(K\)</span> appearing in second kind Fredholm integral equations is a so-called compact operator.</p>
+<div class="admonition-definition admonition">
+<p class="admonition-title">Definition}</p>
+<p>Let <span class="math notranslate nohighlight">\(X\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> be normed spaces, and let <span class="math notranslate nohighlight">\(K:X\to Y\)</span> be a bounded linear operator. <span class="math notranslate nohighlight">\(K\)</span> is <strong>compact</strong> if, for every bounded sequence <span class="math notranslate nohighlight">\((f_n)\)</span> in <span class="math notranslate nohighlight">\(X\)</span>, the sequence <span class="math notranslate nohighlight">\((Kf_n)\)</span> in <span class="math notranslate nohighlight">\(Y\)</span> has a convergent subsequence.</p>
+</div>
+<p>In other words, <span class="math notranslate nohighlight">\(K\)</span> takes bounded sequences, which may oscillate or otherwise fail to converge, and produces sequences from which we can extract convergent subsequences. A compact operator therefore behaves, in this particular sense, as if it had a finite-dimensional range.</p>
+<p>As an example, suppose the range of a bounded operator <span class="math notranslate nohighlight">\(K\)</span> is finite-dimensional, for example <span class="math notranslate nohighlight">\(\operatorname{rank}(K)\subseteq\mathbb{R}^N\)</span>. Every bounded sequence <span class="math notranslate nohighlight">\((Kf_n)\)</span> then has a convergent subsequence by the Bolzano–Weierstrass theorem. Thus every bounded finite-rank operator is compact.</p>
+<p>However, in an infinite-dimensional normed space, the identity <span class="math notranslate nohighlight">\(I\)</span> is not compact. Indeed, the bounded sequence of sine functions from the previous section has no convergent subsequence, and</p>
+<div class="math notranslate nohighlight">
+\[
+If_n=f_n.
+\]</div>
+<p>Therefore applying the identity does nothing to recover the finite-dimensional property. Second kind Fredholm equations contain an integral operator that is of the form “identity + compact”, which has important implications for the Nyström discretization.</p>
+<section id="useful-properties">
+<h3>13.2.1 Useful properties<a class="headerlink" href="#useful-properties" title="Link to this heading">#</a></h3>
+<p>Compactness has some useful corollaries:</p>
+<ol class="arabic simple">
+<li><p>Compact operators are bounded. An unbounded operator could map a sequence in the unit ball to outputs of arbitrarily large norm, which could not contain a convergent subsequence.</p></li>
+<li><p>The compact operators form a closed class under operator-norm limits. If <span class="math notranslate nohighlight">\(Y\)</span> is complete, the limit in operator norm of a sequence of compact operators is also compact.</p></li>
+<li><p>Nonzero eigenvalues of a compact operator are isolated. There can be only finitely many eigenvalues outside any neighborhood of zero; if there are infinitely many nonzero eigenvalues, they can accumulate only at zero.</p></li>
+</ol>
+<p>For the integral operators encountered in the Ch. 12, we have another important fact. An operator</p>
+<div class="math notranslate nohighlight">
+\[
+(Ku)(t)=\int_a^b k(t,s)u(s)\,ds
+\]</div>
+<p>with a continuous kernel <span class="math notranslate nohighlight">\(k\)</span> on <span class="math notranslate nohighlight">\([a,b]^2\)</span> is compact as an operator on <span class="math notranslate nohighlight">\(C([a,b])\)</span> equipped with the supremum norm.
+Many <em>weakly singular</em> kernels, such as kernels that are continuous away from <span class="math notranslate nohighlight">\(t=s\)</span> and satisfy</p>
+<div class="math notranslate nohighlight">
+\[
+|k(t,s)|\le \frac{C}{|t-s|^\delta},\qquad 0&lt;\delta&lt;1,
+\]</div>
+<p>also define compact integral operators on <span class="math notranslate nohighlight">\(C([a,b])\)</span>. (The diagonal singularity of these operators is integrable.)</p>
+</section>
+</section>
+<section id="the-fredholm-alternative">
+<h2>13.3 The Fredholm alternative<a class="headerlink" href="#the-fredholm-alternative" title="Link to this heading">#</a></h2>
+<p>We return to the second-kind equation</p>
+<div class="math notranslate nohighlight">
+\[
+(I-K)u=f,\qquad f\in X.
+\]</div>
+<div class="hint admonition">
+<p class="admonition-title">Theorem: Fredholm Alternative</p>
+<p>Suppose that <span class="math notranslate nohighlight">\(K:X\to X\)</span> is compact (and <span class="math notranslate nohighlight">\(X\)</span> is a complete normed vector space). Then exactly one of the following possibilities holds:</p>
+<ol class="arabic simple">
+<li><p>For every <span class="math notranslate nohighlight">\(f\in X\)</span>, the equation <span class="math notranslate nohighlight">\((I-K)u=f\)</span> has a <strong>unique solution</strong> <span class="math notranslate nohighlight">\(u\in X\)</span>.</p></li>
+<li><p>The homogeneous equation <span class="math notranslate nohighlight">\((I-K)u=0\)</span> has a <strong>nontrivial solution</strong> <span class="math notranslate nohighlight">\(u\ne0\)</span>.</p></li>
+</ol>
+</div>
+<p>The second possibility is equivalent to saying that <span class="math notranslate nohighlight">\(1\)</span> is an eigenvalue of <span class="math notranslate nohighlight">\(K\)</span>, because</p>
+<div class="math notranslate nohighlight">
+\[
+(I-K)u=0\quad\Longleftrightarrow\quad Ku=u.
+\]</div>
+<p>In the first case, <span class="math notranslate nohighlight">\(I-K\)</span> has a bounded inverse. In the second case, the inhomogeneous equation may have no solution for some <span class="math notranslate nohighlight">\(f\)</span>; whenever it does have a solution, that solution is not unique.</p>
+<p>This is analogous to the familiar result for a square matrix <span class="math notranslate nohighlight">\(A\)</span>: the linear system <span class="math notranslate nohighlight">\(A\mathbf{x}=\mathbf{b}\)</span> has a unique solution for <em>every</em> right-hand side if and only if <span class="math notranslate nohighlight">\(A\mathbf{x}=0\)</span> has only the trivial solution. Compactness allows us to recover this finite-dimensional alternative for operators of the form <span class="math notranslate nohighlight">\(I-K\)</span> on an infinite-dimensional space.</p>
+<section id="convergence-of-the-nystrom-method">
+<h3>13.3.1 Convergence of the Nyström method<a class="headerlink" href="#convergence-of-the-nystrom-method" title="Link to this heading">#</a></h3>
+<p>In Ch. 12, we introduced quadrature-based operators <span class="math notranslate nohighlight">\(K_n\)</span> and solved</p>
+<div class="math notranslate nohighlight">
+\[
+(I-K_n)u_n=f
+\]</div>
+<p>instead of <span class="math notranslate nohighlight">\((I-K)u=f\)</span>. Assume that <span class="math notranslate nohighlight">\(I-K\)</span> is invertible, and that the Nyström discretizations are stable: for all sufficiently large <span class="math notranslate nohighlight">\(n\)</span>, <span class="math notranslate nohighlight">\(I-K_n\)</span> has an inverse with</p>
+<div class="math notranslate nohighlight">
+\[
+\|(I-K_n)^{-1}\|\le C
+\]</div>
+<p>for a constant <span class="math notranslate nohighlight">\(C\)</span> independent of <span class="math notranslate nohighlight">\(n\)</span>. Subtracting the exact and approximate equations gives</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+(I-K_n)(u_n-u)
+&amp;=(K_n-K)u,\\[2pt]
+u_n-u&amp;=(I-K_n)^{-1}(K_n-K)u.
+\end{aligned}
+\end{split}\]</div>
+<p>Taking supremum norms, we obtain</p>
+<div class="math notranslate nohighlight">
+\[
+\|u_n-u\|_\infty\le C\,\|(K_n-K)u\|_\infty.
+\]</div>
+<p>The term on the right is exactly the <strong>quadrature error</strong> for the fixed function <span class="math notranslate nohighlight">\(s\mapsto k(t,s)u(s)\)</span>, uniformly in <span class="math notranslate nohighlight">\(t\)</span>. Thus, when the discretized equations are stable, the Nyström solution converges at the same rate as the quadrature method used for discretizing the integral equation!</p>
+<p>For continuous kernels and standard convergent quadrature schemes, the needed stability follows from compactness, provided <span class="math notranslate nohighlight">\(I-K\)</span> is invertible. It is not generally necessary, or true, that <span class="math notranslate nohighlight">\(\|K_n-K\|\to0\)</span> in operator norm for ordinary Nyström quadrature.</p>
+</section>
+</section>
+<section id="the-laplace-equation">
+<h2>13.4 The Laplace equation<a class="headerlink" href="#the-laplace-equation" title="Link to this heading">#</a></h2>
+<p>We now turn from integral equations to the partial differential equation that will motivate our first boundary integral formulations.</p>
+<p>Let <span class="math notranslate nohighlight">\(\Omega\subset\mathbb{R}^2\)</span> be an open, bounded domain with a sufficiently regular boundary <span class="math notranslate nohighlight">\(\partial\Omega\)</span>, and let <span class="math notranslate nohighlight">\(x=(x_1,x_2)\)</span> be a point in the plane. The <strong>Laplacian</strong> is</p>
+<div class="math notranslate nohighlight">
+\[
+\Delta=\frac{\partial^2}{\partial x_1^2}+\frac{\partial^2}{\partial x_2^2}
+=\nabla\cdot\nabla.
+\]</div>
+<p>A twice continuously differentiable function <span class="math notranslate nohighlight">\(u\)</span> is called <strong>harmonic</strong> in <span class="math notranslate nohighlight">\(\Omega\)</span> if</p>
+<div class="math notranslate nohighlight">
+\[
+\Delta u=0\qquad\text{in }\Omega.
+\]</div>
+<p>We will use <span class="math notranslate nohighlight">\(\hat n\)</span> to denote the <strong>outward unit normal</strong> on <span class="math notranslate nohighlight">\(\partial\Omega\)</span>; its length is <span class="math notranslate nohighlight">\(1\)</span>.</p>
+<a class="reference internal image-reference" href="_images/bies2_domain_normals.pdf"><img alt="_images/bies2_domain_normals.pdf" class="align-center" src="_images/bies2_domain_normals.pdf" style="width: 65%;" /></a>
+<section id="the-two-dimensional-fundamental-solution">
+<h3>13.4.1 The two-dimensional fundamental solution<a class="headerlink" href="#the-two-dimensional-fundamental-solution" title="Link to this heading">#</a></h3>
+<p>Consider the function</p>
+<div class="math notranslate nohighlight">
+\[
+g(x)=\ln\frac{1}{|x|}=-\ln|x|,
+\qquad x\in\mathbb{R}^2\setminus\{0\}.
+\]</div>
+<p>We will check that it is harmonic away from the origin. It is convenient to start with <span class="math notranslate nohighlight">\(h(x)=\ln|x|\)</span> and write</p>
+<div class="math notranslate nohighlight">
+\[
+h(x)=\frac12\ln(x_1^2+x_2^2).
+\]</div>
+<p>Differentiating with respect to <span class="math notranslate nohighlight">\(x_1\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial h}{\partial x_1}=\frac{x_1}{x_1^2+x_2^2},
+\qquad
+\frac{\partial^2 h}{\partial x_1^2}
+=\frac{1}{x_1^2+x_2^2}-\frac{2x_1^2}{(x_1^2+x_2^2)^2}.
+\]</div>
+<p>Similarly,</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial^2 h}{\partial x_2^2}
+=\frac{1}{x_1^2+x_2^2}-\frac{2x_2^2}{(x_1^2+x_2^2)^2}.
+\]</div>
+<p>Adding the two second derivatives,</p>
+<div class="math notranslate nohighlight">
+\[
+\Delta h=
+\frac{2}{x_1^2+x_2^2}
+-\frac{2(x_1^2+x_2^2)}{(x_1^2+x_2^2)^2}=0
+\qquad (x\ne0).
+\]</div>
+<p>Since <span class="math notranslate nohighlight">\(g=-h\)</span>, it follows that <strong><span class="math notranslate nohighlight">\(\Delta g=0\)</span> for <span class="math notranslate nohighlight">\(x\ne0\)</span></strong>. The function has a(n essential) singularity at the origin.</p>
+<p>We can move the singularity from the origin to an arbitrary <em>source point</em> <span class="math notranslate nohighlight">\(y\in\mathbb{R}^2\)</span> by replacing <span class="math notranslate nohighlight">\(x\)</span> with <span class="math notranslate nohighlight">\(x-y\)</span>. This gives the <strong>fundamental solution</strong> of the two-dimensional Laplace equation, in the sign convention we will use:</p>
+<div class="math notranslate nohighlight">
+\[
+\Phi(x,y)=\frac{1}{2\pi}\ln\frac{1}{|x-y|},
+\qquad x,y\in\mathbb{R}^2,\quad x\ne y.\]</div>
+<p>Here <span class="math notranslate nohighlight">\(x\)</span> is the observation/target point and <span class="math notranslate nohighlight">\(y\)</span> is the source point. Because translation and multiplication by a constant preserve harmonicity,</p>
+<div class="math notranslate nohighlight">
+\[
+\Delta_x\Phi(x,y)=0,\qquad x\ne y.
+\]</div>
+<p>In particular, <span class="math notranslate nohighlight">\(\Phi\)</span> is harmonic away from the source, but singular at <span class="math notranslate nohighlight">\(x=y\)</span>. The following plot shows the level sets of <span class="math notranslate nohighlight">\(\Phi\)</span> surrounding a source point.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.30</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.20</span><span class="p">])</span>  <span class="c1"># source location</span>
+<span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">X1</span><span class="p">,</span> <span class="n">X2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x1</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="n">X1</span> <span class="o">-</span> <span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">X2</span> <span class="o">-</span> <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># Mask a tiny neighborhood of the singularity for plotting</span>
+<span class="n">Phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_where</span><span class="p">(</span><span class="n">r</span> <span class="o">&lt;</span> <span class="mf">0.03</span><span class="p">,</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="mf">1e-12</span><span class="p">))</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">5.7</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">))</span>
+<span class="n">contours</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">,</span> <span class="n">Phi</span><span class="p">,</span> <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">0.15</span><span class="p">,</span> <span class="mf">0.41</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">clabel</span><span class="p">(</span><span class="n">contours</span><span class="p">,</span> <span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Source $y$&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;$x_1$&#39;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;$x_2$&#39;</span><span class="p">,</span>
+       <span class="n">aspect</span><span class="o">=</span><span class="s1">&#39;equal&#39;</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">),</span> <span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;upper right&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/0fee1bf06da617b036579f08319a4b157121df524e361de83c2221ca0024ec47.png" src="_images/0fee1bf06da617b036579f08319a4b157121df524e361de83c2221ca0024ec47.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="the-normal-derivative-of-the-fundamental-solution">
+<h2>13.4.2 The normal derivative of the fundamental solution<a class="headerlink" href="#the-normal-derivative-of-the-fundamental-solution" title="Link to this heading">#</a></h2>
+<p>In integral equations, both the fundamental solution above and its normal derivative is used. Let’s therefore derive the normal derivative of <span class="math notranslate nohighlight">\(\Phi(x, y)\)</span> with respect to the source point <span class="math notranslate nohighlight">\(y\)</span>, while the observation point <span class="math notranslate nohighlight">\(x\)</span> is held fixed (a derivative with respect to <span class="math notranslate nohighlight">\(x\)</span> can be computed similarly). Let <span class="math notranslate nohighlight">\(\hat n_y\)</span> be a unit vector at <span class="math notranslate nohighlight">\(y\)</span>, which will later be chosen as the outward unit normal to a boundary at that point. By definition,</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial\Phi(x,y)}{\partial n_y}
+=\hat n_y\cdot\nabla_y\Phi(x,y).
+\]</div>
+<p>From the previous section,</p>
+<div class="math notranslate nohighlight">
+\[
+\Phi(x,y)=\frac{1}{2\pi}\ln\frac{1}{|x-y|}
+=-\frac{1}{4\pi}\ln\left[(x_1-y_1)^2+(x_2-y_2)^2\right].
+\]</div>
+<p>Differentiating with respect to <span class="math notranslate nohighlight">\(y_1\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\frac{\partial}{\partial y_1}\ln\frac{1}{|x-y|}
+&amp;=-\frac12\,\frac{1}{|x-y|^2}
+\frac{\partial}{\partial y_1}\left[(x_1-y_1)^2+(x_2-y_2)^2\right]\\
+&amp;=-\frac12\,\frac{-2(x_1-y_1)}{|x-y|^2}
+=\frac{x_1-y_1}{|x-y|^2}.
+\end{aligned}
+\end{split}\]</div>
+<p>The same calculation with <span class="math notranslate nohighlight">\(y_2\)</span> yields</p>
+<div class="math notranslate nohighlight">
+\[
+\nabla_y\Phi(x,y)
+=\frac{1}{2\pi}\frac{x-y}{|x-y|^2},\qquad x\ne y.
+\]</div>
+<p>Therefore, the normal derivative with respect to <span class="math notranslate nohighlight">\(y\)</span> is</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial\Phi(x,y)}{\partial n_y}
+=\frac{1}{2\pi}\frac{\hat n_y\cdot(x-y)}{|x-y|^2},
+\qquad x\ne y.
+\]</div>
+<p>The distinction between differentiation with respect to <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> matters: since <span class="math notranslate nohighlight">\(\Phi(x,y)\)</span> depends on <span class="math notranslate nohighlight">\(x-y\)</span>, we have <span class="math notranslate nohighlight">\(\nabla_x\Phi=-\nabla_y\Phi\)</span> for <span class="math notranslate nohighlight">\(x\ne y\)</span>. We will use the formula above when constructing boundary integral operators in the next chapters.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="BIEs_1_introduction_nystrom.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">12. BIEs I: Introduction and Nystrom discretization</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bounded-sequences-and-convergence">13.1 Bounded sequences and convergence</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#compact-operators">13.2 Compact operators</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#useful-properties">13.2.1 Useful properties</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-fredholm-alternative">13.3 The Fredholm alternative</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convergence-of-the-nystrom-method">13.3.1 Convergence of the Nyström method</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-laplace-equation">13.4 The Laplace equation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-two-dimensional-fundamental-solution">13.4.1 The two-dimensional fundamental solution</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-normal-derivative-of-the-fundamental-solution">13.4.2 The normal derivative of the fundamental solution</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Fruzsina Julia Agocs
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

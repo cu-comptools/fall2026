@@ -1,0 +1,44 @@
+Traceback (most recent call last):
+  File "/Users/fagocs/all-virtual-envs/csci7000f24/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/Users/fagocs/all-virtual-envs/csci7000f24/lib/python3.10/site-packages/nbclient/client.py", line 1314, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/Users/fagocs/all-virtual-envs/csci7000f24/lib/python3.10/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+  File "/usr/local/Cellar/python@3.10/3.10.16/Frameworks/Python.framework/Versions/3.10/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/Users/fagocs/all-virtual-envs/csci7000f24/lib/python3.10/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/Users/fagocs/all-virtual-envs/csci7000f24/lib/python3.10/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/Users/fagocs/all-virtual-envs/csci7000f24/lib/python3.10/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# Here's your function g(z)
+g =  lambda x: # YOUR WORK HERE
+
+# Create a discretized complex plane
+z_arr_re = np.linspace(-2, 2, 100)
+z_arr_im = np.linspace(-2, 2, 100)
+z_real, z_imag = np.meshgrid(z_arr_re, z_arr_im)
+zgrid = z_real + 1j*z_imag
+
+# Plot the real part of g(z) in the complex plane
+# If you're colorblind, you will want to switch colormaps from 'jet' to something like 'viridis'.
+# Note the colorbar! This is a "symmetric log" color plot: linear near zero, logarithmic otherwise.
+fig, ax = plt.subplots(1)
+im = ax.pcolormesh(z_real, z_imag, g(zgrid).real, norm = colors.SymLogNorm(linthresh = 1e-2, vmin = -1, vmax = 1, base = 10), cmap = 'jet')
+ax.set_xlabel("Re(z)")
+ax.set_ylabel("Im(z)")
+fig.colorbar(im)
+plt.show()
+------------------
+
+
+[0;36m  Cell [0;32mIn[2], line 2[0;36m[0m
+[0;31m    g =  lambda x: # YOUR WORK HERE[0m
+[0m                   ^[0m
+[0;31mSyntaxError[0m[0;31m:[0m invalid syntax
+
+
